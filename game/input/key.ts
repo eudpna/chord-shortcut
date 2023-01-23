@@ -1,6 +1,6 @@
 import { Gctx } from "../Gctx"
 import { chordToName } from "../lib/chords"
-import { isNumeric } from "../lib/lib"
+import { isNumeric, isRoman, keyToRoman } from "../lib/lib"
 
 
 // export function keysToInput(gctx: Gctx) {
@@ -20,15 +20,14 @@ export function setKeyEventListeners(gctx: Gctx) {
     window.addEventListener('keydown', (e) => {
         const key = replaceKeyName(e.key)
 
-        // 数字キーが押下されたら
-        if (isNumeric(key)) {
-            // 0じゃなければ
-            if (key !== '0') {
-                // 対応するコードを鳴らす
-                gctx.playRoman(Number(key))
-            }
+        // 数字キーが押下され　　かつ
+        // すでに押されていなければ
+        if (isRoman(key)
+            && !gctx.input.keys.includes(key)
+        ) {
+            // 対応するコードを鳴らす
+            gctx.playRoman(keyToRoman(key))
         }
-
         addKey(gctx, key)
     })
 
@@ -36,16 +35,12 @@ export function setKeyEventListeners(gctx: Gctx) {
         const key = replaceKeyName(e.key)
 
         // 数字キーが離されたら
-        if (isNumeric(key)) {
-            // 0じゃなければ
-            if (key !== '0') {
-                // 対応するコードを停止
-                const chord = gctx.getChordByRoman(Number(key))
-                gctx.stopSound(chordToName(chord))
-                gctx.playRoman(Number(key))
-            }
+        if (isRoman(key)
+        ) {
+            // 対応するコードを停止
+            const chord = gctx.getChordByRoman(keyToRoman(key))
+            gctx.stopSound(chordToName(chord))
         }
-
 
         removeKey(gctx, key)
     })

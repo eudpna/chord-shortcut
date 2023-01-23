@@ -7,12 +7,13 @@ import { get_diatonic_chords } from "./lib/sound/scale"
 import { Solfa } from "./lib/sound/solfa"
 import { playSounds } from "./lib/sound/sound"
 import { Howl } from 'howler'
+import { setKeyEventListeners } from "./input/key"
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
 export type PlayingAudio = {
     chordName: string
-    audio: Howl
+    audios: Howl[]
 }
 
 // ユーザー入力に関する状態データ
@@ -35,6 +36,7 @@ export class Gctx {
     playingAudios: PlayingAudio[] = []
 
     constructor(public rerenderUI: Function) {
+        setKeyEventListeners(this)
         rerenderUI()
     }
 
@@ -42,7 +44,9 @@ export class Gctx {
     stopSound(chordName: string) {
         this.playingAudios.forEach(playingAudio => {
             if (playingAudio.chordName === chordName) {
-                playingAudio.audio.stop()
+                playingAudio.audios.forEach(audio => {
+                    audio.stop()
+                })
                 removeItemOnce(this.playingAudios, playingAudio)
             }
         })
@@ -69,9 +73,14 @@ export class Gctx {
         const chord = guitarChords.getChordByName(chordName)
 
         this.playingChords.push(chordName)
+        
         this.rerenderUI()
         this.playSounds(chord.positions[0].midi)
-            .then(() => {
+            .then((howlers) => {
+                this.playingAudios.push({
+                    chordName: chordName,
+                    audios: howlers
+                })
                 setTimeout(() => {
                     removeItemOnce(this.playingChords, chord)
                     this.rerenderUI()

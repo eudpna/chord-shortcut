@@ -86,3 +86,12 @@ export const copyToClipboard = (text: string): Promise<void> => {
 export function isNumeric(str: string) {
     return /^-?\d+$/.test(str)
 }
+
+export function keyToRoman(str: string) {
+    if (!isRoman(str)) return null
+    return Number(str) - 1
+}
+// 数字0~6かどうか
+export function isRoman(str: string) {
+    return isNumeric(str) && Number(str) < 8 && Number(str) > 0
+}
