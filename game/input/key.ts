@@ -28,6 +28,20 @@ export function setKeyEventListeners(gctx: Gctx) {
             // 対応するコードを鳴らす
             gctx.playRoman(keyToRoman(key))
         }
+
+
+        // 存在するキーを押下したら　かつ
+        // 既に押されていなかったら
+        if (gctx.keybinds.map(keybind => keybind.qwerty.toLowerCase()).includes(key) &&
+        !gctx.input.keys.includes(key)) {
+            console.log(key, gctx.qwertyKeyToNotenum(key.toUpperCase()))
+            // 対応するノートを鳴らす
+            gctx.playNote(
+                gctx.qwertyKeyToNotenum(key.toUpperCase())
+            )
+        }
+
+
         addKey(gctx, key)
     })
 
@@ -39,7 +53,15 @@ export function setKeyEventListeners(gctx: Gctx) {
         ) {
             // 対応するコードを停止
             const chord = gctx.getChordByRoman(keyToRoman(key))
-            gctx.stopSound(chordToName(chord))
+            gctx.stopChord(chordToName(chord))
+        }
+
+        // 存在するキーを離したら
+        if (gctx.keybinds.map(keybind => keybind.qwerty.toLowerCase()).includes(key)) {
+            // 対応するノートを停止
+            gctx.stopNote(
+                gctx.qwertyKeyToNotenum(key.toUpperCase())
+            )
         }
 
         removeKey(gctx, key)

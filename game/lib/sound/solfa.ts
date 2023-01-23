@@ -56,6 +56,16 @@ export const solfaFlatArr = [
         'B'
     ]
 
+export const solfaWholeArr = [
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'A',
+    'B',
+]
+
 
 export function SolfaToFlat(solfa: Solfa): Solfa {
     return solfa.replace('C#', 'Db')
@@ -73,4 +83,8 @@ export function SolfaToKatakana(solfa: Solfa): string {
         .replace('G', 'ソ')
         .replace('A', 'ラ')
         .replace('B', 'シ')　as Solfa
+}
+
+export function notenumToSolfa(notenum: number): Solfa {
+    return solfaFlatArr[notenum % 12] as Solfa
 }

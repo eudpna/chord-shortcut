@@ -4,6 +4,7 @@ import { Gctx } from "../../../game/Gctx"
 import { sampleScores } from "../../../game/sample"
 import { A } from "../../A"
 import { CopyIcon } from "../../icons/CopyIcon"
+import { Setting } from "./Setting"
 
 
 
@@ -23,9 +24,10 @@ export const Main: React.FC<{
             }}>
                 
             </div> */}
+            <Setting gctx={gctx}/>
         </div>
         
 
-        
+
     </div>
 }
