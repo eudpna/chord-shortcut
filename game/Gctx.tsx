@@ -4,7 +4,7 @@ import { ChordData, chordToName, guitarChords } from "./lib/chords"
 import { copyToClipboard, downloadText, getUrlParameter, strSplice, Vec2 } from "./lib/lib"
 import { Score, ScoreElementChord, textToScore, textToScoreSimpleNotation } from "./lib/score"
 import { get_diatonic_chords } from "./lib/sound/scale"
-import { Solfa, solfaWholeArr } from "./lib/sound/solfa"
+import { Solfa, solfaFlatArr, solfaWholeArr } from "./lib/sound/solfa"
 import { playSounds } from "./lib/sound/sound"
 import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
@@ -69,10 +69,18 @@ export class Gctx {
     input = new InputState
 
     noteRange = {
-        start: 48
+        start: 48+7
     }
 
     keybinds: Keybind[] = []
+
+    soundTypes: {
+        chord: SoundType
+        melody: SoundType
+    } = {
+        chord: 'guitar',
+        melody: 'epiano'
+    }
 
     playingChords: playingChord[] = []
     playingNotes: PlayingNote[] = []
@@ -84,27 +92,43 @@ export class Gctx {
     }
 
     makeKeybinds() {
-        const tmp = []
+
+
+        if (!solfaWholeArr.includes(solfaFlatArr[this.noteRange.start % 12])) throw Error(`qwertyの2段目の左端(キーボードのA)が黒鍵 ${solfaFlatArr[this.noteRange.start % 12]} です`)
+        
+        const keybinds = []
+        let j = this.noteRange.start
         qwerty1.map((q, i) => {
+
+            // i0は[A]の度数
+            const i0 = solfaWholeArr.indexOf(solfaFlatArr[this.noteRange.start % 12])
+            // ddは[今のsolfa]の度数
+            const dd = i0 + i
+            console.log('i0:', i0, ' dd:', dd, ' i:', i)
             // flatが存在するなら
-            if ([1,2,4,5,6].includes(i % 7)) {
-                tmp.push(qwerty1Flatify[q])
+            if ([1,2,4,5,6].includes(dd % 7)) {
+                console.log('flatが存在します')
+                keybinds.push({
+                    qwerty: qwerty1Flatify[q],
+                    notenum: j + (i === 0 ? -1 : 0)
+                })
+                if (i !== 0) j++
             }
-            tmp.push(q)
-        })
-        const keybinds = tmp.map((q,i) => {
-            return {
+            keybinds.push({
                 qwerty: q,
-                notenum: this.noteRange.start+i,
-            }
+                notenum: j
+            })
+            j++
         })
+
+
         console.log(keybinds)
         this.keybinds = keybinds
     }
 
     // ノートを再生
     playNote(notenum: number) {
-        this.playSounds([notenum])
+        this.playSounds([notenum], this.soundTypes.melody)
             .then((howlers) => {
                 this.playingNotes.push({
                     notenum: notenum,
@@ -166,9 +190,8 @@ export class Gctx {
 
         const chord = guitarChords.getChordByName(chordName)
         
-        
         this.rerenderUI()
-        this.playSounds(chord.positions[0].midi)
+        this.playSounds(chord.positions[0].midi, this.soundTypes.chord)
             .then((howlers) => {
                 this.playingChords.push({
                     chordName: chordName,
@@ -182,7 +205,7 @@ export class Gctx {
     }
 
 
-    playSounds(keyIds: number[]) {
-        return playSounds('piano', keyIds)
+    playSounds(keyIds: number[], soundType: SoundType) {
+        return playSounds(soundType, keyIds)
     }
 }

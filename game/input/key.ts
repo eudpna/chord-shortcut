@@ -1,6 +1,7 @@
 import { Gctx } from "../Gctx"
 import { chordToName } from "../lib/chords"
 import { isNumeric, isRoman, keyToRoman } from "../lib/lib"
+import { notenumToSolfa } from "../lib/sound/solfa"
 
 
 // export function keysToInput(gctx: Gctx) {
@@ -34,7 +35,7 @@ export function setKeyEventListeners(gctx: Gctx) {
         // 既に押されていなかったら
         if (gctx.keybinds.map(keybind => keybind.qwerty.toLowerCase()).includes(key) &&
         !gctx.input.keys.includes(key)) {
-            console.log(key, gctx.qwertyKeyToNotenum(key.toUpperCase()))
+            console.log(key, gctx.qwertyKeyToNotenum(key.toUpperCase()), notenumToSolfa(gctx.qwertyKeyToNotenum(key.toUpperCase())))
             // 対応するノートを鳴らす
             gctx.playNote(
                 gctx.qwertyKeyToNotenum(key.toUpperCase())
