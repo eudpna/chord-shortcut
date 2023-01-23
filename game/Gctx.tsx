@@ -74,6 +74,8 @@ export class Gctx {
 
     keybinds: Keybind[] = []
 
+    fadeChordSound = true
+
     soundTypes: {
         chord: SoundType
         melody: SoundType
@@ -156,6 +158,24 @@ export class Gctx {
         const tmp = this.keybinds.filter(keybind => keybind.qwerty === qwerty)
         if (tmp.length === 0) return null
         return tmp[0].notenum
+    }
+
+    // 再生中のコード音声を停止
+    fadeChord(chordName: string) {
+        const duration = 300
+        this.playingChords.forEach(playingChord => {
+            if (playingChord.chordName === chordName) {
+                playingChord.audios.forEach(audio => {
+                    const tmp = audio.volume()
+                    audio.fade(tmp, 0, duration)
+                    setTimeout(() => {
+                        audio.stop()
+                        audio.volume(tmp)
+                    }, duration);
+                })
+                removeItemOnce(this.playingChords, playingChord)
+            }
+        })
     }
 
     // 再生中のコード音声を停止

@@ -54,7 +54,12 @@ export function setKeyEventListeners(gctx: Gctx) {
         ) {
             // 対応するコードを停止
             const chord = gctx.getChordByRoman(keyToRoman(key))
-            gctx.stopChord(chordToName(chord))
+            
+            if (gctx.fadeChord) {
+                gctx.fadeChord(chordToName(chord))
+            } else {
+                gctx.stopChord(chordToName(chord))
+            }
         }
 
         // 存在するキーを離したら
