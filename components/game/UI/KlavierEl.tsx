@@ -104,20 +104,24 @@ export const KlavierKeyEl: React.FC<{
     }}
         onMouseDown={() => {
             key.isDown = 1
+            gctx.playNote(key.notenum)
             gctx.rerenderUI()
         }}
         onMouseUp={() => {
             key.isDown = 0
+            gctx.stopNote(key.notenum)
             gctx.rerenderUI()
         }}
         onMouseEnter={() => {
             if (!gctx.input.mouse.isDown) return
             key.isDown = 1
+            gctx.playNote(key.notenum)
             gctx.rerenderUI()
         }}
         onMouseLeave={() => {
             if (!gctx.input.mouse.isDown) return
             key.isDown = 0
+            gctx.stopNote(key.notenum)
             gctx.rerenderUI()
         }}
     >

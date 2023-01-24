@@ -148,7 +148,12 @@ export class Gctx {
         this.keybinds = keybinds
     }
 
-    // 特定のノートが鳴っているか
+    // 特定のコードが鳴っているか
+    isSoundingTheChord(chordName: string) {
+        return this.playingChords.filter(chord => chord.chordName === chordName).length > 0
+    }
+
+    // 特定のノートが(メロディとして)鳴っているか
     isSoundingTheNote(notenum: number) {
         return this.playingNotes.filter(note => note.notenum===notenum).length > 0
     }

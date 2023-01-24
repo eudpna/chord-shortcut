@@ -4,6 +4,7 @@ import { Gctx } from "../../../game/Gctx"
 import { sampleScores } from "../../../game/sample"
 import { A } from "../../A"
 import { CopyIcon } from "../../icons/CopyIcon"
+import { ChordDisplay } from "./ChordDisplay"
 import { KlavierEl } from "./KlavierEl"
 import { Setting } from "./Setting"
 
@@ -26,6 +27,7 @@ export const Main: React.FC<{
                 
             </div> */}
             <Setting gctx={gctx} />
+            <ChordDisplay gctx={gctx} />
             <KlavierEl gctx={gctx} />
         </div>
     </div>
