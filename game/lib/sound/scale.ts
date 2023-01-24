@@ -1,6 +1,7 @@
 import { guitarChords } from "../chords";
 import { Solfa, solfaFlatArr, SolfaToFlat } from "./solfa"
 
+// 白鍵のみで度数を上げる
 export function next_key(solfa: Solfa, n: number): string {
     const i0 = solfaFlatArr.indexOf(SolfaToFlat(solfa))
     let i = i0 + n
@@ -8,6 +9,24 @@ export function next_key(solfa: Solfa, n: number): string {
     const result = solfaFlatArr[i];
     return result
 }
+
+export function isNotenumHasFlat(notenum: number) {
+    return [2,4,7,9,11].includes(notenum % 12)
+}
+
+export function isNotenumBlack(notenum: number) {
+    return [1, 3, 6, 8, 10].includes(notenum % 12)
+}
+
+export const notenumListWhole = (() => {
+    const array = []
+    for (let i = 0; i < 127; i ++) {
+        if (!isNotenumBlack(i)) {
+            array.push(i)
+        }
+    }
+    return array
+})()
 
 
 export function get_diatonic_chords(solfa: Solfa) {

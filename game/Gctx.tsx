@@ -8,6 +8,7 @@ import { Solfa, solfaFlatArr, solfaWholeArr } from "./lib/sound/solfa"
 import { playSounds } from "./lib/sound/sound"
 import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
+import { Klavier } from "./Klavier"
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
@@ -20,6 +21,8 @@ export type PlayingNote = {
     notenum: number,
     audio: Howl,
 }
+
+
 
 // ユーザー入力に関する状態データ
 export class InputState {
@@ -67,9 +70,13 @@ export class Gctx {
 
     // ユーザー入力に関する状態データ
     input = new InputState
-
+    
+    klavier: Klavier = new Klavier(48+7, 10)
     noteRange = {
-        start: 48+7
+        // chromatic
+        start: 48+7,
+        // 全音で数える
+        length: 10,
     }
 
     keybinds: Keybind[] = []
@@ -86,6 +93,10 @@ export class Gctx {
 
     playingChords: playingChord[] = []
     playingNotes: PlayingNote[] = []
+
+    // piano: Piano = {
+    //     keysDown: []
+    // }
 
     constructor(public rerenderUI: Function) {
         setKeyEventListeners(this)
