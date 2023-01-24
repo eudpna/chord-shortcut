@@ -9,6 +9,7 @@ import { playSounds } from "./lib/sound/sound"
 import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
 import { Klavier } from "./Klavier"
+import { setMouseEventListeners } from "./input/mouse"
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
@@ -23,11 +24,18 @@ export type PlayingNote = {
 }
 
 
+export type Mouse = {
+    pointer: Vec2 | null
+    isDown: boolean
+}
 
 // ユーザー入力に関する状態データ
 export class InputState {
-    touched_point: Vec2 | null = null
-    mouse_pointer: Vec2 | null = null
+    mouse: Mouse = {
+        pointer: null,
+        isDown: false,
+    }
+    
     // 押されているキー
     keys: string[] = []
 }
@@ -100,6 +108,7 @@ export class Gctx {
 
     constructor(public rerenderUI: Function) {
         setKeyEventListeners(this)
+        setMouseEventListeners(this)
         this.makeKeybinds()
         rerenderUI()
     }
