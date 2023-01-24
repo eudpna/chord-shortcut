@@ -1,10 +1,11 @@
 import Head from "next/head"
 import React, { useEffect, useState } from "react"
 import { Gctx } from "../../../game/Gctx"
+import { ChordBtns } from "../../../game/lib/ChordBtns"
 import { sampleScores } from "../../../game/sample"
 import { A } from "../../A"
 import { CopyIcon } from "../../icons/CopyIcon"
-import { ChordDisplay } from "./ChordDisplay"
+import { ChordBtnsEl } from "./ChordBtnsEl"
 import { KlavierEl } from "./KlavierEl"
 import { Setting } from "./Setting"
 
@@ -27,7 +28,7 @@ export const Main: React.FC<{
                 
             </div> */}
             <Setting gctx={gctx} />
-            <ChordDisplay gctx={gctx} />
+            <ChordBtnsEl gctx={gctx} />
             <KlavierEl gctx={gctx} />
         </div>
     </div>

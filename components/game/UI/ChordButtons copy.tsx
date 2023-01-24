@@ -5,9 +5,10 @@ import { chordToName } from "../../../game/lib/chords"
 import { get_diatonic_chords, isNotenumHasFlat } from "../../../game/lib/sound/scale"
 import { notenumToSolfa, Solfa, solfaArr, SolfaToFlat } from "../../../game/lib/sound/solfa"
 
+const buttonLength = [12,10]
 
 
-export const ChordDisplay: React.FC<{
+export const ChordButtons: React.FC<{
     gctx: Gctx
 }> = (props) => {
     const gctx = props.gctx

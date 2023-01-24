@@ -17,8 +17,7 @@ export const Setting: React.FC<{
             <select value={gctx.key} className="rounded border-gray-400 px-2" style={{
                 border: 'solid 1px rgb(156,163,175)'
             }} name="" id="" onChange={(e) => {
-                gctx.key = e.target.value as Solfa
-                gctx.rerenderUI()
+                gctx.setKey(e.target.value as Solfa)
             }}>
                 {solfaSharp.map(solfa => {
                     return <option key={solfa} value={SolfaToFlat(solfa)}>{solfa.slice(-1)==='#'?`${solfa} (${SolfaToFlat(solfa)})`:solfa}</option>

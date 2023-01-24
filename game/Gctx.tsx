@@ -1,7 +1,7 @@
 import sanitize from "sanitize-filename"
 import { removeItemOnce } from "./lib/array"
 import { ChordData, chordToName, guitarChords } from "./lib/chords"
-import { copyToClipboard, downloadText, getUrlParameter, strSplice, Vec2 } from "./lib/lib"
+import { copyToClipboard, downloadText, getUrlParameter, qwerty, strSplice, Vec2 } from "./lib/lib"
 import { Score, ScoreElementChord, textToScore, textToScoreSimpleNotation } from "./lib/score"
 import { get_diatonic_chords } from "./lib/sound/scale"
 import { Solfa, solfaFlatArr, solfaWholeArr } from "./lib/sound/solfa"
@@ -10,6 +10,7 @@ import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
 import { Klavier } from "./Klavier"
 import { setMouseEventListeners } from "./input/mouse"
+import { ChordBtns } from "./lib/ChordBtns"
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
@@ -80,6 +81,11 @@ export class Gctx {
     input = new InputState
     
     klavier: Klavier = new Klavier(48+7, 10)
+
+    chordBtns: ChordBtns = new ChordBtns
+
+    qwertyLang: 'jis' | 'us'
+
     noteRange = {
         // chromatic
         start: 48+7,
@@ -110,7 +116,38 @@ export class Gctx {
         setKeyEventListeners(this)
         setMouseEventListeners(this)
         this.makeKeybinds()
+        this.chordBtns.setDiatonic(this.key)
+        this.setQwertyLang('us')
         rerenderUI()
+    }
+
+    setKey(key: Solfa) {
+        this.key = key
+        this.chordBtns.setDiatonic(this.key)
+        this.rerenderUI()
+    }
+
+
+    qwerty() {
+        return qwerty[this.qwertyLang]
+    }
+
+    setQwertyLang(qwertyLang: this['qwertyLang']) {
+        this.qwertyLang = qwertyLang
+        console.log(this.qwerty())
+        // for (let j = 0; j < 1; j ++) {
+           
+        for (let i = 0; i < 10; i++) {
+            const q = this.qwerty()[0][i]
+            this.chordBtns.btns[i].qwerty = q
+        }
+        for (let i = 0; i < 10; i++) {
+            const q = this.qwerty()[3][i]
+            this.chordBtns.btns[10+i].qwerty = q
+        }
+        // }
+        console.log(this.chordBtns.btns)
+        this.rerenderUI()
     }
 
     makeKeybinds() {

@@ -1,7 +1,7 @@
 import { guitarChords } from "../chords";
 import { Solfa, solfaFlatArr, SolfaToFlat } from "./solfa"
 
-// 白鍵のみで度数を上げる
+// 度数を上げる
 export function next_key(solfa: Solfa, n: number): string {
     const i0 = solfaFlatArr.indexOf(SolfaToFlat(solfa))
     let i = i0 + n
