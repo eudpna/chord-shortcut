@@ -83,9 +83,12 @@ export const KlavierKeyEl: React.FC<{
 
     const colorOn = 'red'
 
+    // 押されている　または その音が鳴っている
+    const isDown = key.isDown || gctx.isSoundingTheNote(key.notenum)
+
     return <div key={key.notenum} className={key.isBlack ? 'inline-block' : "flex-1"} style={!key.isBlack ? {
         border: 'solid 1px black',
-        backgroundColor: key.isDown ? colorOn : 'white',
+        backgroundColor: isDown ? colorOn : 'white',
         color: 'black',
     } : {
         border: 'solid 1px black',
@@ -94,7 +97,7 @@ export const KlavierKeyEl: React.FC<{
         width: hakken_width / hakken_num - (kokken_margin * 2),
         marginLeft: kokken_margin,
         marginRight: kokken_margin,
-        backgroundColor: key.isDown ? colorOn : 'black', 
+        backgroundColor: isDown ? colorOn : 'black', 
         color: 'white',
         pointerEvents: 'auto',
 

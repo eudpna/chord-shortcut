@@ -95,7 +95,7 @@ export class Gctx {
         chord: SoundType
         melody: SoundType
     } = {
-        chord: 'guitar',
+        chord: 'piano',
         melody: 'epiano'
     }
 
@@ -148,6 +148,11 @@ export class Gctx {
         this.keybinds = keybinds
     }
 
+    // 特定のノートが鳴っているか
+    isSoundingTheNote(notenum: number) {
+        return this.playingNotes.filter(note => note.notenum===notenum).length > 0
+    }
+
     // ノートを再生
     playNote(notenum: number) {
         this.playSounds([notenum], this.soundTypes.melody)
@@ -156,12 +161,15 @@ export class Gctx {
                     notenum: notenum,
                     audio: howlers[0],
                 })
+                this.rerenderUI()
                 setTimeout(() => {
                     removeItemOnce(this.playingNotes, notenum)
                     this.rerenderUI()
                 }, 3000);
             })
         this.playingNotes.push()
+        this.rerenderUI()
+        console.log(this.playingNotes)
     }
 
     // 再生中のノートを停止
@@ -172,6 +180,7 @@ export class Gctx {
                 removeItemOnce(this.playingNotes, playingNote)
             }
         })
+        this.rerenderUI()
     }
 
     qwertyKeyToNotenum(qwerty: string) {
@@ -196,6 +205,7 @@ export class Gctx {
                 removeItemOnce(this.playingChords, playingChord)
             }
         })
+        this.rerenderUI()
     }
 
     // 再生中のコード音声を停止
@@ -208,6 +218,7 @@ export class Gctx {
                 removeItemOnce(this.playingChords, playingChord)
             }
         })
+        this.rerenderUI()
     }
 
     playRoman(n: number) {
@@ -230,18 +241,20 @@ export class Gctx {
 
         const chord = guitarChords.getChordByName(chordName)
         
-        this.rerenderUI()
+        
         this.playSounds(chord.positions[0].midi, this.soundTypes.chord)
             .then((howlers) => {
                 this.playingChords.push({
                     chordName: chordName,
                     audios: howlers
                 })
+                this.rerenderUI()
                 setTimeout(() => {
                     removeItemOnce(this.playingChords, chord)
                     this.rerenderUI()
                 }, 3000);
             })
+        this.rerenderUI()
     }
 
 
