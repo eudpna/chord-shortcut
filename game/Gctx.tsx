@@ -148,6 +148,13 @@ export class Gctx {
         this.keybinds = keybinds
     }
 
+    // コードとして鳴っているコードノートの一覧を取得
+    soundingNoteAsChord(): number[] {
+        return this.playingChords.flatMap(chord => {
+            return guitarChords.getChordByName(chord.chordName).positions[0].midi
+        })
+    }
+
     // 特定のコードが鳴っているか
     isSoundingTheChord(chordName: string) {
         return this.playingChords.filter(chord => chord.chordName === chordName).length > 0

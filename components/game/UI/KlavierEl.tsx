@@ -81,12 +81,15 @@ export const KlavierKeyEl: React.FC<{
     const hakken_num = klavier.keys.filter(key => !key.isBlack).length
     const key = props.thekey
 
-    const colorOn = 'red'
+    const colorOn = '#fbb'
 
     // 押されている　または その音が鳴っている
     const isDown = key.isDown || gctx.isSoundingTheNote(key.notenum)
 
-    return <div key={key.notenum} className={key.isBlack ? 'inline-block' : "flex-1"} style={!key.isBlack ? {
+
+    const isInChordNote = gctx.soundingNoteAsChord().includes(key.notenum)
+
+    return <div key={key.notenum} className={key.isBlack ? 'inline-block relative' : "flex-1 relative"} style={!key.isBlack ? {
         border: 'solid 1px black',
         backgroundColor: isDown ? colorOn : 'white',
         color: 'black',
@@ -126,6 +129,15 @@ export const KlavierKeyEl: React.FC<{
         }}
     >
         {notenumToSolfa(key.notenum)}
+        {isInChordNote ? 
+        <div className="absolute rounded-full" style={{
+            width: 20,
+            height: 20,
+            backgroundColor: 'red',
+            left: (hakken_width/hakken_num)/2 - 10 + (key.isBlack ? -9 : -1),
+            bottom: 20,
+        }}> 
+        </div>  : null}
     </div>
 
 }
