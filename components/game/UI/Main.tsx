@@ -19,9 +19,10 @@ export const Main: React.FC<{
 
     return <div className="pt-4 px-2 pb-3 max-w-3xl mx-auto">
         
+        {/* title */}
         <div className="mb-6">
             <A href="/" className="text-xl font-bold text-gray-700 inline-block">
-                ピアノキーバインド
+                ChordShortcut
             </A>
             {/* <div className="text-sm inline-block pl-2" style={{
             }}>

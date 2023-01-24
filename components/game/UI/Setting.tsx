@@ -13,8 +13,8 @@ export const Setting: React.FC<{
 
     return <div className="text-sm p-0 pt-6">
         <div>
-            キー：
-            <select value={gctx.key} className="rounded border-gray-400 px-2" style={{
+            key&nbsp;=&nbsp; 
+            <select value={gctx.key} className=" rounded border-gray-400 px-2" style={{
                 border: 'solid 1px rgb(156,163,175)'
             }} name="" id="" onChange={(e) => {
                 gctx.setKey(e.target.value as Solfa)

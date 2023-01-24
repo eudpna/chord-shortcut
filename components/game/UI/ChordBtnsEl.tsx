@@ -20,7 +20,7 @@ export const ChordBtnsEl: React.FC<{
         marginTop: 150,
     }}>
         {gctx.chordBtns.btns.map((chordBtn, i) => {
-            return <><div  key={i} className="relative rounded inline-block" style={{
+            return <div key={i} className="inline-block"><div className="relative rounded inline-block" style={{
                 width: 65,
                 height: 50,
                 border: 'solid 1px black',
@@ -37,6 +37,8 @@ export const ChordBtnsEl: React.FC<{
                 }}>
                     <input type="text" className="px-1" value={chordBtn.keybind} onChange={(e) => {
                         chordBtn.keybind = e.target.value
+                        gctx.chordBtns.keybindToChordName(gctx.key)
+                        gctx.rerenderUI()
                     }}  style={{
                         width: '100%'
 
@@ -61,7 +63,7 @@ export const ChordBtnsEl: React.FC<{
                 
             </div>
                 {i === 9 ? <br /> : null}
-            </>
+            </div>
         })
 
         }
