@@ -206,13 +206,15 @@ export class Gctx {
     playNote(notenum: number) {
         this.playSounds([notenum], this.soundTypes.melody)
             .then((howlers) => {
-                this.playingNotes.push({
+                const playingNote = {
                     notenum: notenum,
                     audio: howlers[0],
-                })
+                }
+                this.playingNotes.push(playingNote)
                 this.rerenderUI()
                 setTimeout(() => {
-                    removeItemOnce(this.playingNotes, notenum)
+                    // playingNote.audio.stop()
+                    removeItemOnce(this.playingNotes, playingNote)
                     this.rerenderUI()
                 }, 3000);
             })
@@ -223,14 +225,34 @@ export class Gctx {
 
     // 再生中のノートを停止
     stopNote(notenum: number) {
+        this.fadeNote(notenum)
+        // this.playingNotes.forEach(playingNote => {
+        //     if (playingNote.notenum === notenum) {
+        //         playingNote.audio.stop()
+        //         removeItemOnce(this.playingNotes, playingNote)
+        //     }
+        // })
+        // this.rerenderUI()
+    }
+
+    // 再生中のノートを停止
+    fadeNote(notenum: number) {
+        const duration = 200
         this.playingNotes.forEach(playingNote => {
             if (playingNote.notenum=== notenum) {
-                playingNote.audio.stop()
+                const audio = playingNote.audio
+                const tmp = audio.volume()
+                audio.fade(tmp, 0, duration)
+                setTimeout(() => {
+                    audio.stop()
+                    audio.volume(tmp)
+                }, duration);
                 removeItemOnce(this.playingNotes, playingNote)
             }
         })
         this.rerenderUI()
     }
+    
 
     qwertyKeyToNotenum(qwerty: string) {
         const tmp = this.keybinds.filter(keybind => keybind.qwerty === qwerty)
@@ -240,7 +262,7 @@ export class Gctx {
 
     // 再生中のコード音声を停止
     fadeChord(chordName: string) {
-        const duration = 300
+        const duration = 200
         this.playingChords.forEach(playingChord => {
             if (playingChord.chordName === chordName) {
                 playingChord.audios.forEach(audio => {
@@ -259,15 +281,16 @@ export class Gctx {
 
     // 再生中のコード音声を停止
     stopChord(chordName: string) {
-        this.playingChords.forEach(playingChord => {
-            if (playingChord.chordName === chordName) {
-                playingChord.audios.forEach(audio => {
-                    audio.stop()
-                })
-                removeItemOnce(this.playingChords, playingChord)
-            }
-        })
-        this.rerenderUI()
+        this.fadeChord(chordName)
+        // this.playingChords.forEach(playingChord => {
+        //     if (playingChord.chordName === chordName) {
+        //         playingChord.audios.forEach(audio => {
+        //             audio.stop()
+        //         })
+        //         removeItemOnce(this.playingChords, playingChord)
+        //     }
+        // })
+        // this.rerenderUI()
     }
 
     playRoman(n: number) {
@@ -289,17 +312,17 @@ export class Gctx {
     playChord(chordName: string) {
 
         const chord = guitarChords.getChordByName(chordName)
-        
-        
+
         this.playSounds(chord.positions[0].midi, this.soundTypes.chord)
             .then((howlers) => {
-                this.playingChords.push({
+                const playingChord = {
                     chordName: chordName,
                     audios: howlers
-                })
+                }
+                this.playingChords.push(playingChord)
                 this.rerenderUI()
                 setTimeout(() => {
-                    removeItemOnce(this.playingChords, chord)
+                    removeItemOnce(this.playingChords, playingChord)
                     this.rerenderUI()
                 }, 3000);
             })

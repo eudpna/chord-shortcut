@@ -20,7 +20,8 @@ export const ChordBtnsEl: React.FC<{
         marginTop: 150,
     }}>
         {gctx.chordBtns.btns.map((chordBtn, i) => {
-            return <div key={i} className="inline-block"><div className="relative rounded inline-block" style={{
+            return <div key={i} className="inline-block">
+                <div className="relative rounded inline-block cursor-pointer" style={{
                 width: 65,
                 height: 50,
                 border: 'solid 1px black',

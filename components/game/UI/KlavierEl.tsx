@@ -91,7 +91,8 @@ export const KlavierKeyEl: React.FC<{
 
     return <div key={key.notenum} className={key.isBlack ? 'inline-block relative' : "flex-1 relative"} style={!key.isBlack ? {
         border: 'solid 1px black',
-        backgroundColor: isDown ? colorOn : 'white',
+        // backgroundColor: isDown ? colorOn : 'white',
+        backgroundColor: key.isDown ? 'red' : (gctx.isSoundingTheNote(key.notenum) ? 'blue' : 'white'),
         color: 'black',
     } : {
         border: 'solid 1px black',
@@ -100,7 +101,8 @@ export const KlavierKeyEl: React.FC<{
         width: hakken_width / hakken_num - (kokken_margin * 2),
         marginLeft: kokken_margin,
         marginRight: kokken_margin,
-        backgroundColor: isDown ? colorOn : 'black', 
+            // backgroundColor: isDown ? colorOn : 'black', 
+            backgroundColor: key.isDown ? 'red' : (gctx.isSoundingTheNote(key.notenum) ? 'blue' : 'black'),
         color: 'white',
         pointerEvents: 'auto',
 
