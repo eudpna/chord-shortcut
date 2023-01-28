@@ -19,6 +19,7 @@ export class ChordBtn {
     keybind: string = ''
     chordName: string | null = null
     qwerty: string | null = null
+    isDown: boolean = false
 }
 
 export class ChordBtns {

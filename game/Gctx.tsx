@@ -310,8 +310,11 @@ export class Gctx {
     }
 
     playChord(chordName: string) {
+        if (!chordName) return
 
         const chord = guitarChords.getChordByName(chordName)
+
+        if (!chord) return
 
         this.playSounds(chord.positions[0].midi, this.soundTypes.chord)
             .then((howlers) => {

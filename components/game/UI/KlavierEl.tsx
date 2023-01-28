@@ -89,7 +89,7 @@ export const KlavierKeyEl: React.FC<{
 
     const isInChordNote = gctx.soundingNoteAsChord().includes(key.notenum)
 
-    return <div key={key.notenum} className={key.isBlack ? 'inline-block relative' : "flex-1 relative"} style={!key.isBlack ? {
+    return <div key={key.notenum} className={'cursor-pointer '+(key.isBlack ? 'inline-block relative' : "flex-1 relative")} style={!key.isBlack ? {
         border: 'solid 1px black',
         // backgroundColor: isDown ? colorOn : 'white',
         backgroundColor: key.isDown ? 'red' : (gctx.isSoundingTheNote(key.notenum) ? 'blue' : 'white'),

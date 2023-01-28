@@ -1,6 +1,7 @@
 import TextareaAutosize from "react-textarea-autosize"
 import { Gctx } from "../../../game/Gctx"
 import { Klavier } from "../../../game/Klavier"
+import { ChordBtn } from "../../../game/lib/ChordBtns"
 import { chordToName } from "../../../game/lib/chords"
 import { get_diatonic_chords, isNotenumHasFlat } from "../../../game/lib/sound/scale"
 import { notenumToSolfa, Solfa, solfaArr, SolfaToFlat } from "../../../game/lib/sound/solfa"
@@ -13,8 +14,17 @@ export const ChordBtnsEl: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
     
+    function playChord(chordBtn: ChordBtn) {
+        chordBtn.isDown = true
+        gctx.playChord(chordBtn.chordName)
+        gctx.rerenderUI()
+    }
     
-    
+    function stopChord(chordBtn: ChordBtn) {
+        chordBtn.isDown = false
+        gctx.stopChord(chordBtn.chordName)
+        gctx.rerenderUI()
+    }
 
     return <div className="p-0 pt-6 noselect" style={{
         marginTop: 150,
@@ -27,7 +37,23 @@ export const ChordBtnsEl: React.FC<{
                 border: 'solid 1px black',
                 marginBottom: 40,
                 marginRight: 5,
-            }}>
+                backgroundColor: chordBtn.isDown ? 'red' : (gctx.isSoundingTheChord(chordBtn.chordName) ? 'blue' : 'white'),
+            }} 
+                    onMouseDown={() => {
+                        playChord(chordBtn)
+                    }}
+                    onMouseUp={() => {
+                        stopChord(chordBtn)
+                    }}
+                    onMouseEnter={() => {
+                        if (!gctx.input.mouse.isDown) return
+                        playChord(chordBtn)
+                    }}
+                    onMouseLeave={() => {
+                        if (!gctx.input.mouse.isDown) return
+                        stopChord(chordBtn)
+                    }}
+            >
 
                 {/* keybind */}
                 <div className="absolute text-sm text-gray rounded" style={{
