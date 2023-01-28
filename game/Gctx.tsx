@@ -89,15 +89,6 @@ export class Gctx {
 
     qwertyLang: 'jis' | 'us'
 
-    noteRange = {
-        // chromatic
-        start: 48+7,
-        // 全音で数える
-        length: 10,
-    }
-
-    keybinds: Keybind[] = []
-
     fadeChordSound = true
 
     soundTypes: {
@@ -128,7 +119,6 @@ export class Gctx {
     constructor(public rerenderUI: Function) {
         setKeyEventListeners(this)
         setMouseEventListeners(this)
-        this.makeKeybinds()
         this.chordBtns.setDiatonic(this.key)
         this.setQwertyLang('us')
 
@@ -203,41 +193,6 @@ export class Gctx {
         this.rerenderUI()
     }
 
-    makeKeybinds() {
-
-
-        if (!solfaWholeArr.includes(solfaFlatArr[this.noteRange.start % 12])) throw Error(`qwertyの2段目の左端(キーボードのA)が黒鍵 ${solfaFlatArr[this.noteRange.start % 12]} です`)
-        
-        const keybinds = []
-        let j = this.noteRange.start
-        qwerty1.map((q, i) => {
-
-            // i0は[A]の度数
-            const i0 = solfaWholeArr.indexOf(solfaFlatArr[this.noteRange.start % 12])
-            // ddは[今のsolfa]の度数
-            const dd = i0 + i
-            // console.log('i0:', i0, ' dd:', dd, ' i:', i)
-            // flatが存在するなら
-            if ([1,2,4,5,6].includes(dd % 7)) {
-                // console.log('flatが存在します')
-                keybinds.push({
-                    qwerty: qwerty1Flatify[q],
-                    notenum: j + (i === 0 ? -1 : 0)
-                })
-                if (i !== 0) j++
-            }
-            keybinds.push({
-                qwerty: q,
-                notenum: j
-            })
-            j++
-        })
-
-
-        // console.log(keybinds)
-        this.keybinds = keybinds
-    }
-
     // コードとして鳴っているコードノートの一覧を取得
     soundingNoteAsChord(): number[] {
         return this.playingChords.flatMap(chord => {
@@ -293,13 +248,7 @@ export class Gctx {
         })
         this.rerenderUI()
     }
-    
 
-    qwertyKeyToNotenum(qwerty: string) {
-        const tmp = this.keybinds.filter(keybind => keybind.qwerty === qwerty)
-        if (tmp.length === 0) return null
-        return tmp[0].notenum
-    }
 
     // 再生中のコード音声を停止
     stopChord(chordName: string) {
