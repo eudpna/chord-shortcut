@@ -21,26 +21,34 @@ export function setKeyEventListeners(gctx: Gctx) {
     window.addEventListener('keydown', (e) => {
         const key = replaceKeyName(e.key)
 
-        // 数字キーが押下され　　かつ
+        // chordBtnに対応するキーが押下され　　かつ
         // すでに押されていなければ
-        if (isRoman(key)
-            && !gctx.input.keys.includes(key)
-        ) {
-            // 対応するコードを鳴らす
-            gctx.playRoman(keyToRoman(key))
-        }
+        gctx.chordBtns.btns.forEach(chordBtn => {
+            if (chordBtn.qwerty === key
+                && !gctx.input.keys.includes(key)
+            ) {
+                chordBtn.down()
+            }
+        })
 
+        gctx.klavier.keys.forEach(klavierKey => {
+            if (klavierKey.qwerty === key
+                && !gctx.input.keys.includes(key)
+            ) {
+                klavierKey.down()
+            }
+        })
 
         // 存在するキーを押下したら　かつ
         // 既に押されていなかったら
-        if (gctx.keybinds.map(keybind => keybind.qwerty.toLowerCase()).includes(key) &&
-        !gctx.input.keys.includes(key)) {
-            (key, gctx.qwertyKeyToNotenum(key.toUpperCase()), notenumToSolfa(gctx.qwertyKeyToNotenum(key.toUpperCase())))
-            // 対応するノートを鳴らす
-            gctx.playNote(
-                gctx.qwertyKeyToNotenum(key.toUpperCase())
-            )
-        }
+        // if (gctx.keybinds.map(keybind => keybind.qwerty.toLowerCase()).includes(key) &&
+        // !gctx.input.keys.includes(key)) {
+        //     (key, gctx.qwertyKeyToNotenum(key.toUpperCase()), notenumToSolfa(gctx.qwertyKeyToNotenum(key.toUpperCase())))
+        //     // 対応するノートを鳴らす
+        //     gctx.playNote(
+        //         gctx.qwertyKeyToNotenum(key.toUpperCase())
+        //     )
+        // }
 
 
         addKey(gctx, key)
@@ -49,26 +57,41 @@ export function setKeyEventListeners(gctx: Gctx) {
     window.addEventListener('keyup', (e) => {
         const key = replaceKeyName(e.key)
 
-        // 数字キーが離されたら
-        if (isRoman(key)
-        ) {
-            // 対応するコードを停止
-            const chord = gctx.getChordByRoman(keyToRoman(key))
-            
-            if (gctx.fadeChord) {
-                gctx.fadeChord(chordToName(chord))
-            } else {
-                gctx.stopChord(chordToName(chord))
+        // chordBtnに対応するキーが離されたら
+        gctx.chordBtns.btns.forEach(chordBtn => {
+            if (chordBtn.qwerty === key
+            ) {
+                chordBtn.up()
             }
-        }
+        })
 
-        // 存在するキーを離したら
-        if (gctx.keybinds.map(keybind => keybind.qwerty.toLowerCase()).includes(key)) {
-            // 対応するノートを停止
-            gctx.stopNote(
-                gctx.qwertyKeyToNotenum(key.toUpperCase())
-            )
-        }
+        gctx.klavier.keys.forEach(klavierKey => {
+            if (klavierKey.qwerty === key
+            ) {
+                klavierKey.up()
+            }
+        })
+
+        // // 数字キーが離されたら
+        // if (isRoman(key)
+        // ) {
+        //     // 対応するコードを停止
+        //     const chord = gctx.getChordByRoman(keyToRoman(key))
+            
+        //     if (gctx.fadeChord) {
+        //         gctx.fadeChord(chordToName(chord))
+        //     } else {
+        //         gctx.stopChord(chordToName(chord))
+        //     }
+        // }
+
+        // // 存在するキーを離したら
+        // if (gctx.keybinds.map(keybind => keybind.qwerty.toLowerCase()).includes(key)) {
+        //     // 対応するノートを停止
+        //     gctx.stopNote(
+        //         gctx.qwertyKeyToNotenum(key.toUpperCase())
+        //     )
+        // }
 
         removeKey(gctx, key)
     })

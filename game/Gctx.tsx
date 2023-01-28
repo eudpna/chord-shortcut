@@ -173,16 +173,33 @@ export class Gctx {
     setQwertyLang(qwertyLang: this['qwertyLang']) {
         this.qwertyLang = qwertyLang
         // for (let j = 0; j < 1; j ++) {
-           
+        
+        // コードにキーを割り当て
         for (let i = 0; i < 10; i++) {
             const q = this.qwerty()[0][i]
-            this.chordBtns.btns[i].qwerty = q
+            this.chordBtns.btns[i].qwerty = q.toLowerCase()
         }
         for (let i = 0; i < 10; i++) {
             const q = this.qwerty()[3][i]
-            this.chordBtns.btns[10+i].qwerty = q
+            this.chordBtns.btns[10+i].qwerty = q.toLowerCase()
         }
-        // }
+
+
+        // ノートにキーを割り当て
+        const offset = 3
+        const whiteKeys = this.klavier.keys.filter(key => key.pitch.isWholeTone)
+        const dan = [1,2]
+        for (let i = 0; i < whiteKeys.length && i < this.qwerty()[dan[0]].length && i < this.qwerty()[dan[1]].length; i++) {
+            const j = offset + i
+            whiteKeys[j].qwerty = this.qwerty()[dan[1]][i].toLowerCase()
+            if (whiteKeys[j].pitch.hasFlat()) {
+                const blackKey = this.klavier.getKeyByNoteNunber(whiteKeys[j].pitch.noteNumber-1)
+                if (blackKey) {
+                    blackKey.qwerty = this.qwerty()[dan[0]][i].toLowerCase()
+                }
+            }
+        }
+        
         this.rerenderUI()
     }
 

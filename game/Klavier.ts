@@ -9,6 +9,7 @@ export class KlavierKey {
     readonly pitch: Pitch
     isDown: boolean
     disabled: boolean = false
+    qwerty: string | null = null
 
     ref: MutableRefObject<any> | null
     id = uuidv4()
@@ -47,5 +48,11 @@ export class Klavier {
         if (!this.keys[this.keys.length-1].pitch.isWholeTone) {
             this.keys[this.keys.length-1].disabled = true
         }
+    }
+
+    getKeyByNoteNunber(noteNumber: number): KlavierKey | null{
+        const tmp = this.keys.filter(key => key.pitch.noteNumber === noteNumber)
+        if (tmp.length === 0) return null
+        return tmp[0]
     }
 }

@@ -156,6 +156,14 @@ export const KlavierKeyEl: React.FC<{
         {/* 名前 */}
         {klavierKey.pitch.solfa.solfaName}
 
+        {/* qwerty */}
+        <div className="text-xs text-gray absolute" style={{
+            left: 2,
+            bottom: 2
+        }}>
+            {klavierKey.qwerty}
+        </div>
+
         {/* コードノートのときの丸いインジケータ */}
         {isInChordNote ? 
         <div className="absolute rounded-full" style={{
