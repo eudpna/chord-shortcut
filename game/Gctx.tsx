@@ -83,7 +83,7 @@ export class Gctx {
     input = new InputState
     
     // klavier: Klavier = new Klavier(this, 48 + 7, 10)
-    klavier: Klavier = new Klavier(this, 48, 12 * 2)
+    klavier: Klavier = new Klavier(this, 48+5, 12 * 2-4)
 
     chordBtns: ChordBtns = new ChordBtns(this)
 
@@ -176,7 +176,7 @@ export class Gctx {
 
 
         // ノートにキーを割り当て
-        const offset = 3
+        const offset = 1
         const whiteKeys = this.klavier.keys.filter(key => key.pitch.isWholeTone)
         const dan = [1,2]
         for (let i = 0; i < whiteKeys.length && i < this.qwerty()[dan[0]].length && i < this.qwerty()[dan[1]].length; i++) {

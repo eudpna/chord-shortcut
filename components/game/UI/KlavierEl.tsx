@@ -20,6 +20,8 @@ export const KlavierEl: React.FC<{
     // const kokken_num = klavier.keys.filter(key => key.pitch.isBlack).length
     const hakken_num = klavier.keys.filter(key => key.pitch.isWholeTone).length
 
+    // const kokken_sum_width = 
+
     return <div className="text-sm p-0 noselect" style={{
         // marginTop: 150,
     }}>
@@ -42,6 +44,7 @@ export const KlavierEl: React.FC<{
         <div className="flex" style={{
             height: 130,
             pointerEvents: 'none',
+            width: hakken_width * hakken_num * 2,
             zIndex: 2,
             marginTop: -200,
             // marginLeft: hakken_width / 2
@@ -118,7 +121,7 @@ export const KlavierKeyEl: React.FC<{
     }
     
 
-    return <div id={'#klavierKey-'+klavierKey.id} key={klavierKey.pitch.noteNumber} className={'cursor-pointer '+(!klavierKey.pitch.isWholeTone ? 'inline-block relative' : "flex-1 relative")} style={klavierKey.pitch.isWholeTone ? {
+    return <div id={'#klavierKey-'+klavierKey.id} key={klavierKey.pitch.noteNumber} className={'cursor-pointer '+(klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {
         // 白鍵のスタイル
         border: 'solid 1px black',
         // backgroundColor: isDown ? colorOn : 'white',
@@ -132,8 +135,8 @@ export const KlavierKeyEl: React.FC<{
         width: hakken_width - (kokken_margin * 2),
         marginLeft: kokken_margin,
         marginRight: kokken_margin,
-            // backgroundColor: isDown ? colorOn : 'black', 
-            backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.pitch.noteNumber) ? 'blue' : 'black'),
+        // backgroundColor: isDown ? colorOn : 'black', 
+        backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.pitch.noteNumber) ? 'blue' : 'black'),
         color: 'white',
         pointerEvents: 'auto',
 
