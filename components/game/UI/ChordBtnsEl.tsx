@@ -103,8 +103,8 @@ export const ChordBtnsEl: React.FC<{
 
 
 
-    return <div className="p-0 pt-6 noselect" style={{
-        marginTop: 150,
+    return <div className="p-0 noselect" style={{
+        // marginTop: 150,
     }}>
         {gctx.chordBtns.btns.map((chordBtn, i) => {
             return <div key={i} className="inline-block">

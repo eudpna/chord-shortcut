@@ -11,7 +11,7 @@ export const Setting: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
 
-    return <div className="text-sm p-0 pt-6">
+    return <div className="text-sm p-0">
         <div>
             key&nbsp;=&nbsp; 
             <select value={gctx.key} className=" rounded border-gray-400 px-2" style={{

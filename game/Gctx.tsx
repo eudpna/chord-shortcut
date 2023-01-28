@@ -117,6 +117,9 @@ export class Gctx {
 
     resourceLoader = new ResourceLoader()
 
+    loadedPercentage: number = 0
+    showLoadingProgress = true
+
     // piano: Piano = {
     //     keysDown: []
     // }
@@ -134,7 +137,17 @@ export class Gctx {
         // })
         audioList.map(src => {
             this.resourceLoader.load(src, 'audio', (resource, percent) => {
-                console.log(percent+'% loaded.')
+                this.loadedPercentage = percent
+                if (percent === 100) {
+                    this.showLoadingProgress = false
+                    this.rerenderUI()
+                    // setTimeout(() => {
+                    //     this.showLoadingProgress = false
+                    //     this.rerenderUI()
+                    // }, 1000);
+                }
+                this.rerenderUI()
+                // console.log(percent+'% loaded.')
             })
         })
         

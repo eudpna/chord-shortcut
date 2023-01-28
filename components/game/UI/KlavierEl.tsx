@@ -19,8 +19,8 @@ export const KlavierEl: React.FC<{
     const kokken_num = klavier.keys.filter(key => key.isBlack).length
     const hakken_num = klavier.keys.filter(key => !key.isBlack).length
 
-    return <div className="text-sm p-0 pt-6 noselect" style={{
-        marginTop: 150,
+    return <div className="text-sm p-0 noselect" style={{
+        // marginTop: 150,
     }}>
 
 
