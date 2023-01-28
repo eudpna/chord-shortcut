@@ -13,6 +13,7 @@ import { ChordBtns } from "./lib/ChordBtns"
 import { ResourceLoader } from "../lib/ResourceLoader"
 
 import audioList from '../script/resource/audioList.json'
+import { Pitch } from "../lib/music/Pitch"
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
@@ -83,7 +84,7 @@ export class Gctx {
     input = new InputState
     
     // klavier: Klavier = new Klavier(this, 48 + 7, 10)
-    klavier: Klavier = new Klavier(this, 48+5, 12 * 2-4)
+    klavier: Klavier = new Klavier(this, 48+5, 12 * 2)
 
     chordBtns: ChordBtns = new ChordBtns(this)
 
@@ -176,18 +177,29 @@ export class Gctx {
 
 
         // ノートにキーを割り当て
-        const offset = 1
+        const startNote = 48+7
+        // const offset = 1
         const whiteKeys = this.klavier.keys.filter(key => key.pitch.isWholeTone)
         const dan = [1,2]
+        let j = startNote
         for (let i = 0; i < whiteKeys.length && i < this.qwerty()[dan[0]].length && i < this.qwerty()[dan[1]].length; i++) {
-            const j = offset + i
-            whiteKeys[j].qwerty = this.qwerty()[dan[1]][i].toLowerCase()
-            if (whiteKeys[j].pitch.hasFlat()) {
-                const blackKey = this.klavier.getKeyByNoteNunber(whiteKeys[j].pitch.noteNumber-1)
-                if (blackKey) {
-                    blackKey.qwerty = this.qwerty()[dan[0]][i].toLowerCase()
+            if (!(new Pitch(j).isWholeTone)) j ++
+            const key = this.klavier.getKeyByNoteNunber(j)
+            if (!key) {
+                break
+            }
+            // 白鍵だったら
+            if (key.pitch.isWholeTone) {
+                key.qwerty = this.qwerty()[dan[1]][i].toLowerCase()
+                // その左上に黒鍵があったら
+                if (key.pitch.hasFlat()) {
+                    const blackKey = this.klavier.getKeyByNoteNunber(key.pitch.noteNumber - 1)
+                    if (blackKey) {
+                        blackKey.qwerty = this.qwerty()[dan[0]][i].toLowerCase()
+                    }
                 }
             }
+            j++
         }
         
         this.rerenderUI()
