@@ -10,6 +10,9 @@ import { setKeyEventListeners } from "./input/key"
 import { Klavier } from "./Klavier"
 import { setMouseEventListeners } from "./input/mouse"
 import { ChordBtns } from "./lib/ChordBtns"
+import { ResourceLoader } from "../lib/ResourceLoader"
+
+import audioList from '../script/resource/audioList.json'
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
@@ -112,6 +115,8 @@ export class Gctx {
     playingChords: playingChord[] = []
     playingNotes: PlayingNote[] = []
 
+    resourceLoader = new ResourceLoader()
+
     // piano: Piano = {
     //     keysDown: []
     // }
@@ -122,6 +127,19 @@ export class Gctx {
         this.makeKeybinds()
         this.chordBtns.setDiatonic(this.key)
         this.setQwertyLang('us')
+
+
+        // this.resourceLoader.setOnStateChange((resource, precent) => {
+        //     this.rerenderUI()
+        // })
+        audioList.map(src => {
+            this.resourceLoader.load(src, 'audio', (resource, percent) => {
+                console.log(percent+'% loaded.')
+            })
+        })
+        
+
+
         rerenderUI()
     }
 

@@ -12,10 +12,18 @@ const dirs = fs.readdirSync(imgDir)
 
 dirs.forEach(dir => {
     if (dir.slice(0, 1) === '.') return
+
+    // specific to this project
+    // 特定の音色のみロードする
+    if (!(dir === 'epiano' || dir === 'piano')) {
+        return
+    }
+
+
     const tmp = fs.readdirSync(path.join(imgDir, dir))
     tmp.map(file => {
         if (file.slice(0, 1) === '.') return
-        imgfiles.push(path.join(dir, file))
+        imgfiles.push(path.join('/audios/', dir, file))
     })
 })
 
