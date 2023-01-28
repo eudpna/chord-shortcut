@@ -104,6 +104,11 @@ export class Gctx {
         melody: 'epiano'
     }
 
+    fadeDuration = {
+        chord: 200,
+        melody: 200,
+    }
+
     playingChords: playingChord[] = []
     playingNotes: PlayingNote[] = []
 
@@ -222,19 +227,7 @@ export class Gctx {
 
     // 再生中のノートを停止
     stopNote(notenum: number) {
-        this.fadeNote(notenum)
-        // this.playingNotes.forEach(playingNote => {
-        //     if (playingNote.notenum === notenum) {
-        //         playingNote.audio.stop()
-        //         removeItemOnce(this.playingNotes, playingNote)
-        //     }
-        // })
-        // this.rerenderUI()
-    }
-
-    // 再生中のノートを停止
-    fadeNote(notenum: number) {
-        const duration = 200
+        const duration = this.fadeDuration.melody
         this.playingNotes.forEach(playingNote => {
             if (playingNote.notenum=== notenum) {
                 const audio = playingNote.audio
@@ -258,8 +251,8 @@ export class Gctx {
     }
 
     // 再生中のコード音声を停止
-    fadeChord(chordName: string) {
-        const duration = 200
+    stopChord(chordName: string) {
+        const duration = this.fadeDuration.chord
         this.playingChords.forEach(playingChord => {
             if (playingChord.chordName === chordName) {
                 playingChord.audios.forEach(audio => {
@@ -276,19 +269,6 @@ export class Gctx {
         this.rerenderUI()
     }
 
-    // 再生中のコード音声を停止
-    stopChord(chordName: string) {
-        this.fadeChord(chordName)
-        // this.playingChords.forEach(playingChord => {
-        //     if (playingChord.chordName === chordName) {
-        //         playingChord.audios.forEach(audio => {
-        //             audio.stop()
-        //         })
-        //         removeItemOnce(this.playingChords, playingChord)
-        //     }
-        // })
-        // this.rerenderUI()
-    }
 
     playRoman(n: number) {
         this.playChord(
