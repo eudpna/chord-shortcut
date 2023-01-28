@@ -3,7 +3,7 @@ import { Gctx } from "../Gctx"
 import { chordToName, guitarChords } from "./chords"
 import { get_diatonic_chords, next_key } from "./sound/scale"
 import { Solfa } from "./sound/solfa"
-import {v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 // const buttonLength = [12, 10]
 const buttonLength = 20

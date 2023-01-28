@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import TextareaAutosize from "react-textarea-autosize"
 import { Gctx } from "../../../game/Gctx"
 import { Klavier } from "../../../game/Klavier"
@@ -79,20 +80,33 @@ export const KlavierKeyEl: React.FC<{
     const klavier = gctx.klavier
     const kokken_num = klavier.keys.filter(key => key.isBlack).length
     const hakken_num = klavier.keys.filter(key => !key.isBlack).length
-    const key = props.thekey
+    const klavierKey = props.thekey
 
     const colorOn = '#fbb'
 
     // 押されている　または その音が鳴っている
-    const isDown = key.isDown || gctx.isSoundingTheNote(key.notenum)
+    const isDown = klavierKey.isDown || gctx.isSoundingTheNote(klavierKey.notenum)
 
 
-    const isInChordNote = gctx.soundingNoteAsChord().includes(key.notenum)
+    const isInChordNote = gctx.soundingNoteAsChord().includes(klavierKey.notenum)
 
-    return <div key={key.notenum} className={'cursor-pointer '+(key.isBlack ? 'inline-block relative' : "flex-1 relative")} style={!key.isBlack ? {
+
+    const ref = useRef(null)
+
+    useEffect(() => {
+        if (ref) {
+            klavierKey.ref = ref
+            gctx.rerenderUI()
+        }
+        return () => {
+            klavierKey.ref = null
+        };
+    }, [ref]);
+
+    return <div id={'#klavierKey-'+klavierKey.id} key={klavierKey.notenum} className={'cursor-pointer '+(klavierKey.isBlack ? 'inline-block relative' : "flex-1 relative")} style={!klavierKey.isBlack ? {
         border: 'solid 1px black',
         // backgroundColor: isDown ? colorOn : 'white',
-        backgroundColor: key.isDown ? 'red' : (gctx.isSoundingTheNote(key.notenum) ? 'blue' : 'white'),
+        backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.notenum) ? 'blue' : 'white'),
         color: 'black',
     } : {
         border: 'solid 1px black',
@@ -102,41 +116,33 @@ export const KlavierKeyEl: React.FC<{
         marginLeft: kokken_margin,
         marginRight: kokken_margin,
             // backgroundColor: isDown ? colorOn : 'black', 
-            backgroundColor: key.isDown ? 'red' : (gctx.isSoundingTheNote(key.notenum) ? 'blue' : 'black'),
+            backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.notenum) ? 'blue' : 'black'),
         color: 'white',
         pointerEvents: 'auto',
 
     }}
         onMouseDown={() => {
-            key.isDown = 1
-            gctx.playNote(key.notenum)
-            gctx.rerenderUI()
+            klavierKey.down()
         }}
         onMouseUp={() => {
-            key.isDown = 0
-            gctx.stopNote(key.notenum)
-            gctx.rerenderUI()
+            klavierKey.up()
         }}
         onMouseEnter={() => {
             if (!gctx.input.mouse.isDown) return
-            key.isDown = 1
-            gctx.playNote(key.notenum)
-            gctx.rerenderUI()
+            klavierKey.down()
         }}
         onMouseLeave={() => {
             if (!gctx.input.mouse.isDown) return
-            key.isDown = 0
-            gctx.stopNote(key.notenum)
-            gctx.rerenderUI()
+            klavierKey.up()
         }}
     >
-        {notenumToSolfa(key.notenum)}
+        {notenumToSolfa(klavierKey.notenum)}
         {isInChordNote ? 
         <div className="absolute rounded-full" style={{
             width: 20,
             height: 20,
             backgroundColor: 'red',
-            left: (hakken_width/hakken_num)/2 - 10 + (key.isBlack ? -9 : -1),
+            left: (hakken_width/hakken_num)/2 - 10 + (klavierKey.isBlack ? -9 : -1),
             bottom: 20,
         }}> 
         </div>  : null}

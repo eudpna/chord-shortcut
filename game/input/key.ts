@@ -35,7 +35,7 @@ export function setKeyEventListeners(gctx: Gctx) {
         // 既に押されていなかったら
         if (gctx.keybinds.map(keybind => keybind.qwerty.toLowerCase()).includes(key) &&
         !gctx.input.keys.includes(key)) {
-            console.log(key, gctx.qwertyKeyToNotenum(key.toUpperCase()), notenumToSolfa(gctx.qwertyKeyToNotenum(key.toUpperCase())))
+            (key, gctx.qwertyKeyToNotenum(key.toUpperCase()), notenumToSolfa(gctx.qwertyKeyToNotenum(key.toUpperCase())))
             // 対応するノートを鳴らす
             gctx.playNote(
                 gctx.qwertyKeyToNotenum(key.toUpperCase())

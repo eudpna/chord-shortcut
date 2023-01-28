@@ -2,7 +2,6 @@ import sanitize from "sanitize-filename"
 import { removeItemOnce } from "./lib/array"
 import { ChordData, chordToName, guitarChords } from "./lib/chords"
 import { copyToClipboard, downloadText, getUrlParameter, qwerty, strSplice, Vec2 } from "./lib/lib"
-import { Score, ScoreElementChord, textToScore, textToScoreSimpleNotation } from "./lib/score"
 import { get_diatonic_chords } from "./lib/sound/scale"
 import { Solfa, solfaFlatArr, solfaWholeArr } from "./lib/sound/solfa"
 import { playSounds } from "./lib/sound/sound"
@@ -80,7 +79,7 @@ export class Gctx {
     // ユーザー入力に関する状態データ
     input = new InputState
     
-    klavier: Klavier = new Klavier(48+7, 10)
+    klavier: Klavier = new Klavier(this, 48+7, 10)
 
     chordBtns: ChordBtns = new ChordBtns(this)
 
@@ -134,7 +133,6 @@ export class Gctx {
 
     setQwertyLang(qwertyLang: this['qwertyLang']) {
         this.qwertyLang = qwertyLang
-        console.log(this.qwerty())
         // for (let j = 0; j < 1; j ++) {
            
         for (let i = 0; i < 10; i++) {
@@ -146,7 +144,6 @@ export class Gctx {
             this.chordBtns.btns[10+i].qwerty = q
         }
         // }
-        console.log(this.chordBtns.btns)
         this.rerenderUI()
     }
 
@@ -163,10 +160,10 @@ export class Gctx {
             const i0 = solfaWholeArr.indexOf(solfaFlatArr[this.noteRange.start % 12])
             // ddは[今のsolfa]の度数
             const dd = i0 + i
-            console.log('i0:', i0, ' dd:', dd, ' i:', i)
+            // console.log('i0:', i0, ' dd:', dd, ' i:', i)
             // flatが存在するなら
             if ([1,2,4,5,6].includes(dd % 7)) {
-                console.log('flatが存在します')
+                // console.log('flatが存在します')
                 keybinds.push({
                     qwerty: qwerty1Flatify[q],
                     notenum: j + (i === 0 ? -1 : 0)
@@ -181,7 +178,7 @@ export class Gctx {
         })
 
 
-        console.log(keybinds)
+        // console.log(keybinds)
         this.keybinds = keybinds
     }
 
@@ -220,7 +217,7 @@ export class Gctx {
             })
         this.playingNotes.push()
         this.rerenderUI()
-        console.log(this.playingNotes)
+        // console.log(this.playingNotes)
     }
 
     // 再生中のノートを停止

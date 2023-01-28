@@ -9,18 +9,26 @@ export function setMouseEventListeners(gctx: Gctx) {
         gctx.input.mouse.isDown = false
     })
 
-    // マウスが離れていたらchordBtnを離す
+    // chordBtn,klavierKeyからマウスが離れていたら離す
     window.addEventListener('mousemove', (e) => {
-        console.log((e.target as HTMLElement).closest('#chordBtn-' + gctx.chordBtns.btns[0].id))
+        // console.log((e.target as HTMLElement).closest('#chordBtn-' + gctx.chordBtns.btns[0].id))
         gctx.chordBtns.btns.forEach(chordBtn => {
             if (!chordBtn.ref || !chordBtn.ref.current) return
             if ((e.target as HTMLElement).closest('#chordBtn-'+chordBtn.id)) {
             } else {
                 if (chordBtn.isDown) {
                     chordBtn.up()
-                    console.log('up!')
                 }
-                
+            }
+        })
+
+        gctx.klavier.keys.forEach(klavierKey => {
+            if (!klavierKey.ref || !klavierKey.ref.current) return
+            if ((e.target as HTMLElement).closest('#klavierKey-' + klavierKey.id)) {
+            } else {
+                if (klavierKey.isDown) {
+                    klavierKey.up()
+                }
             }
         })
     })

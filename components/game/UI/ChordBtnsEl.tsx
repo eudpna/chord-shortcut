@@ -20,6 +20,7 @@ export const ChordBtnEl: React.FC<{
     useEffect(() => {
         if (ref) {
             chordBtn.ref = ref
+            gctx.rerenderUI()
         }
         return () => {
             chordBtn.ref = null
