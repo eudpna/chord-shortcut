@@ -82,7 +82,8 @@ export class Gctx {
     // ユーザー入力に関する状態データ
     input = new InputState
     
-    klavier: Klavier = new Klavier(this, 48+7, 10)
+    // klavier: Klavier = new Klavier(this, 48 + 7, 10)
+    klavier: Klavier = new Klavier(this, 48, 12 * 2)
 
     chordBtns: ChordBtns = new ChordBtns(this)
 
@@ -130,6 +131,8 @@ export class Gctx {
         this.makeKeybinds()
         this.chordBtns.setDiatonic(this.key)
         this.setQwertyLang('us')
+
+        console.log(this.klavier)
 
 
         // this.resourceLoader.setOnStateChange((resource, precent) => {
