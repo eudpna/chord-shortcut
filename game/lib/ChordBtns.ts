@@ -1,6 +1,9 @@
+import { MutableRefObject } from "react"
+import { Gctx } from "../Gctx"
 import { chordToName, guitarChords } from "./chords"
 import { get_diatonic_chords, next_key } from "./sound/scale"
 import { Solfa } from "./sound/solfa"
+import {v4 as uuidv4} from 'uuid'
 
 // const buttonLength = [12, 10]
 const buttonLength = 20
@@ -20,14 +23,32 @@ export class ChordBtn {
     chordName: string | null = null
     qwerty: string | null = null
     isDown: boolean = false
+    ref: MutableRefObject<any> | null
+    id = uuidv4()
+
+    constructor(public gctx: Gctx) {
+        
+    }
+
+    down() {
+        this.isDown = true
+        this.gctx.playChord(this.chordName)
+        this.gctx.rerenderUI()
+    }
+
+    up() {
+        this.isDown = false
+        this.gctx.stopChord(this.chordName)
+        this.gctx.rerenderUI()
+    }
 }
 
 export class ChordBtns {
     btns: ChordBtn[] = []
 
-    constructor() {
+    constructor(gctx: Gctx) {
         this.btns = Array.from(Array(buttonLength)).map(() => {
-            return new ChordBtn
+            return new ChordBtn(gctx)
         })
     }
 

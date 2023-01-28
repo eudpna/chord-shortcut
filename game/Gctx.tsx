@@ -82,7 +82,7 @@ export class Gctx {
     
     klavier: Klavier = new Klavier(48+7, 10)
 
-    chordBtns: ChordBtns = new ChordBtns
+    chordBtns: ChordBtns = new ChordBtns(this)
 
     qwertyLang: 'jis' | 'us'
 
