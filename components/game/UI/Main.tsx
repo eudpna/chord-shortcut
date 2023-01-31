@@ -2,6 +2,7 @@ import Head from "next/head"
 import React, { useEffect, useState } from "react"
 import { Gctx } from "../../../game/Gctx"
 import { ChordBtns } from "../../../game/lib/ChordBtns"
+import useMIDI from "../../../game/lib/useMIDI"
 import { sampleScores } from "../../../game/sample"
 import { A } from "../../A"
 import { CopyIcon } from "../../icons/CopyIcon"
@@ -16,6 +17,12 @@ export const Main: React.FC<{
     gctx: Gctx
 }> = (props) => {
     const gctx = props.gctx
+
+    useMIDI((note, _) => {
+        gctx.playNote(note)
+    }, (note) => {
+        gctx.stopNote(note)
+    })
 
     return <div className="pt-4 px-2 pb-3 max-w-3xl mx-auto">
 

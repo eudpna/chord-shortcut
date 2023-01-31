@@ -4,7 +4,6 @@ import { ChordData, chordToName, guitarChords } from "./lib/chords"
 import { copyToClipboard, downloadText, getUrlParameter, qwerty, strSplice, Vec2 } from "./lib/lib"
 import { get_diatonic_chords } from "./lib/sound/scale"
 import { Solfa, solfaFlatArr, solfaWholeArr } from "./lib/sound/solfa"
-import { playSounds } from "./lib/sound/sound"
 import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
 import { Klavier } from "./Klavier"
@@ -14,6 +13,9 @@ import { ResourceLoader } from "../lib/ResourceLoader"
 
 import audioList from '../script/resource/audioList.json'
 import { Pitch } from "../lib/music/Pitch"
+import webmidi, {WebMidi} from 'webmidi'
+import { useWebMidi } from "./lib/midi"
+import { playNote } from "./lib/sound/sound"
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
@@ -77,6 +79,16 @@ const qwerty1Flatify = {
 
 
 export class Gctx {
+    midiInputs: webmidi.Input[] = []
+
+    midiChannels: {
+        input: number
+        output: number
+    } = {
+        input: 0,
+        output: 0,
+    }
+    
     key: Solfa = 'C'
     // playingChords: string[] = []
 
@@ -123,29 +135,18 @@ export class Gctx {
         this.chordBtns.setDiatonic(this.key)
         this.setQwertyLang('us')
 
-        console.log(this.klavier)
-
-
-        // this.resourceLoader.setOnStateChange((resource, precent) => {
-        //     this.rerenderUI()
-        // })
         audioList.map(src => {
             this.resourceLoader.load(src, 'audio', (resource, percent) => {
                 this.loadedPercentage = percent
                 if (percent === 100) {
                     this.showLoadingProgress = false
                     this.rerenderUI()
-                    // setTimeout(() => {
-                    //     this.showLoadingProgress = false
-                    //     this.rerenderUI()
-                    // }, 1000);
                 }
                 this.rerenderUI()
-                // console.log(percent+'% loaded.')
             })
         })
         
-
+        useWebMidi(this)
 
         rerenderUI()
     }
@@ -163,7 +164,6 @@ export class Gctx {
 
     setQwertyLang(qwertyLang: this['qwertyLang']) {
         this.qwertyLang = qwertyLang
-        // for (let j = 0; j < 1; j ++) {
         
         // コードにキーを割り当て
         for (let i = 0; i < 10; i++) {
@@ -177,8 +177,7 @@ export class Gctx {
 
 
         // ノートにキーを割り当て
-        const startNote = 48+7
-        // const offset = 1
+        const startNote = 48+7        
         const whiteKeys = this.klavier.keys.filter(key => key.pitch.isWholeTone)
         const dan = [1,2]
         let j = startNote
@@ -223,24 +222,21 @@ export class Gctx {
     }
 
     // ノートを再生
-    playNote(notenum: number) {
-        this.playSounds([notenum], this.soundTypes.melody)
-            .then((howlers) => {
-                const playingNote = {
-                    notenum: notenum,
-                    audio: howlers[0],
-                }
-                this.playingNotes.push(playingNote)
-                this.rerenderUI()
-                setTimeout(() => {
-                    // playingNote.audio.stop()
-                    removeItemOnce(this.playingNotes, playingNote)
-                    this.rerenderUI()
-                }, 3000);
-            })
-        this.playingNotes.push()
+    playNote(noteNumber: number, velocity: number = 0.5) {
+        const howl = playNote(this.soundTypes.melody, noteNumber, velocity)
+
+        const playingNote = {
+            notenum: noteNumber,
+            audio: howl,
+        }
+        this.playingNotes.push(playingNote)
         this.rerenderUI()
-        // console.log(this.playingNotes)
+        setTimeout(() => {
+            removeItemOnce(this.playingNotes, playingNote)
+            this.rerenderUI()
+        }, 3000);
+
+        this.rerenderUI()
     }
 
     // 再生中のノートを停止
@@ -305,24 +301,26 @@ export class Gctx {
 
         if (!chord) return
 
-        this.playSounds(chord.positions[0].midi, this.soundTypes.chord)
-            .then((howlers) => {
-                const playingChord = {
-                    chordName: chordName,
-                    audios: howlers
-                }
-                this.playingChords.push(playingChord)
-                this.rerenderUI()
-                setTimeout(() => {
-                    removeItemOnce(this.playingChords, playingChord)
-                    this.rerenderUI()
-                }, 3000);
-            })
+        const howlers = chord.positions[0].midi.map(noteNumber => {
+            return playNote(this.soundTypes.chord, noteNumber, 0.5)
+        })
+    
+        const playingChord = {
+            chordName: chordName,
+            audios: howlers
+        }
+        this.playingChords.push(playingChord)
+        this.rerenderUI()
+        setTimeout(() => {
+            removeItemOnce(this.playingChords, playingChord)
+            this.rerenderUI()
+        }, 3000);
+    
         this.rerenderUI()
     }
 
 
-    playSounds(keyIds: number[], soundType: SoundType) {
-        return playSounds(soundType, keyIds)
-    }
+    // playSounds(keyIds: number[], soundType: SoundType) {
+    //     return playSounds(soundType, keyIds)
+    // }
 }

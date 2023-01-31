@@ -4,8 +4,6 @@ import { Gctx } from "../../../game/Gctx"
 import { Klavier } from "../../../game/Klavier"
 import { Pitch } from "../../../lib/music/Pitch"
 
-
-// const hakken_width = 500
 const hakken_width = 46
 
 const kokken_margin = 7.5
@@ -16,15 +14,10 @@ export const KlavierEl: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
     const klavier = gctx.klavier
-
-    // const kokken_num = klavier.keys.filter(key => key.pitch.isBlack).length
     const hakken_num = klavier.keys.filter(key => key.pitch.isWholeTone).length
 
-    // const kokken_sum_width = 
 
-    return <div className="text-sm p-0 noselect" style={{
-        // marginTop: 150,
-    }}>
+    return <div className="text-sm p-0 noselect" style={{}}>
 
 
         {/* 白鍵 */}
@@ -32,7 +25,6 @@ export const KlavierEl: React.FC<{
             height: 200,
             width: hakken_width * hakken_num,
             zIndex: 0,
-            // backgroundColor: 'blue',
         }}>
             {klavier.keys.map(key => {
                 if (!key.pitch.isWholeTone) return null
@@ -47,19 +39,13 @@ export const KlavierEl: React.FC<{
             width: hakken_width * hakken_num * 2,
             zIndex: 2,
             marginTop: -200,
-            // marginLeft: hakken_width / 2
             marginLeft: -hakken_width/2
-            // background: 'red'
         }}>
             {klavier.keys.map(klavierKey => {
-                // if (!key.isBlack) return
-                console.log('isWhole', klavierKey.pitch.isWholeTone)
                 if (klavierKey.pitch.isWholeTone) {
-                    console.log('a', klavierKey.pitch.hasFlat())
                     if (klavierKey.pitch.hasFlat()) {
                         return null
                     } 
-                    // return null
                     return <div key={klavierKey.pitch.noteNumber} className="inline-block" style={{
                         width: hakken_width,
                         height: 130,
