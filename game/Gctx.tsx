@@ -101,7 +101,7 @@ export class Gctx {
     input = new InputState
     
     // klavier: Klavier = new Klavier(this, 48 + 7, 10)
-    klavier: Klavier = new Klavier(this, 21, 108 - 21)
+    klavier: Klavier = new Klavier(this, 22, 108 - 22)
 
     chordBtns: ChordBtns = new ChordBtns(this)
 
@@ -152,6 +152,7 @@ export class Gctx {
         })
         
         useWebMidi(this)
+
 
         rerenderUI()
     }
