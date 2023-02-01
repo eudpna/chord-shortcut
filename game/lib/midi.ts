@@ -25,7 +25,9 @@ export function useWebMidi(gctx: Gctx) {
     const noteon = (e: webmidi.NoteMessageEvent) => {
         // console.log('channel is', e.target, gctx.getMidiInputChannel())
         // console.log(e, e.target)
-        if (e.port === gctx.selectedMidiInput) {
+        if (gctx.selectedMidiInput === 'off') return
+        
+        if (gctx.selectedMidiInput === 'all' || e.port === gctx.selectedMidiInput) {
             gctx.playNote(e.note.number, e.note.attack)
         }
         // if (e.target === gctx.getMidiInputChannel()) {

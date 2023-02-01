@@ -17,6 +17,9 @@ import webmidi, {WebMidi} from 'webmidi'
 import { midiInputIdToIndex, useWebMidi } from "./lib/midi"
 import { playNote } from "./lib/sound/sound"
 
+// import tonal from 'tonal'
+// import {Chord} from 'tonal'
+
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
 export type playingChord = {
@@ -81,7 +84,7 @@ const qwerty1Flatify = {
 export class Gctx {
     midiInputs: webmidi.Input[] = []
 
-    selectedMidiInput: webmidi.Input | null = null
+    selectedMidiInput: webmidi.Input | 'off' | 'all' = 'all'
 
     // midiChannels: {
     //     input: string
@@ -110,7 +113,7 @@ export class Gctx {
         chord: SoundType
         melody: SoundType
     } = {
-        chord: 'piano',
+        chord: 'epiano',
         melody: 'epiano'
     }
 
@@ -313,7 +316,12 @@ export class Gctx {
     }
 
     playChord(chordName: string) {
+
+
         if (!chordName) return
+
+
+        // console.log(tonal.Chord.getChord(chordName).notes)
 
         const chord = guitarChords.getChordByName(chordName)
 

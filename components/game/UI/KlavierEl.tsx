@@ -5,6 +5,8 @@ import { Gctx } from "../../../game/Gctx"
 import { Klavier } from "../../../game/Klavier"
 import { Pitch } from "../../../lib/music/Pitch"
 
+// import tonal from 'tonal'
+
 const hakken_width = 46
 
 const kokken_margin = 7.5
@@ -180,3 +182,40 @@ export const KlavierKeyEl: React.FC<{
 }
 
 const indicator_width = 24
+
+
+// const c4m7 = tonal.Chord.degrees("C4m7");
+// c4m7(1); // => "C4"
+// c4m7(2); // => "Eb4"
+// c4m7(3); // => "G4"
+// c4m7(4); // => "Bb4"
+// c4m7(1); // => "C5"
+
+// console.log(tonal.Chord.getChord().notes)
+
+// export function getChordDegree(chordName: string) {
+//     const tmp = tonal.Chord.degrees(chordName);
+//     tmp()
+// }
+
+// 
+
+
+
+
+// // chordTonesはコードの構成音
+// export function getChordDegree(rootNote: number, chordTones: number[]) {
+//     // const tmp = tonal.Chord.degrees("");
+//     const arr = chordTones.map(noteNumber => {
+//         return new Pitch(noteNumber).solfa.solfaNumber
+//     }).sort((a, b) => {
+//         return a - b
+//     })
+
+//     const tmp = new Pitch(rootNote).solfa.solfaNumber
+//     // solfaNumberのリスト(正しい順序)
+//     const solfaNumList = arr.filter(n => n >= tmp).concat(arr.filter(n => n < tmp))
+
+
+//     // chordTones
+// }

@@ -27,6 +27,7 @@
     "react-textarea-autosize": "^8.3.3",
     "sanitize-filename": "^1.6.3",
     "tailwindcss": "^2.0.2",
+    "tonal": "^4.14.0",
     "uuid": "^9.0.0",
     "webmidi": "^3"
   },
