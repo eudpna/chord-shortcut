@@ -9,6 +9,7 @@ import { CopyIcon } from "../../icons/CopyIcon"
 import { ChordBtnsEl } from "./ChordBtnsEl"
 import { KeySetting } from "./KeySetting"
 import { KlavierEl } from "./KlavierEl"
+import { LoadChordMemoEl } from "./LoadChordMemoEl"
 import { Setting } from "./Setting"
 
 
@@ -25,7 +26,9 @@ export const Main: React.FC<{
     //     gctx.stopNote(note)
     // })
 
-    return <div className="pt-4 px-2 pb-3 max-w-3xl mx-auto">
+    return <div className="pt-4 px-2 pb-3 max-w-3xl mx-auto" style={{
+        
+    }}>
 
         {gctx.showLoadingProgress ? 
             <div className="right-0 top-0 absolute p-1 px-2">音声をロード中 {gctx.loadedPercentage}%</div>
@@ -52,6 +55,9 @@ export const Main: React.FC<{
             </div>
             <div className="mt-28">
                 <Setting gctx={gctx} />
+            </div>
+            <div className="mt-6">
+                <LoadChordMemoEl gctx={gctx} />
             </div>
         </div>
     </div>

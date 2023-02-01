@@ -16,6 +16,8 @@ import { Pitch } from "../lib/music/Pitch"
 import webmidi, {WebMidi} from 'webmidi'
 import { midiInputIdToIndex, useWebMidi } from "./lib/midi"
 import { playNote } from "./lib/sound/sound"
+import { parseChordMemoURL } from "./lib/chordMemo/parseChordMemoURL"
+import { loadChordMemo } from "./lib/chordMemo/loadChordMemo"
 
 // import tonal from 'tonal'
 // import {Chord} from 'tonal'
@@ -86,6 +88,8 @@ export class Gctx {
 
     selectedMidiInput: webmidi.Input | 'off' | 'all' = 'all'
 
+    chordMemoURL: string = ''
+
     // midiChannels: {
     //     input: string
     //     output: string
@@ -137,7 +141,7 @@ export class Gctx {
     constructor(public rerenderUI: Function) {
         setKeyEventListeners(this)
         setMouseEventListeners(this)
-        this.chordBtns.setDiatonic(this.key)
+        this.chordBtns.setDiatonic()
         this.setQwertyLang('us')
 
         audioList.map(src => {
@@ -173,9 +177,21 @@ export class Gctx {
     //     ]
     // }
 
+    loadChordMemo() {
+        const chordNames = loadChordMemo(this.chordMemoURL)
+
+        this.chordBtns.setChordNameList(chordNames)
+
+        this.rerenderUI()
+    }
+
+    // isChordMemoURLValid(): boolean {
+    //     return true
+    // }
+
     setKey(key: Solfa) {
         this.key = key
-        this.chordBtns.setDiatonic(this.key)
+        this.chordBtns.setDiatonic()
         this.rerenderUI()
     }
 
@@ -344,10 +360,15 @@ export class Gctx {
         }, 3000);
     
         this.rerenderUI()
+
+
     }
+
+
 
 
     // playSounds(keyIds: number[], soundType: SoundType) {
     //     return playSounds(soundType, keyIds)
     // }
 }
+

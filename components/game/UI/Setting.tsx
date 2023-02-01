@@ -16,6 +16,7 @@ export const Setting: React.FC<{
             設定
         </div>
         <div className="pl-2">
+
         <div>
             MIDI入力：
             <select value={typeof gctx.selectedMidiInput === 'string' ? gctx.selectedMidiInput : gctx.selectedMidiInput.id} className="rounded border-gray-400 px-2 bg-white" style={{
@@ -37,6 +38,8 @@ export const Setting: React.FC<{
                 })}
             </select>
         </div>
+
+        
         </div>
     </div>
 }

@@ -19,7 +19,7 @@ const diatonic = [
 
 
 export class ChordBtn {
-    keybind: string = ''
+    chordNameInput: string = ''
     chordName: string | null = null
     qwerty: string | null = null
     isDown: boolean = false
@@ -46,16 +46,17 @@ export class ChordBtn {
 export class ChordBtns {
     btns: ChordBtn[] = []
 
-    constructor(gctx: Gctx) {
+    constructor(public gctx: Gctx) {
         this.btns = Array.from(Array(buttonLength)).map(() => {
             return new ChordBtn(gctx)
         })
     }
 
-    keybindToChordName(key: Solfa) {
+    make() {
+        const key = this.gctx.key
         this.btns.map(btn => {
             // ローマ数字をsolfaに変換
-            const n1 = btn.keybind
+            const n1 = btn.chordNameInput
                 .replace(roman_numeric[6], next_key(key, 11))
                 .replace(roman_numeric[5], next_key(key, 9))
                 .replace(roman_numeric[3], next_key(key, 5))
@@ -71,10 +72,28 @@ export class ChordBtns {
         })
     }
 
-    setDiatonic(key: Solfa) {
+    setDiatonic() {
         for (let i = 0; i < 7; i ++) {
-            this.btns[i].keybind = diatonic[i]
-            this.keybindToChordName(key)
+            this.btns[i].chordNameInput = diatonic[i]
+            this.make()
         }
+    }
+
+    clearBtns() {
+        this.btns.forEach(btn => {
+            btn.chordNameInput = ''
+        })
+        this.make()
+        this.gctx.rerenderUI()
+    }
+
+    setChordNameList(chordNames: string[]) {
+        this.clearBtns()
+
+        chordNames.forEach((chordName, i) => {
+            this.btns[i].chordNameInput = chordName
+        })
+
+        this.make()
     }
 }

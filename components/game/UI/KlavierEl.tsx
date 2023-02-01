@@ -11,6 +11,8 @@ const hakken_width = 46
 
 const kokken_margin = 7.5
 
+const hakken_height = 200
+
 
 
 
@@ -23,14 +25,17 @@ export const KlavierEl: React.FC<{
     const hakken_num = klavier.keys.filter(key => key.pitch.isWholeTone).length
 
     return <div className="text-sm p-0 noselect" style={{
-        marginLeft: -800
+        marginLeft: -800,
+
+        height: hakken_height,
+        // overflowY: 'visible',
         // marginLeft: (hakken_width * hakken_num) / 2
     }}>
 
 
         {/* 白鍵 */}
         <div className="flex" style={{
-            height: 200,
+            height: hakken_height,
             width: hakken_width * hakken_num,
             zIndex: 0,
         }}>
@@ -43,6 +48,7 @@ export const KlavierEl: React.FC<{
         {/* 黒鍵 */}
         <div className="flex" style={{
             height: 130,
+            
             pointerEvents: 'none',
             width: hakken_width * hakken_num * 2,
             zIndex: 2,

@@ -67,9 +67,9 @@ export const ChordBtnEl: React.FC<{
                 border: 'solid 1px #ddd',
                 color: '#555',
             }}>
-                <input type="text" className="px-1" value={chordBtn.keybind} onChange={(e) => {
-                    chordBtn.keybind = e.target.value
-                    gctx.chordBtns.keybindToChordName(gctx.key)
+                <input type="text" className="px-1" value={chordBtn.chordNameInput} onChange={(e) => {
+                    chordBtn.chordNameInput = e.target.value
+                    gctx.chordBtns.make()
                     gctx.rerenderUI()
                 }} style={{
                     width: '100%'

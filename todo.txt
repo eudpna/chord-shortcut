@@ -1,12 +1,16 @@
 
 
 
+ChordMemoの譜面を読み込む
+U-FRETの譜面を読み込む
 
 
 U-FRETとの連携？
 MIDI鍵盤をコードに割り当てる
 URLで保存・共有できるように
 MIDI出力に対応?
+
+Undo/Redo
 
 
 mp3をもっと高い音まで作る
