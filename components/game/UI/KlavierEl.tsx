@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react"
 import TextareaAutosize from "react-textarea-autosize"
+import { conf } from "../../../game/conf"
 import { Gctx } from "../../../game/Gctx"
 import { Klavier } from "../../../game/Klavier"
 import { Pitch } from "../../../lib/music/Pitch"
@@ -7,6 +8,9 @@ import { Pitch } from "../../../lib/music/Pitch"
 const hakken_width = 46
 
 const kokken_margin = 7.5
+
+
+
 
 
 export const KlavierEl: React.FC<{
@@ -105,13 +109,15 @@ export const KlavierKeyEl: React.FC<{
             height: 130,
         }} ></div>
     }
+
+    const isSounding = klavierKey.isDown || gctx.isSoundingTheNote(klavierKey.pitch.noteNumber)
     
 
     return <div id={'#klavierKey-'+klavierKey.id} key={klavierKey.pitch.noteNumber} className={'cursor-pointer '+(klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {
         // 白鍵のスタイル
         border: 'solid 1px black',
-        // backgroundColor: isDown ? colorOn : 'white',
-        backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.pitch.noteNumber) ? 'blue' : 'white'),
+        // backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.pitch.noteNumber) ? 'blue' : 'white'),
+        backgroundColor: isSounding ? conf.colors.red_dark : 'white',
         color: 'black',
     } : {
         // 黒鍵のスタイル
@@ -121,8 +127,8 @@ export const KlavierKeyEl: React.FC<{
         width: hakken_width - (kokken_margin * 2),
         marginLeft: kokken_margin,
         marginRight: kokken_margin,
-        // backgroundColor: isDown ? colorOn : 'black', 
-        backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.pitch.noteNumber) ? 'blue' : 'black'),
+        // backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.pitch.noteNumber) ? 'blue' : 'black'),
+        backgroundColor: isSounding ? conf.colors.red_dark : 'black',
         color: 'white',
         pointerEvents: 'auto',
 
@@ -153,16 +159,21 @@ export const KlavierKeyEl: React.FC<{
             {klavierKey.qwerty}
         </div>
 
+        
+
         {/* コードノートのときの丸いインジケータ */}
         {isInChordNote ? 
         <div className="absolute rounded-full" style={{
-            width: 20,
-            height: 20,
-            backgroundColor: 'red',
-            left: (hakken_width)/2 - 10 + (klavierKey.pitch.isWholeTone ? -9 : -1),
+            width: indicator_width,
+            height: indicator_width,
+            backgroundColor: conf.colors.blue_dark,
+            // left: (hakken_width)/2 - 10 + (klavierKey.pitch.isWholeTone ? -9 : -1),
+            left: hakken_width/2-(indicator_width/2)-1,
             bottom: 20,
         }}> 
         </div>  : null}
     </div>
 
 }
+
+const indicator_width = 24

@@ -1,13 +1,12 @@
-import imgList from '../script/resource/imgList.json'
-import audioList from '../script/resource/audioList.json'
-
-const fileNumToLoad = imgList.length + audioList.length
 
 
-
-
-const conf = {  
+export const conf = {  
+    colors: {
+        red_dark: '#91130f',
+        // red_dark: '#ed817e',
+        // blue_dark: '#19207d',
+        // blue_dark: '#404bde'
+        blue_dark: '#737dff'
+    }
 }
-
-export default conf
 

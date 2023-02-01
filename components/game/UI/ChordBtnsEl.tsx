@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useRef } from "react"
 import TextareaAutosize from "react-textarea-autosize"
+import { conf } from "../../../game/conf"
 import { Gctx } from "../../../game/Gctx"
 import { Klavier } from "../../../game/Klavier"
 import { ChordBtn } from "../../../game/lib/ChordBtns"
@@ -27,6 +28,8 @@ export const ChordBtnEl: React.FC<{
         };
     }, [ref]);
 
+    const isSounding = chordBtn.isDown || gctx.isSoundingTheChord(chordBtn.chordName)
+
 
     return <div
         id={'chordBtn-'+chordBtn.id}
@@ -38,7 +41,8 @@ export const ChordBtnEl: React.FC<{
             border: 'solid 1px black',
             marginBottom: 40,
             marginRight: 5,
-            backgroundColor: chordBtn.isDown ? 'red' : (gctx.isSoundingTheChord(chordBtn.chordName) ? 'blue' : 'white'),
+            // backgroundColor: chordBtn.isDown ? 'red' : (gctx.isSoundingTheChord(chordBtn.chordName) ? 'blue' : 'white'),
+            backgroundColor: isSounding ? conf.colors.blue_dark : 'white'
         }}
             onMouseDown={() => {
                 chordBtn.down()
