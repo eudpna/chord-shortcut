@@ -87,7 +87,10 @@ export const KlavierKeyEl: React.FC<{
     // const isDown = klavierKey.isDown || gctx.isSoundingTheNote(klavierKey.noteNumber)
 
 
-    const isInChordNote = gctx.soundingNoteAsChord().includes(klavierKey.pitch.noteNumber)
+    // const isInChordNote = gctx.soundingNoteAsChord().includes(klavierKey.pitch.noteNumber)
+
+    const isInChordNote = gctx.soundingNoteAsChord().map(noteNumber => new Pitch(noteNumber).solfa.solfaNumber).includes(klavierKey.pitch.solfa.solfaNumber)
+    // .includes(klavierKey.pitch.noteNumber)
 
 
     const ref = useRef(null)
@@ -149,7 +152,7 @@ export const KlavierKeyEl: React.FC<{
         }}
     >
         {/* 名前 */}
-        {klavierKey.pitch.solfa.solfaName}
+        {/* {klavierKey.pitch.solfa.solfaName} */}
 
         {/* qwerty */}
         <div className="text-xs text-gray absolute" style={{
