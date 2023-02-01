@@ -22,8 +22,12 @@ export const KlavierEl: React.FC<{
     const klavier = gctx.klavier
     const hakken_num = klavier.keys.filter(key => key.pitch.isWholeTone).length
 
+    console.log(hakken_width, hakken_num)
 
-    return <div className="text-sm p-0 noselect" style={{}}>
+    return <div className="text-sm p-0 noselect" style={{
+        marginLeft: -800
+        // marginLeft: (hakken_width * hakken_num) / 2
+    }}>
 
 
         {/* 白鍵 */}

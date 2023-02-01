@@ -101,7 +101,7 @@ export class Gctx {
     input = new InputState
     
     // klavier: Klavier = new Klavier(this, 48 + 7, 10)
-    klavier: Klavier = new Klavier(this, 48+5, 12 * 2)
+    klavier: Klavier = new Klavier(this, 21, 108 - 21)
 
     chordBtns: ChordBtns = new ChordBtns(this)
 
