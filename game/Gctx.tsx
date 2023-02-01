@@ -329,7 +329,7 @@ export class Gctx {
         if (!chord) return
 
         const howlers = chord.positions[0].midi.map(noteNumber => {
-            return playNote(this.soundTypes.chord, noteNumber, 0.5)
+            return playNote(this.soundTypes.chord, noteNumber, 0.3)
         })
     
         const playingChord = {

@@ -6,7 +6,7 @@ import { Pitch } from '../../lib/music/Pitch'
 const pianoMP3NoteDuration = 3
 
 
-main('epiano.mp3', 'epiano')
+main('piano.mp3', 'piano')
 
 function main(filename:string, dirname:string) {
 
