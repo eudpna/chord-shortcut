@@ -7,6 +7,7 @@ import { sampleScores } from "../../../game/sample"
 import { A } from "../../A"
 import { CopyIcon } from "../../icons/CopyIcon"
 import { ChordBtnsEl } from "./ChordBtnsEl"
+import { KeySetting } from "./KeySetting"
 import { KlavierEl } from "./KlavierEl"
 import { Setting } from "./Setting"
 
@@ -18,11 +19,11 @@ export const Main: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
 
-    useMIDI((note, _) => {
-        gctx.playNote(note)
-    }, (note) => {
-        gctx.stopNote(note)
-    })
+    // useMIDI((note, _) => {
+    //     gctx.playNote(note)
+    // }, (note) => {
+    //     gctx.stopNote(note)
+    // })
 
     return <div className="pt-4 px-2 pb-3 max-w-3xl mx-auto">
 
@@ -41,7 +42,7 @@ export const Main: React.FC<{
                 
             </div> */}
             <div className="mt-4">
-                <Setting gctx={gctx} />
+                <KeySetting gctx={gctx} />
             </div>
             <div className="mt-20">
                 <ChordBtnsEl gctx={gctx} />
@@ -49,7 +50,9 @@ export const Main: React.FC<{
             <div className="mt-4">
                 <KlavierEl gctx={gctx} />
             </div>
-            
+            <div className="mt-28">
+                <Setting gctx={gctx} />
+            </div>
         </div>
     </div>
 }

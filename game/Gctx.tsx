@@ -14,7 +14,7 @@ import { ResourceLoader } from "../lib/ResourceLoader"
 import audioList from '../script/resource/audioList.json'
 import { Pitch } from "../lib/music/Pitch"
 import webmidi, {WebMidi} from 'webmidi'
-import { useWebMidi } from "./lib/midi"
+import { midiInputIdToIndex, useWebMidi } from "./lib/midi"
 import { playNote } from "./lib/sound/sound"
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
@@ -81,13 +81,15 @@ const qwerty1Flatify = {
 export class Gctx {
     midiInputs: webmidi.Input[] = []
 
-    midiChannels: {
-        input: number
-        output: number
-    } = {
-        input: 0,
-        output: 0,
-    }
+    selectedMidiInput: webmidi.Input | null = null
+
+    // midiChannels: {
+    //     input: string
+    //     output: string
+    // } = {
+    //     input: '',
+    //     output: '',
+    // }
     
     key: Solfa = 'C'
     // playingChords: string[] = []
@@ -150,6 +152,22 @@ export class Gctx {
 
         rerenderUI()
     }
+
+    getMidiInputById(id: string): webmidi.Input | null {
+        let result: webmidi.Input = null
+        this.midiInputs.forEach(midiInput => {
+            if (midiInput.id === id) {
+                result = midiInput
+            }
+        })
+        return result
+    }
+
+    // getMidiInputChannel() {
+    //     return this.midiInputs[
+    //         midiInputIdToIndex(this, this.midiChannels.input)
+    //     ]
+    // }
 
     setKey(key: Solfa) {
         this.key = key
