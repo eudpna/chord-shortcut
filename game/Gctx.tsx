@@ -96,6 +96,8 @@ export class Gctx {
 
     undoText: string | null = null
 
+    chordSortMethod: 'appearance' | 'frequency' = 'appearance'
+
     // midiChannels: {
     //     input: string
     //     output: string
@@ -223,7 +225,19 @@ export class Gctx {
     // }
 
     loadChordMemo() {
-        const chordNames = loadChordMemo(this.chordMemoURL)
+        const chordInfos = loadChordMemo(this.chordMemoURL)
+
+        if (chordInfos === null) return
+
+        if (this.chordSortMethod === 'frequency') {
+            chordInfos.sort((a, b) => {
+                return b.count - a.count
+            })
+        }
+
+        const chordNames = chordInfos.map(c => c.chordName)
+
+        
 
         // chordNames.join(' ')
 
