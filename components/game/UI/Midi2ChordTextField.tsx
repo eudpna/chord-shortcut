@@ -36,11 +36,13 @@ export const Midi2ChordTextField: React.FC<{
                 </div>
                 <div>
                     <div className="inline-block  p-1">
-                        {gctx.midi2chord.map((m,i) => {                                             return <div key={m===null?i:m.noteNumbers+m.chordName} style={{
+                        {gctx.midi2chord.map((m,i) => {                                             return <div key={m===null?i:m.noteNumbers+m.chordName} className="" style={{
                                 lineHeight: 1.5,
                                 color: '#26e045'
                             }}>
-                               {m === null ? '　' : 'valid'}
+                                <span className="text-sm">
+                                {m === null ? '　' : '有効'}
+                                </span>
                             </div>
                         })}
                     </div>

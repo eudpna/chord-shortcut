@@ -6,3 +6,15 @@ export function removeItemOnce<T>(arr: T[], value: T) {
     }
     return arr;
 }
+
+export function removeItemAll<T>(arr: T[], value: T) {
+    let i = 0;
+    while (i < arr.length) {
+        if (arr[i] === value) {
+            arr.splice(i, 1);
+        } else {
+            ++i;
+        }
+    }
+    return arr;
+}

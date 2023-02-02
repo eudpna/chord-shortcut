@@ -26,7 +26,6 @@ export function parseLine(line: string): [number[], string] | null {
 
 
     // noteNumbersのvalidation
-    console.log('notenumbers is', noteNumbers)
     const noteNumbersisValid = noteNumbers.filter(noteNumber => {
         return isNumeric(noteNumber) && 0 < Number(noteNumber) && Number(noteNumber) < 128 && Number(noteNumber) % 1 === 0
     }).length === noteNumbers.length
