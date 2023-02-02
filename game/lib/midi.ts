@@ -1,4 +1,5 @@
 import webmidi, {WebMidi} from 'webmidi'
+import { noteNameToNoteNumber, noteNumberToNoteName } from '../../lib/music/Pitch';
 import { Gctx } from '../Gctx';
 import { removeItemAll, removeItemOnce } from './array';
 
@@ -59,7 +60,7 @@ export function useWebMidi(gctx: Gctx) {
                 const textarea: HTMLTextAreaElement = el as HTMLTextAreaElement
                 const cursorPosition = textarea.selectionStart
                 const txt = gctx.midi2chordText
-                gctx.midi2chordText = txt.slice(0, cursorPosition) + e.note.name + String(e.note.octave) + ' ' + txt.slice(cursorPosition)
+                gctx.midi2chordText = txt.slice(0, cursorPosition) + noteNumberToNoteName(e.note.number) + ' ' + txt.slice(cursorPosition)
                 gctx.rerenderUI()
                 return
             }

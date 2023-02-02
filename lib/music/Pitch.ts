@@ -52,3 +52,14 @@ export function noteNameToNoteNumber(noteName: string) {
     return noteNumber
 }
 
+
+
+export function noteNumberToNoteName(noteNumber: number) {
+
+    const octave = Math.floor(noteNumber/12)-1
+
+    const solfa = solfaFlatArr[(noteNumber%12)]
+
+    return solfa+String(octave)
+}
+
