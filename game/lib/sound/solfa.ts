@@ -41,7 +41,7 @@ export  const solfaArr = [
     'B'
 ]
 
-export const solfaFlatArr = [
+export const solfaFlatArr: Solfa[] = [
         'C',
         'Db',
         'D',

@@ -70,7 +70,7 @@ export const Midi2ChordTextField: React.FC<{
                 &nbsp;
 
                 <button className="rounded-full px-3 p-0.5 bg-white text-xs" style={{
-                    border: 'solid 1px #555',
+                    border: 'solid 1px rgb(156,163,175)',
                     color: '#555',
                 }} onClick={() => {
                     gctx.setMidi2ChordDiatonic()
