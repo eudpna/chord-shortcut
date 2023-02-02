@@ -61,7 +61,7 @@ export const ChordBtnEl: React.FC<{
         >
 
             {/* keybind */}
-            <div className="absolute text-sm text-gray rounded" style={{
+            {/* <div className="absolute text-sm text-gray rounded" style={{
                 top: -27,
                 width: '100%',
                 border: 'solid 1px #ddd',
@@ -69,13 +69,13 @@ export const ChordBtnEl: React.FC<{
             }}>
                 <input type="text" className="px-1" value={chordBtn.chordNameInput} onChange={(e) => {
                     chordBtn.chordNameInput = e.target.value
-                    gctx.chordBtns.make()
+                    // gctx.chordBtns.make()
                     gctx.rerenderUI()
                 }} style={{
                     width: '100%'
 
                 }} />
-            </div>
+            </div> */}
 
 
             {/* コード名 */}

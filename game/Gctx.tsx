@@ -18,6 +18,8 @@ import { midiInputIdToIndex, useWebMidi } from "./lib/midi"
 import { playNote } from "./lib/sound/sound"
 import { parseChordMemoURL } from "./lib/chordMemo/parseChordMemoURL"
 import { loadChordMemo } from "./lib/chordMemo/loadChordMemo"
+import { textToChords } from "./lib/textToChords"
+import { diatonic } from "../lib/lib1"
 
 // import tonal from 'tonal'
 // import {Chord} from 'tonal'
@@ -90,6 +92,8 @@ export class Gctx {
 
     chordMemoURL: string = ''
 
+    text: string = ''
+
     // midiChannels: {
     //     input: string
     //     output: string
@@ -141,7 +145,8 @@ export class Gctx {
     constructor(public rerenderUI: Function) {
         setKeyEventListeners(this)
         setMouseEventListeners(this)
-        this.chordBtns.setDiatonic()
+        this.setDiatonic()
+        // this.chordBtns.setDiatonic()
         this.setQwertyLang('us')
 
         audioList.map(src => {
@@ -159,6 +164,33 @@ export class Gctx {
 
 
         rerenderUI()
+    }
+
+    setText(text: string) {
+        this.text = text
+        this.make()
+        this.rerenderUI()
+    }
+
+    make() {
+        this.chordBtns.clear()
+        
+        const lines = textToChords(this.text, this.key)
+        console.log(lines)
+        const bs = this.chordBtns.btns
+        const btns = [
+            bs.slice(0, bs.length / 2),
+            bs.slice(bs.length/2, bs.length)
+        ]
+        lines[0]
+        lines.slice(0, 2).map((line, i) => {
+            line.map((chord, j) => {
+                if (typeof chord === 'string') {
+                    btns[i][j].chordName = chord
+                }
+            })
+        })
+        this.rerenderUI()
     }
 
     getMidiInputById(id: string): webmidi.Input | null {
@@ -180,18 +212,39 @@ export class Gctx {
     loadChordMemo() {
         const chordNames = loadChordMemo(this.chordMemoURL)
 
-        this.chordBtns.setChordNameList(chordNames)
+        chordNames.join(' ')
 
-        this.rerenderUI()
+        this.setText(
+            chordNames + '\n\n' + this.text
+        )
+        // this.chordBtns.setChordNameList(chordNames)
+
+        // this.rerenderUI()
     }
 
     // isChordMemoURLValid(): boolean {
     //     return true
     // }
 
+    setDiatonic() {
+            // setDiatonic() {
+        const chordNames = []
+        for (let i = 0; i < 7; i ++) {
+            chordNames.push(diatonic[i])
+            // this.btns[i].chordNameInput = diatonic[i]
+            // this.make()
+        }
+
+        this.setText(
+            chordNames.join(' ') + '\n\n' + this.text
+        )
+        
+     }
+
     setKey(key: Solfa) {
         this.key = key
-        this.chordBtns.setDiatonic()
+        // this.chordBtns.setDiatonic()
+        this.setDiatonic()
         this.rerenderUI()
     }
 

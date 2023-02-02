@@ -52,48 +52,28 @@ export class ChordBtns {
         })
     }
 
-    make() {
-        const key = this.gctx.key
-        this.btns.map(btn => {
-            // ローマ数字をsolfaに変換
-            const n1 = btn.chordNameInput
-                .replace(roman_numeric[6], next_key(key, 11))
-                .replace(roman_numeric[5], next_key(key, 9))
-                .replace(roman_numeric[3], next_key(key, 5))
-                .replace(roman_numeric[4], next_key(key, 7))
-                .replace(roman_numeric[2], next_key(key, 4))
-                .replace(roman_numeric[1], next_key(key, 2))
-                .replace(roman_numeric[0], next_key(key, 0))
+    // setDiatonic() {
+    //     for (let i = 0; i < 7; i ++) {
+    //         this.btns[i].chordNameInput = diatonic[i]
+    //         this.make()
+    //     }
+    // }
 
-            const name = guitarChords.getChordByName(n1);
-
-            if (!name) btn.chordName = null
-            else btn.chordName = n1
-        })
-    }
-
-    setDiatonic() {
-        for (let i = 0; i < 7; i ++) {
-            this.btns[i].chordNameInput = diatonic[i]
-            this.make()
-        }
-    }
-
-    clearBtns() {
+    clear() {
         this.btns.forEach(btn => {
             btn.chordNameInput = ''
+            btn.chordName = null
         })
-        this.make()
-        this.gctx.rerenderUI()
+        // this.gctx.rerenderUI()
     }
 
-    setChordNameList(chordNames: string[]) {
-        this.clearBtns()
+    // setChordNameList(chordNames: string[]) {
+    //     this.clearBtns()
 
-        chordNames.forEach((chordName, i) => {
-            this.btns[i].chordNameInput = chordName
-        })
+    //     chordNames.forEach((chordName, i) => {
+    //         this.btns[i].chordNameInput = chordName
+    //     })
 
-        this.make()
-    }
+    //     this.make()
+    // }
 }

@@ -13,7 +13,7 @@ export const LoadChordMemoEl: React.FC<{
             color: '#444',
             fontSize: '1rem'
         }}>
-            ChordMemoの譜面を読み込む
+            ChordMemoの譜面をロード
         </div>
         <div className="pl-2">
             {/* URL :  */}
@@ -22,7 +22,7 @@ export const LoadChordMemoEl: React.FC<{
             >
                 <input type="text" className="p-1 resize-none w-full border bg-white border-gray-400 rounded"
                     value={gctx.chordMemoURL}
-                    placeholder="chordmemo.nyaw.netのURL"
+                    placeholder="https://chordmemo.nyaw.netのURL"
                     onChange={(e) => {
                         gctx.chordMemoURL = e.target.value
                         gctx.rerenderUI()

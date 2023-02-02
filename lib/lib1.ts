@@ -1,3 +1,5 @@
+import { next_key } from "../game/lib/sound/scale";
+import { Solfa, SolfaName } from "./music/Solfa";
 
 export function downloadText(filename: string, text: string) {
     var element = document.createElement('a');
@@ -77,3 +79,22 @@ export const copyToClipboard = (text: string): Promise<void> => {
 export function isNumeric(value: string) {
     return /^-?\d+$/.test(value);
 }
+
+
+export function romanNumericToChordName(chordName: string, key: SolfaName) {
+    return chordName.replace(roman_numeric[6], next_key(key, 11))
+                .replace(roman_numeric[5], next_key(key, 9))
+                .replace(roman_numeric[3], next_key(key, 5))
+                .replace(roman_numeric[4], next_key(key, 7))
+                .replace(roman_numeric[2], next_key(key, 4))
+                .replace(roman_numeric[1], next_key(key, 2))
+                .replace(roman_numeric[0], next_key(key, 0))
+}
+
+export const roman_numeric = [
+    'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'
+]
+
+export const diatonic = [
+    'I', 'IIm', 'IIIm', 'IV', 'V', 'VIm', 'VIIdim'
+]
