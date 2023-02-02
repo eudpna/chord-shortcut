@@ -199,7 +199,6 @@ const indicator_width = 24
 // c4m7(4); // => "Bb4"
 // c4m7(1); // => "C5"
 
-// console.log(tonal.Chord.getChord().notes)
 
 // export function getChordDegree(chordName: string) {
 //     const tmp = tonal.Chord.degrees(chordName);

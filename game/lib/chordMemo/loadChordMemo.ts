@@ -27,8 +27,6 @@ export function loadChordMemo(chordMemoURL: string) {
 
     const chordList = getChordsFromScore(score)
 
-    console.log(chordList)
-
     return chordList
     
 }

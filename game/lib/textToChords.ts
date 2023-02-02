@@ -13,7 +13,7 @@ export function lineToChords(line: string, key: Solfa) {
     const tmp = line.matchAll(/\S+/g)
 
     const ms = Array.from(tmp)
-    console.log(tmp, ms)
+    
     const result: (string | false)[] = []
 
     ms.map(m => {
@@ -23,7 +23,6 @@ export function lineToChords(line: string, key: Solfa) {
             romanNumericToChordName(simple, key)
         )
 
-        console.log('chord is', chord)
         
         if (!chord) {
             result.push(false)

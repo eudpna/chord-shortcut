@@ -13,8 +13,8 @@ import { ResourceLoader } from "../lib/ResourceLoader"
 
 import audioList from '../script/resource/audioList.json'
 import { Pitch } from "../lib/music/Pitch"
-import webmidi, {WebMidi} from 'webmidi'
-import { midiInputIdToIndex, useWebMidi } from "./lib/midi"
+import webmidi, {WebMidi, WebMidiEventMap} from 'webmidi'
+import {  useWebMidi } from "./lib/midi"
 import { playNote } from "./lib/sound/sound"
 import { parseChordMemoURL } from "./lib/chordMemo/parseChordMemoURL"
 import { loadChordMemo } from "./lib/chordMemo/loadChordMemo"
@@ -87,7 +87,8 @@ const qwerty1Flatify = {
 
 
 export class Gctx {
-    midiInputs: webmidi.Input[] = []
+    // midiInputs: webmidi.Input[] = []
+    // midiOutputs: webmidi.Output[] = []
 
     audioVolume: {
         master: number
@@ -99,7 +100,8 @@ export class Gctx {
         melody: 4,
     }
 
-    selectedMidiInput: webmidi.Input | 'off' | 'all' = 'all'
+    midiInput: webmidi.Input | 'off' | 'all' = 'all'
+    midiOutput: webmidi.Output | 'off' = 'off'
 
     chordMemoURL: string = ''
 
@@ -193,7 +195,7 @@ export class Gctx {
         this.chordBtns.clear()
 
         const lines = textToChords(this.text, this.key)
-        console.log(lines)
+        
         const bs = this.chordBtns.btns
         const btns = [
             bs.slice(0, bs.length / 2),
@@ -219,15 +221,15 @@ export class Gctx {
         this.rerenderUI()
     }
 
-    getMidiInputById(id: string): webmidi.Input | null {
-        let result: webmidi.Input = null
-        this.midiInputs.forEach(midiInput => {
-            if (midiInput.id === id) {
-                result = midiInput
-            }
-        })
-        return result
-    }
+    // getMidiInputById(id: string): webmidi.Input | null {
+    //     let result: webmidi.Input = null
+    //     this.midiInputs.forEach(midiInput => {
+    //         if (midiInput.id === id) {
+    //             result = midiInput
+    //         }
+    //     })
+    //     return result
+    // }
 
     // getMidiInputChannel() {
     //     return this.midiInputs[
@@ -354,7 +356,7 @@ export class Gctx {
 
     // ノートを再生(メロディとして)
     playNote(noteNumber: number, velocity: number = 0.5) {
-        console.log(this.audioVolume)
+        
         const howl = playNote(this.soundTypes.melody, noteNumber, velocity * (this.audioVolume.master / conf.maxAudioVolume) * (this.audioVolume.melody / conf.maxAudioVolume))
 
         const playingNote = {
@@ -367,6 +369,10 @@ export class Gctx {
             removeItemOnce(this.playingNotes, playingNote)
             this.rerenderUI()
         }, 3000);
+
+        // midi output
+        this.sendMidiNoteOn('melody', noteNumber, velocity)
+
 
         this.rerenderUI()
     }
@@ -384,6 +390,9 @@ export class Gctx {
                     audio.volume(tmp)
                 }, duration);
                 removeItemOnce(this.playingNotes, playingNote)
+
+                // midi output
+                this.sendMidiNoteOff('melody', notenum)
             }
         })
         this.rerenderUI()
@@ -402,6 +411,11 @@ export class Gctx {
                         audio.stop()
                         audio.volume(tmp)
                     }, duration);
+
+                    // midi output
+                    guitarChords.getChordByName(playingChord.chordName).positions[0].midi.forEach(noteNumber => {
+                        this.sendMidiNoteOff('chord', noteNumber)
+                    })
                 })
                 removeItemOnce(this.playingChords, playingChord)
             }
@@ -416,6 +430,7 @@ export class Gctx {
                 this.getChordByRoman(n)
             )    
         )
+        
     }
 
     getChordByRoman(n: number) {
@@ -428,17 +443,20 @@ export class Gctx {
 
     playChord(chordName: string) {
 
+        
+
 
         if (!chordName) return
 
-
-        // console.log(tonal.Chord.getChord(chordName).notes)
 
         const chord = guitarChords.getChordByName(chordName)
 
         if (!chord) return
 
         const howlers = chord.positions[0].midi.map(noteNumber => {
+            // midi output
+            this.sendMidiNoteOn('chord', noteNumber)
+
             return playNote(this.soundTypes.chord, noteNumber, 0.3 * (this.audioVolume.master/conf.maxAudioVolume)*(this.audioVolume.chord/conf.maxAudioVolume))
         })
     
@@ -458,6 +476,61 @@ export class Gctx {
 
     }
 
+    // midiの入出力がループになっているか
+    isMidiLoop() {
+        if (this.midiOutput === 'off') return false
+        if (this.midiInput === 'off') return false
+        let res = false
+        if (this.midiInput === 'all') {
+            return WebMidi.inputs.filter(input => {
+                return input.name === (this.midiOutput as webmidi.Output).name
+            }).length > 0
+        }
+        return this.midiInput.name === (this.midiOutput as webmidi.Output).name
+    }
+
+
+    sendMidiNoteOn(channel: 'chord' | 'melody',  noteNumber: number, velocity: number = 0.5) {
+        const channelNum = channel === 'chord' ? 2 : 1;
+
+        if (this.midiOutput === 'off') return
+        if (this.isMidiLoop()) return 
+
+        console.log('midi out', noteNumber)
+
+        // if (this.midiOutput === 'all') {
+        //     WebMidi.outputs.map(output => {
+        //         output.sendNoteOn(noteNumber, {
+        //             channels: [channelNum],
+        //             attack: velocity
+        //         })
+        //     })
+        //     return
+        // }
+        this.midiOutput.sendNoteOn(noteNumber, {
+            channels: [channelNum],
+            attack: velocity
+        })
+    }
+
+    sendMidiNoteOff(channel: 'chord' | 'melody', noteNumber: number) {
+        const channelNum = channel === 'chord' ? 2 : 1;
+
+        if (this.midiOutput === 'off') return
+        if (this.isMidiLoop()) return 
+
+        // if (this.midiOutput === 'all') {
+        //     WebMidi.outputs.map(output => {
+        //         output.sendNoteOff(noteNumber, {
+        //             channels: [channelNum]
+        //         })
+        //     })
+        //     return
+        // }
+        this.midiOutput.stopNote(noteNumber, {
+            channels: [channelNum],
+        })
+    }
 
 
 

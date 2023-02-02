@@ -21,7 +21,7 @@ export function loadSounds(soundType: SoundType, keyIDs: number[]) {
 export function playNote(soundType: SoundType, noteNumber: number, velocity: number) {
     const pitch = new Pitch(noteNumber)
     const filename = `${pitch.octave}${pitch.solfa.solfaName}.mp3`
-    console.log('vel is', velocity)
+    
     const howl = new Howl({
         src: [`/audios/${soundType}/${filename}`],
         volume: 0.6 * velocity,

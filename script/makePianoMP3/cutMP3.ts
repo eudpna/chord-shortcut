@@ -23,7 +23,6 @@ function main(filename:string, dirname:string) {
 
         execSync(`ffmpeg -i ${inputFile} -ss ${startSec} -t ${pianoMP3NoteDuration} -acodec copy ${path.join(process.cwd(),`../../public/audios/${dirname}/`,output)} -y`)
 
-        console.log(id, pitch.octave, pitch.solfa.solfaName)
 
     })
 }

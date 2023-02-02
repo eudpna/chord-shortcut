@@ -49,7 +49,5 @@ export function textToScoreSimpleNotation(text: string, line: number): Score {
         x = m.index + simple.length
     })
 
-    // console.log(result)
-
     return result
 }
