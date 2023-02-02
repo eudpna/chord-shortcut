@@ -23,6 +23,7 @@ import { diatonic } from "../lib/lib1"
 import { conf } from "./conf"
 import { parseLine } from "../lib/midi2chord"
 import { Midi2Chord } from "./Midi2Chord"
+import { parseChordShortcutURL } from "./lib/parseChordShortcutURL"
 
 // import tonal from 'tonal'
 // import {Chord} from 'tonal'
@@ -109,6 +110,8 @@ export class Gctx {
 
     text: string = ''
     midi2chordText: string = ''
+
+    title: string = ''
     
     midi2chord: Midi2Chord[] = []
 
@@ -167,8 +170,13 @@ export class Gctx {
     constructor(public rerenderUI: Function) {
         setKeyEventListeners(this)
         setMouseEventListeners(this)
-        this.setDiatonic()
+
+
+        this.loadURL()
+
+        // this.setDiatonic()
         // this.chordBtns.setDiatonic()
+
         this.setQwertyLang('us')
 
         audioList.map(src => {
@@ -186,6 +194,28 @@ export class Gctx {
 
 
         rerenderUI()
+    }
+
+    loadURL() {
+        const url = parseChordShortcutURL()
+
+        if (url.title !== null) {
+            this.title = url.title
+        }
+        if (url.text !== null) {
+            this.setText(url.text)
+        }
+        if (url.text1 !== null) {
+            this.setMidi2ChordText(url.text1)
+        }
+        if (url.key !== null) {
+            this.key = url.key
+        }
+        
+        this.make()
+        this.makeMidi2Chord()
+
+        this.rerenderUI()
     }
 
  
@@ -560,6 +590,18 @@ export class Gctx {
         })
     }
 
+
+    getShareURL() {
+        return location.href.replace(location.search, '') +
+            `?title=${encodeURIComponent(this.title.trim())}` +
+            `&text=${encodeURIComponent(this.text)}` +
+            `&text1=${encodeURIComponent(this.midi2chordText)}` +
+            `&key=${encodeURIComponent(this.key)}`
+    }
+
+    updateURL() {
+        history.replaceState(null, null, this.getShareURL())
+    }
 
 
     // playSounds(keyIds: number[], soundType: SoundType) {
