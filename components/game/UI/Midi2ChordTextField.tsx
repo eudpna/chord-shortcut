@@ -52,6 +52,33 @@ export const Midi2ChordTextField: React.FC<{
 
             </div>
            
+           <div className="text-sm">
+            オクターヴ
+                &nbsp;
+                <select value={gctx.midi2chordOctave} className="rounded border-gray-400 px-2 bg-white " style={{
+                    border: 'solid 1px rgb(156,163,175)'
+                }} name="" id="" onChange={(e) => {
+                    gctx.midi2chordOctave = Number(e.target.value)
+                    gctx.rerenderUI()
+                }}>
+                    {Array.from(Array(9).keys()).map(n => {
+                        return <option key={n} value={n}>{n}&nbsp;</option>
+                    })}
+                </select>
+                &nbsp;
+                に
+                &nbsp;
+
+                <button className="rounded-full px-3 p-0.5 bg-white text-xs" style={{
+                    border: 'solid 1px #555',
+                    color: '#555',
+                }} onClick={() => {
+                    gctx.setMidi2ChordDiatonic()
+                    }}>
+                        ダイアトニックコードを自動割り当て
+                </button>
+                
+           </div>
              
         </div>
     </div>

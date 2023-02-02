@@ -2,8 +2,8 @@ import sanitize from "sanitize-filename"
 import { removeItemOnce } from "./lib/array"
 import { ChordData, chordToName, guitarChords } from "./lib/chords"
 import { copyToClipboard, downloadText, getUrlParameter, qwerty, strSplice, Vec2 } from "./lib/lib"
-import { get_diatonic_chords } from "./lib/sound/scale"
-import { Solfa, solfaFlatArr, solfaWholeArr } from "./lib/sound/solfa"
+import { get_diatonic_chords, next_key } from "./lib/sound/scale"
+import {  solfaFlatArr, solfaWholeArr } from "./lib/sound/solfa"
 import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
 import { Klavier } from "./Klavier"
@@ -24,6 +24,7 @@ import { conf } from "./conf"
 import { parseLine } from "../lib/midi2chord"
 import { Midi2Chord } from "./Midi2Chord"
 import { parseChordShortcutURL } from "./lib/parseChordShortcutURL"
+import { Solfa, SolfaName, solfaNameToSolfaNumber } from "../lib/music/Solfa"
 
 // import tonal from 'tonal'
 // import {Chord} from 'tonal'
@@ -111,6 +112,8 @@ export class Gctx {
     text: string = ''
     midi2chordText: string = ''
 
+    midi2chordOctave: number = 3
+
     title: string = ''
     
     midi2chord: Midi2Chord[] = []
@@ -129,7 +132,7 @@ export class Gctx {
     //     output: '',
     // }
     
-    key: Solfa = 'C'
+    key: SolfaName = 'C'
     // playingChords: string[] = []
 
     // ユーザー入力に関する状態データ
@@ -356,7 +359,7 @@ export class Gctx {
         
      }
 
-    setKey(key: Solfa) {
+    setKey(key: SolfaName) {
         this.key = key
         // this.chordBtns.setDiatonic()
         this.setDiatonic()
@@ -615,6 +618,22 @@ export class Gctx {
 
     updateURL() {
         history.replaceState(null, null, this.getShareURL())
+    }
+
+    setMidi2ChordDiatonic() {
+        const octave = this.midi2chordOctave
+        let offset = 0
+        const str = diatonic.map((c, i) => {
+            const step = [0,2,2,1,2,2,2,1][i]
+            offset += step
+            const num = solfaNameToSolfaNumber(this.key)
+            const solfa = new Solfa((num + offset)%12).solfaName
+            return `${solfa+String(octave)} ${c}`
+        })
+
+        this.setMidi2ChordText(
+            str.join('\n')
+        )
     }
 
 

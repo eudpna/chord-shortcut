@@ -1,3 +1,5 @@
+import { solfaFlatArr, SolfaToFlat } from "../../game/lib/sound/solfa"
+
 export class Solfa {
     readonly solfaNumber: number
     readonly isWholeNote: boolean
@@ -24,10 +26,16 @@ export class Solfa {
             solfaNameListFlatOnly.indexOf(this.solfaName)
         ]
     }
+
+
 }
 
 
 
+export function solfaNameToSolfaNumber(solfaName: SolfaName) {
+    const solfaNumber = solfaFlatArr.indexOf(SolfaToFlat(solfaName))
+    return solfaNumber
+}
 
 
 
