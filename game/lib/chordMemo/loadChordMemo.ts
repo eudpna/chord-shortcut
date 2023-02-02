@@ -16,6 +16,7 @@ function getChordInfo(list: ChordInfo[], chordName: string): null | ChordInfo {
 
 export function loadChordMemo(chordMemoURL: string) {
     const url = parseChordMemoURL(chordMemoURL)
+    console.log('url is', url)
     if (url.text === null) return null
     if (url.text.trim() === null) return null
 

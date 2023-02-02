@@ -16,7 +16,7 @@ export function downloadText(filename: string, text: string) {
 
 
 export function getUrlParameter(name: string, url: string) {
-    if (!url) url = window.location.href;
+    // if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
@@ -97,4 +97,8 @@ export const roman_numeric = [
 
 export const diatonic = [
     'I', 'IIm', 'IIIm', 'IV', 'V', 'VIm', 'VIIdim'
+]
+
+export const diatonic4 = [
+    'IM7', 'IIm7', 'IIIm7', 'IVM7', 'V7', 'VIm7', 'VIIm7b5'
 ]

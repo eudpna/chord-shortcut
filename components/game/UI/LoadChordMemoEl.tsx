@@ -25,6 +25,7 @@ export const LoadChordMemoEl: React.FC<{
                     placeholder="https://chordmemo.nyaw.netのURL"
                     onChange={(e) => {
                         gctx.chordMemoURL = e.target.value
+                        gctx.isLoaded = false
                         gctx.rerenderUI()
                     }} style={{
                         width: '100%'
@@ -49,7 +50,7 @@ export const LoadChordMemoEl: React.FC<{
 
 
         <div className="inline-block">
-            <button className="ml-2 p-1 bg-white px-3 resize-none border border-gray-400 rounded" onClick={() => {
+            <button className="ml-2 p-0.5 px-4 text-sm bg-white resize-none border border-gray-400 rounded-full" onClick={() => {
                 gctx.loadChordMemo()
             }}>
                 ロード
@@ -57,16 +58,16 @@ export const LoadChordMemoEl: React.FC<{
         </div>
 
         <div className="inline-block">
-            {gctx.undoText !== null ?
+            {gctx.isLoaded ?
                 <div className="ml-2.5 mt-1 text-sm">
                     ロードしました。
-                    <button className="text-xs ml-0 p-0.5 bg-white px-3 resize-none border border-gray-400 rounded"
+                    {/* <button className="text-xs ml-0 p-0.5 bg-white px-3 resize-none border border-gray-400 rounded"
                         onClick={() => {
                             gctx.undo()
                         }}
                     >
                         Undo
-                    </button>
+                    </button> */}
                 </div> : null}
         </div>
     </div>

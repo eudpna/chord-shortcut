@@ -18,5 +18,17 @@ export const TextField: React.FC<{
         }} minRows={2} onChange={(e) => {
             gctx.setText(e.target.value)
         }}></TextareaAutosize>
+        <div className="text-right" style={{
+            marginTop: -4,
+        }}>
+            <button className="rounded-full px-3 p-0.5 bg-white text-xs" style={{
+                border: 'solid 1px #555',
+                color: '#555',
+            }} onClick={() => {
+                gctx.setDiatonic()
+            }}>
+                ダイアトニックコードを設定
+            </button>
+        </div>
     </div>
 }

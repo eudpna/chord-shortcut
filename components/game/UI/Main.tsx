@@ -38,7 +38,7 @@ export const Main: React.FC<{
 
         {title ?
             <Head>
-                <title>{title} | こーどめも</title>
+                <title>{title} | ChordShortcut</title>
             </Head> : null}
 
 

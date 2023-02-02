@@ -19,7 +19,7 @@ import { playNote } from "./lib/sound/sound"
 import { parseChordMemoURL } from "./lib/chordMemo/parseChordMemoURL"
 import { loadChordMemo } from "./lib/chordMemo/loadChordMemo"
 import { textToChords } from "./lib/textToChords"
-import { diatonic } from "../lib/lib1"
+import { diatonic, diatonic4 } from "../lib/lib1"
 import { conf } from "./conf"
 import { parseLine } from "../lib/midi2chord"
 import { Midi2Chord } from "./Midi2Chord"
@@ -118,6 +118,8 @@ export class Gctx {
     undoText: string | null = null
 
     chordSortMethod: 'appearance' | 'frequency' = 'appearance'
+
+    isLoaded: boolean = false
 
     // midiChannels: {
     //     input: string
@@ -244,7 +246,7 @@ export class Gctx {
         ]
         lines[0]
         lines.slice(0, 2).map((line, i) => {
-            line.map((chord, j) => {
+            line.slice(0, 10).map((chord, j) => {
                 if (typeof chord === 'string') {
                     btns[i][j].chordName = chord
                 }
@@ -315,9 +317,20 @@ export class Gctx {
 
         this.undoText = this.text
 
-        this.setText(
-            chordNames.join(' ')
-        )
+        if (chordNames.length > 10) {
+            this.setText(
+                chordNames.slice(0, 10).join(' ') +'\n'+
+                chordNames.slice(10).join(' ')
+            )
+        } else {
+            this.setText(
+                chordNames.join(' ')
+            )
+        }
+
+        this.isLoaded = true
+
+        
         // this.chordBtns.setChordNameList(chordNames)
 
         // this.rerenderUI()
@@ -329,15 +342,16 @@ export class Gctx {
 
     setDiatonic() {
             // setDiatonic() {
-        const chordNames = []
-        for (let i = 0; i < 7; i ++) {
-            chordNames.push(diatonic[i])
-            // this.btns[i].chordNameInput = diatonic[i]
-            // this.make()
-        }
+        // const chordNames = []
+        // for (let i = 0; i < 7; i ++) {
+        //     chordNames.push(diatonic[i])
+        //     // this.btns[i].chordNameInput = diatonic[i]
+        //     // this.make()
+        // }
 
         this.setText(
-            chordNames.join(' ') + '\n\n' + this.text
+            diatonic.join(' ') + '\n' +
+            diatonic4.join(' ')
         )
         
      }
