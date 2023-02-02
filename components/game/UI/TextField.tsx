@@ -6,10 +6,11 @@ export const TextField: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
 
-    return <div className=" p-0">
+    return <div className="">
       
         <TextareaAutosize 
             value={gctx.text}
+            // spellcheck="false"
             placeholder="コード記号を空白区切りで入力（例: Em G7 C）"
             className="prevent-shot p-1 resize-none w-full border border-gray-400 rounded" style={{
             lineHeight: 1.5,

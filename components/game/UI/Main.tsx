@@ -10,6 +10,7 @@ import { ChordBtnsEl } from "./ChordBtnsEl"
 import { KeySetting } from "./KeySetting"
 import { KlavierEl } from "./KlavierEl"
 import { LoadChordMemoEl } from "./LoadChordMemoEl"
+import { Midi2ChordTextField } from "./Midi2ChordTextField"
 import { Setting } from "./Setting"
 import { TextField } from "./TextField"
 
@@ -59,6 +60,9 @@ export const Main: React.FC<{
             </div>
             <div className="mt-28">
                 <Setting gctx={gctx} />
+            </div>
+            <div className="mt-4">
+                <Midi2ChordTextField gctx={gctx} />
             </div>
             <div className="mt-6">
                 <LoadChordMemoEl gctx={gctx} />
