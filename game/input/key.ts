@@ -19,6 +19,12 @@ import { notenumToSolfa } from "../lib/sound/solfa"
 
 export function setKeyEventListeners(gctx: Gctx) {
     window.addEventListener('keydown', (e) => {
+
+        if ((e.target as HTMLElement).closest('.prevent-shot')) {
+            return
+        }
+
+
         const key = replaceKeyName(e.key)
 
         // chordBtnに対応するキーが押下され　　かつ
@@ -55,6 +61,12 @@ export function setKeyEventListeners(gctx: Gctx) {
     })
 
     window.addEventListener('keyup', (e) => {
+
+        if ((e.target as HTMLElement).closest('.prevent-shot')) {
+            return
+        }
+
+        
         const key = replaceKeyName(e.key)
 
         // chordBtnに対応するキーが離されたら

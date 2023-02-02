@@ -94,6 +94,8 @@ export class Gctx {
 
     text: string = ''
 
+    undoText: string | null = null
+
     // midiChannels: {
     //     input: string
     //     output: string
@@ -166,6 +168,8 @@ export class Gctx {
         rerenderUI()
     }
 
+ 
+
     setText(text: string) {
         this.text = text
         this.make()
@@ -174,7 +178,7 @@ export class Gctx {
 
     make() {
         this.chordBtns.clear()
-        
+
         const lines = textToChords(this.text, this.key)
         console.log(lines)
         const bs = this.chordBtns.btns
@@ -190,6 +194,15 @@ export class Gctx {
                 }
             })
         })
+        this.rerenderUI()
+    }
+
+    undo() {
+        this.setText(
+            this.undoText
+        )
+
+        this.undoText = null
         this.rerenderUI()
     }
 
@@ -212,10 +225,12 @@ export class Gctx {
     loadChordMemo() {
         const chordNames = loadChordMemo(this.chordMemoURL)
 
-        chordNames.join(' ')
+        // chordNames.join(' ')
+
+        this.undoText = this.text
 
         this.setText(
-            chordNames + '\n\n' + this.text
+            chordNames.join(' ')
         )
         // this.chordBtns.setChordNameList(chordNames)
 

@@ -39,7 +39,7 @@ export const Setting: React.FC<{
             </select>
         </div>
 
-        
+
         </div>
     </div>
 }

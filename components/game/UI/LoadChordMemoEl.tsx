@@ -32,12 +32,26 @@ export const LoadChordMemoEl: React.FC<{
             </div>
         </div>
 
-        <div>
+        <div className="inline-block">
             <button className="ml-2 p-1 bg-white px-3 resize-none border border-gray-400 rounded" onClick={() => {
                 gctx.loadChordMemo()
             }}>
                 ロード
             </button>
         </div>
+
+        <div className="inline-block">
+            {gctx.undoText !== null ? 
+            <div className="ml-2.5 mt-1 text-sm">
+                ロードしました。
+                    <button className="text-xs ml-0 p-0.5 bg-white px-3 resize-none border border-gray-400 rounded" 
+                    onClick={() => {
+                        gctx.undo()
+                    }}
+                    >
+                    Undo
+                </button>
+                </div> : null}
+        </div> 
     </div>
 }
