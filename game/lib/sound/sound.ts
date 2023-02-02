@@ -11,7 +11,7 @@ export function loadSounds(soundType: SoundType, keyIDs: number[]) {
         const filename = `${pitch.octave}${SolfaToFlat(pitch.solfa)}.mp3`
         const audio = new Howl({
             src: [`/audios/${instrument}/${filename}`],
-            volume: 0.3,
+            volume: 0.6,
         });
         if (audio.state() === 'loaded') return
         else audio.load()
@@ -21,9 +21,10 @@ export function loadSounds(soundType: SoundType, keyIDs: number[]) {
 export function playNote(soundType: SoundType, noteNumber: number, velocity: number) {
     const pitch = new Pitch(noteNumber)
     const filename = `${pitch.octave}${pitch.solfa.solfaName}.mp3`
+    console.log('vel is', velocity)
     const howl = new Howl({
         src: [`/audios/${soundType}/${filename}`],
-        volume: 0.3 * velocity,
+        volume: 0.6 * velocity,
     });
     howl.play()
     return howl

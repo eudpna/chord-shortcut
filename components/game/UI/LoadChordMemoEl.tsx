@@ -11,16 +11,16 @@ export const LoadChordMemoEl: React.FC<{
     }}>
         <div className="font-bold pb-2" style={{
             color: '#444',
-            fontSize: '1rem'
+            // fontSize: '0.0rem'
         }}>
             ChordMemoの譜面をロード
         </div>
         <div className="pl-2">
             {/* URL :  */}
             <div
-                className="mb-2 mt-2"
+                className="mb-2 mt-1"
             >
-                <input type="text" className="p-1 resize-none w-full border bg-white border-gray-400 rounded"
+                <input type="text" className="prevent-shot p-1 resize-none w-full border bg-white border-gray-400 rounded"
                     value={gctx.chordMemoURL}
                     placeholder="https://chordmemo.nyaw.netのURL"
                     onChange={(e) => {

@@ -7,6 +7,7 @@ export const conf = {
         // blue_dark: '#19207d',
         // blue_dark: '#404bde'
         blue_dark: '#737dff'
-    }
+    },
+    maxAudioVolume: 4,
 }
 

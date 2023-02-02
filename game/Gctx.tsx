@@ -20,6 +20,7 @@ import { parseChordMemoURL } from "./lib/chordMemo/parseChordMemoURL"
 import { loadChordMemo } from "./lib/chordMemo/loadChordMemo"
 import { textToChords } from "./lib/textToChords"
 import { diatonic } from "../lib/lib1"
+import { conf } from "./conf"
 
 // import tonal from 'tonal'
 // import {Chord} from 'tonal'
@@ -87,6 +88,16 @@ const qwerty1Flatify = {
 
 export class Gctx {
     midiInputs: webmidi.Input[] = []
+
+    audioVolume: {
+        master: number
+        chord: number
+        melody: number
+    } = {
+        master: 4,
+        chord: 4,
+        melody: 4,
+    }
 
     selectedMidiInput: webmidi.Input | 'off' | 'all' = 'all'
 
@@ -341,9 +352,10 @@ export class Gctx {
         return this.playingNotes.filter(note => note.notenum===notenum).length > 0
     }
 
-    // ノートを再生
+    // ノートを再生(メロディとして)
     playNote(noteNumber: number, velocity: number = 0.5) {
-        const howl = playNote(this.soundTypes.melody, noteNumber, velocity)
+        console.log(this.audioVolume)
+        const howl = playNote(this.soundTypes.melody, noteNumber, velocity * (this.audioVolume.master / conf.maxAudioVolume) * (this.audioVolume.melody / conf.maxAudioVolume))
 
         const playingNote = {
             notenum: noteNumber,
@@ -427,7 +439,7 @@ export class Gctx {
         if (!chord) return
 
         const howlers = chord.positions[0].midi.map(noteNumber => {
-            return playNote(this.soundTypes.chord, noteNumber, 0.3)
+            return playNote(this.soundTypes.chord, noteNumber, 0.3 * (this.audioVolume.master/conf.maxAudioVolume)*(this.audioVolume.chord/conf.maxAudioVolume))
         })
     
         const playingChord = {
