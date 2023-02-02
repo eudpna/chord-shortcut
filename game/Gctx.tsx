@@ -525,7 +525,6 @@ export class Gctx {
         if (this.midiOutput === 'off') return
         if (this.isMidiLoop()) return 
 
-        console.log('midi out', noteNumber)
 
         // if (this.midiOutput === 'all') {
         //     WebMidi.outputs.map(output => {

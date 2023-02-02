@@ -51,6 +51,19 @@ export function useWebMidi(gctx: Gctx) {
             // if (midi2chordActive) return
 
 
+            // midi2chordのノートネーム入力
+            // check if the textfield has focus
+            const el = document.getElementById('midi2chord-input');
+            const isFocused = (document.activeElement === el)
+            if (isFocused) {
+                const textarea: HTMLTextAreaElement = el as HTMLTextAreaElement
+                const cursorPosition = textarea.selectionStart
+                const txt = gctx.midi2chordText
+                gctx.midi2chordText = txt.slice(0, cursorPosition) + e.note.name + String(e.note.octave) + ' ' + txt.slice(cursorPosition)
+                gctx.rerenderUI()
+                return
+            }
+
             gctx.playNote(e.note.number, e.note.attack)
 
             gctx.midi2chord.map(m => {

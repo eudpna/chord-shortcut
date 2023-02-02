@@ -45,8 +45,6 @@ export function parseLine(line: string): [number[], string] | null {
         }
     })
     if (invalid) return null
-
-    console.log('arr01', arr01)
     
     return [arr01, arr1]
 }

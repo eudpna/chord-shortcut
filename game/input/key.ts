@@ -25,6 +25,7 @@ export function setKeyEventListeners(gctx: Gctx) {
         }
 
 
+
         const key = replaceKeyName(e.key)
 
         // chordBtnに対応するキーが押下され　　かつ
@@ -66,7 +67,7 @@ export function setKeyEventListeners(gctx: Gctx) {
             return
         }
 
-        
+
         const key = replaceKeyName(e.key)
 
         // chordBtnに対応するキーが離されたら

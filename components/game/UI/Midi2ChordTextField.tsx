@@ -22,10 +22,12 @@ export const Midi2ChordTextField: React.FC<{
             <div className="flex">
                 <div>
                     <TextareaAutosize
+                        id="midi2chord-input"
                         value={gctx.midi2chordText}
                         // spellcheck="false"
                         placeholder=""
-                        className="prevent-shot p-1 bg-white resize-none  border border-gray-400 rounded"
+                        className="midi2chord-input
+                        prevent-shot p-1 bg-white resize-none  border border-gray-400 rounded"
                         style={{
                             width: 200,
                             lineHeight: 1.5,
