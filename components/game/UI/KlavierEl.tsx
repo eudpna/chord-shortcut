@@ -181,7 +181,7 @@ export const KlavierKeyEl: React.FC<{
             height: indicator_width,
             backgroundColor: conf.colors.blue_dark,
             // left: (hakken_width)/2 - 10 + (klavierKey.pitch.isWholeTone ? -9 : -1),
-            left: hakken_width/2-(indicator_width/2)-1,
+                left: hakken_width / 2 - (indicator_width / 2) - 1 + (klavierKey.pitch.isWholeTone ? 0 : -7.5) ,
             bottom: 20,
         }}> 
         </div>  : null}
