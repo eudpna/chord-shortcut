@@ -54,9 +54,18 @@ export const Setting: React.FC<{
                     <option value="off">なし</option>
                     {/* <option value="all">全て</option> */}
                     {WebMidi.outputs.map(midi => {
-                        return <option key={midi.id} value={midi.id}>{midi.name}</option>
+                        return <option key={midi.id} value={midi.id}>{midi.name}&nbsp;</option>
                     })}
                 </select>
+            </div>
+
+            <div className="mb-2">
+                {gctx.isMidiLoop() ? <div className="text-xs" style={{
+                    color: '#8c1c1c'
+                }}>
+                    エラー: MIDI入力機器とMIDI出力機器が重複しています。
+                </div> : null
+                }
             </div>
 
 
@@ -65,7 +74,7 @@ export const Setting: React.FC<{
                 {['master', 'chord', 'melody'].map((kind, i) => {
                     return <div key={kind} className="mt-0.5">
                         音量({['マスター', 'コード', 'メロディ'][i]}): &nbsp;
-                        <select value={gctx.audioVolume[kind]} className="rounded border-gray-400 px-2 bg-white pr-2.5" style={{
+                        <select value={gctx.audioVolume[kind]} className="rounded border-gray-400 px-2 bg-white " style={{
                             border: 'solid 1px rgb(156,163,175)'
                         }} name="" id="" onChange={(e) => {
                             gctx.audioVolume[kind] = Number(e.target.value)
@@ -73,7 +82,7 @@ export const Setting: React.FC<{
                         }}>
                             {Array.from(Array(conf.maxAudioVolume+1).keys()).map(n => {
 
-                                return <option key={n} value={n}>{n}</option>
+                                return <option key={n} value={n}>{n}&nbsp;</option>
                             })}
                         </select>
                     </div>

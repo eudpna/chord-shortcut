@@ -2,25 +2,34 @@
 
 
 
+
+
+
+
+MIDI鍵盤をコードに割り当てる
+URLで保存・共有できるように
+
 U-FRETの譜面を読み込む
 
 
-U-FRETとの連携？
-MIDI鍵盤をコードに割り当てる
-URLで保存・共有できるように
-MIDI出力に対応?
 
-Undo/Redo
-
-oChordMemoの譜面を読み込む
-o音量調節
-
-
-mp3をもっと高い音まで作る
 
 ? 3rdとか5thとか表示されるように
 
 配色調整
+
+
+
+U-FRETとの連携？
+o Undo/Redo
+o MIDI出力に対応?
+oChordMemoの譜面を読み込む
+o音量調節
+
+
+o mp3をもっと高い音まで作る
+
+
 
 o ピアノロールを長くする
 o MIDI入力に対応
