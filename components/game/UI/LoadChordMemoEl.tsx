@@ -25,7 +25,7 @@ export const LoadChordMemoEl: React.FC<{
                     placeholder="https://chordmemo.nyaw.netのURL"
                     onChange={(e) => {
                         gctx.chordMemoURL = e.target.value
-                        gctx.isLoaded = false
+                        gctx.isLoadedChordMemo = false
                         gctx.rerenderUI()
                     }} style={{
                         width: '100%'
@@ -58,7 +58,7 @@ export const LoadChordMemoEl: React.FC<{
         </div>
 
         <div className="inline-block">
-            {gctx.isLoaded ?
+            {gctx.isLoadedChordMemo ?
                 <div className="ml-2.5 mt-1 text-sm">
                     ロードしました。
                     {/* <button className="text-xs ml-0 p-0.5 bg-white px-3 resize-none border border-gray-400 rounded"

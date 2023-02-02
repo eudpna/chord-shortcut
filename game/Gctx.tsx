@@ -122,7 +122,7 @@ export class Gctx {
 
     chordSortMethod: 'appearance' | 'frequency' = 'appearance'
 
-    isLoaded: boolean = false
+    isLoadedChordMemo: boolean = false
 
     // midiChannels: {
     //     input: string
@@ -168,19 +168,26 @@ export class Gctx {
     loadedPercentage: number = 0
     showLoadingProgress = true
 
+    rerenderUI: Function
+
     // piano: Piano = {
     //     keysDown: []
     // }
 
-    constructor(public rerenderUI: Function) {
+    constructor(rerenderUI: Function) {
+
+        this.rerenderUI = () => {
+            this.updateURL()
+            rerenderUI()
+        }
+
+
         setKeyEventListeners(this)
         setMouseEventListeners(this)
 
 
         this.loadURL()
 
-        // this.setDiatonic()
-        // this.chordBtns.setDiatonic()
 
         this.setQwertyLang('us')
 
@@ -331,7 +338,7 @@ export class Gctx {
             )
         }
 
-        this.isLoaded = true
+        this.isLoadedChordMemo = true
 
         
         // this.chordBtns.setChordNameList(chordNames)
@@ -572,16 +579,6 @@ export class Gctx {
         if (this.midiOutput === 'off') return
         if (this.isMidiLoop()) return 
 
-
-        // if (this.midiOutput === 'all') {
-        //     WebMidi.outputs.map(output => {
-        //         output.sendNoteOn(noteNumber, {
-        //             channels: [channelNum],
-        //             attack: velocity
-        //         })
-        //     })
-        //     return
-        // }
         this.midiOutput.sendNoteOn(noteNumber, {
             channels: [channelNum],
             attack: velocity
@@ -594,14 +591,6 @@ export class Gctx {
         if (this.midiOutput === 'off') return
         if (this.isMidiLoop()) return 
 
-        // if (this.midiOutput === 'all') {
-        //     WebMidi.outputs.map(output => {
-        //         output.sendNoteOff(noteNumber, {
-        //             channels: [channelNum]
-        //         })
-        //     })
-        //     return
-        // }
         this.midiOutput.stopNote(noteNumber, {
             channels: [channelNum],
         })
@@ -617,6 +606,8 @@ export class Gctx {
     }
 
     updateURL() {
+        if (location.href === this.getShareURL()) return
+
         history.replaceState(null, null, this.getShareURL())
     }
 

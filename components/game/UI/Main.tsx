@@ -24,7 +24,7 @@ export const Main: React.FC<{
     const gctx = props.gctx
     const title = gctx.title
 
-    gctx.updateURL()
+
 
     // useMIDI((note, _) => {
     //     gctx.playNote(note)
@@ -63,10 +63,10 @@ export const Main: React.FC<{
             <div className="mt-4">
                 <TextField gctx={gctx} />
             </div>
-            <div className="mt-20">
+            <div className="mt-12">
                 <ChordBtnsEl gctx={gctx} />
             </div>
-            <div className="mt-4 mb-28">
+            <div className="mt-4 mb-24">
                 <KlavierEl gctx={gctx} />
             </div>
 

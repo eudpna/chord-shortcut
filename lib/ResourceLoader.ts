@@ -28,6 +28,14 @@ export class ResourceLoader {
     //     this.onStateChange = onStateChange
     // }
 
+    isDone() {
+        return this.loadedPercent() === 100
+    }
+
+    loadedPercent() {
+        return Math.floor((this.fileNumLoaded() / this.fileNumToLoad) * 100)
+    }
+
     load(src: string, type: 'image' | 'audio', onLoad: (resource: LoadedResource, percent: number) => void = (_: any) => {}) {
 
         this.fileNumToLoad ++

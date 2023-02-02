@@ -39,7 +39,7 @@ export const ChordBtnEl: React.FC<{
             width: 65,
             height: 50,
             border: 'solid 1px black',
-            marginBottom: 40,
+            marginBottom: 16,
             marginRight: 5,
             // backgroundColor: chordBtn.isDown ? 'red' : (gctx.isSoundingTheChord(chordBtn.chordName) ? 'blue' : 'white'),
             backgroundColor: isSounding ? conf.colors.blue_dark : 'white'
