@@ -1,6 +1,8 @@
 import TextareaAutosize from "react-textarea-autosize"
 import { Gctx } from "../../../game/Gctx"
 
+import {v4 as uudiv4} from 'uuid'
+
 export const Midi2ChordTextField: React.FC<{
     gctx: Gctx
 }> = (props) => {
@@ -34,7 +36,7 @@ export const Midi2ChordTextField: React.FC<{
                 </div>
                 <div>
                     <div className="inline-block  p-1">
-                        {gctx.midi2chord.map(m => {                                             return <div style={{
+                        {gctx.midi2chord.map((m,i) => {                                             return <div key={m===null?i:m.noteNumbers+m.chordName} style={{
                                 lineHeight: 1.5,
                                 color: '#26e045'
                             }}>
