@@ -22,6 +22,7 @@ import { textToChords } from "./lib/textToChords"
 import { diatonic } from "../lib/lib1"
 import { conf } from "./conf"
 import { parseLine } from "../lib/midi2chord"
+import { Midi2Chord } from "./Midi2Chord"
 
 // import tonal from 'tonal'
 // import {Chord} from 'tonal'
@@ -109,10 +110,7 @@ export class Gctx {
     text: string = ''
     midi2chordText: string = ''
     
-    midi2chord: ({
-        noteNumbers: number[],
-        chordName: string
-    } | null)[] = []
+    midi2chord: Midi2Chord[] = []
 
     undoText: string | null = null
 
@@ -236,10 +234,9 @@ export class Gctx {
             if (tmp === null) {
                 this.midi2chord.push(null)
             } else {
-                this.midi2chord.push({
-                    noteNumbers: tmp[0],
-                    chordName: tmp[1]
-                })
+                this.midi2chord.push(
+                    new Midi2Chord(this, tmp[0], tmp[1])
+                )
              }
         })
     }

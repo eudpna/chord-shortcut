@@ -42,38 +42,41 @@ export function useWebMidi(gctx: Gctx) {
         if (gctx.midiInput === 'all' || e.port === gctx.midiInput) {
 
             // midi2chord
-            let midi2chordActive = false
-            gctx.midi2chord.map(m => {
-                if (m === null) return
-                if (m.noteNumbers.length === 1) {
-                    console.log('hey', m, e.note.number)
-                    if (m.noteNumbers[0] === e.note.number) {
-                        
-                        gctx.playChord(m.chordName)
-                        midi2chordActive = true
-                    }
-                } else {
-                    const arr0 = [...m.noteNumbers]
-                    const arr = [...gctx.playingNotes, e.note.number]
-                    arr.map(n => {
-                        removeItemAll(arr0, n)
-                    })
-                    if (arr0.length === 0) {
-                        gctx.playChord(m.chordName)
-                        midi2chordActive = true
-                    }
-                }
-            })
-            if (midi2chordActive) return
-
+            // let midi2chordActive = false
+            // gctx.midi2chord.map(m => {
+            //     if (m.checkNoteOn(e.note.number)) {
+            //         midi2chordActive = true
+            //     }
+            // })
+            // if (midi2chordActive) return
 
 
             gctx.playNote(e.note.number, e.note.attack)
+
+            gctx.midi2chord.map(m => {
+                if (!m) return
+                m.check()
+            })
         }
     }
 
     const noteoff = (e: webmidi.NoteMessageEvent) => {
+        // midi2chord
+        // let midi2chordActive = false
+        // gctx.midi2chord.map(m => {
+        //     if (m.checkNoteOff(e.note.number)) {
+        //         midi2chordActive = true
+        //     }
+        // })
+        // if (midi2chordActive) return
+
+
         gctx.stopNote(e.note.number)
+
+        gctx.midi2chord.map(m => {
+            if (!m) return
+            m.check()
+        })
     }
 
     WebMidi.enable()
