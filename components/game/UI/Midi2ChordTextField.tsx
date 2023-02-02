@@ -43,7 +43,7 @@ export const Midi2ChordTextField: React.FC<{
                                 color: '#26e045'
                             }}>
                                 <span className="text-sm">
-                                {m === null ? '　' : '有効'}
+                                {m === null ? '　' : `${m.chordName}`}
                                 </span>
                             </div>
                         })}

@@ -264,7 +264,7 @@ export class Gctx {
         this.midi2chord = []
 
         text.split('\n').map((line, i) => {
-            const tmp = parseLine(line)
+            const tmp = parseLine(this, line)
 
             if (tmp === null) {
                 this.midi2chord.push(null)
@@ -627,8 +627,10 @@ export class Gctx {
             const step = [0,2,2,1,2,2,2,1][i]
             offset += step
             const num = solfaNameToSolfaNumber(this.key)
+            const octave1 = (num+offset)>12 ? octave+1 : octave
+
             const solfa = new Solfa((num + offset)%12).solfaName
-            return `${solfa+String(octave)} ${c}`
+            return `${solfa+String(octave1)} ${c}`
         })
 
         this.setMidi2ChordText(

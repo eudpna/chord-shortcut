@@ -22,12 +22,12 @@ export const TextField: React.FC<{
             marginTop: -4,
         }}>
             <button className="rounded-full px-3 p-0.5 bg-white text-xs" style={{
-                border: 'solid 1px #555',
+                border: 'solid 1px rgb(156,163,175)',
                 color: '#555',
             }} onClick={() => {
                 gctx.setDiatonic()
             }}>
-                ダイアトニックコードを設定
+                ダイアトニックコードを自動入力
             </button>
         </div>
     </div>

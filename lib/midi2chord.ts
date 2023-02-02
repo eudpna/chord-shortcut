@@ -1,10 +1,11 @@
+import { Gctx } from "../game/Gctx"
 import { guitarChords } from "../game/lib/chords"
-import { isNumeric } from "./lib1"
+import { isNumeric, romanNumericToChordName } from "./lib1"
 import { noteNameToNoteNumber } from "./music/Pitch"
 
 
 
-export function parseLine(line: string): [number[], string] | null {
+export function parseLine(gctx: Gctx, line: string): [number[], string] | null {
 
     const m = line.match(/[^\s]+/g)
 
@@ -14,7 +15,7 @@ export function parseLine(line: string): [number[], string] | null {
 
     if (arr.length < 2) return null
 
-    const arr1 = arr.pop()
+    const arr1 = romanNumericToChordName(arr.pop(), gctx.key)
 
     const arr0 = arr
 
