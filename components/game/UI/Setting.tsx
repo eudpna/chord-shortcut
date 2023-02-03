@@ -68,7 +68,36 @@ export const Setting: React.FC<{
                 }
             </div>
 
+            <div className="mt-4">
+                <div>
+                    <input
+                    className="cursor-pointer"
+                     type="range" min={0} max={4}
+                        value={gctx.audioVolume.chord}
+                        onChange={(e) => {
+                            gctx.audioVolume.chord = Number(e.target.value)
+                            gctx.rerenderUI()
+                        }}
+                    /> コード音量
+                </div>
 
+                <div>
+                    <input 
+                        className="cursor-pointer"
+                    type="range" min={0} max={4}
+                        value={gctx.audioVolume.melody}
+                        onChange={(e) => {
+                            gctx.audioVolume.melody = Number(e.target.value)
+                            gctx.rerenderUI()
+                        }}
+                    /> メロディ音量
+                </div>
+            </div>
+
+      
+             
+
+{/* 
 
             <div className="mt-2">
                 {['master', 'chord', 'melody'].map((kind, i) => {
@@ -87,7 +116,7 @@ export const Setting: React.FC<{
                         </select>
                     </div>
                 })}
-            </div>
+            </div> */}
 
           
 

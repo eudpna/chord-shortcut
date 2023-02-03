@@ -4,8 +4,7 @@ import { solfaArr, SolfaToFlat } from "./sound/solfa"
 
 export type URLParameters = {
     title: string | null
-    text: string | null
-    text1: string | null
+    text: string | null    
     key: SolfaName | null
 }
 
@@ -13,7 +12,6 @@ export function parseChordShortcutURL() {
     const result: URLParameters = {
         title: null,
         text: null,
-        text1: null,
         key: null,
     }
 
@@ -27,10 +25,10 @@ export function parseChordShortcutURL() {
         result.text = text
     }
 
-    const text1 = getUrlParameter('text1', location.href)
-    if (text1 && typeof text1 === 'string') {
-        result.text1 = text1
-    }
+    // const text1 = getUrlParameter('text1', location.href)
+    // if (text1 && typeof text1 === 'string') {
+    //     result.text1 = text1
+    // }
 
     const key = getUrlParameter('key', location.href)
     if (key && typeof key === 'string' && 

@@ -217,9 +217,9 @@ export class Gctx {
         if (url.text !== null) {
             this.setText(url.text)
         }
-        if (url.text1 !== null) {
-            this.setMidi2ChordText(url.text1)
-        }
+        // if (url.text1 !== null) {
+        //     this.setMidi2ChordText(url.text1)
+        // }
         if (url.key !== null) {
             this.key = url.key
         }
@@ -619,7 +619,7 @@ export class Gctx {
         return location.href.replace(location.search, '') +
             `?title=${encodeURIComponent(this.title.trim())}` +
             `&text=${encodeURIComponent(this.text)}` +
-            `&text1=${encodeURIComponent(this.midi2chordText)}` +
+            // `&text1=${encodeURIComponent(this.midi2chordText)}` +
             `&key=${encodeURIComponent(this.key)}`
     }
 
