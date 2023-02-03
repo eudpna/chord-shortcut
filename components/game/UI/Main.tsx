@@ -4,6 +4,7 @@ import { Gctx } from "../../../game/Gctx"
 import { ChordBtns } from "../../../game/lib/ChordBtns"
 import useMIDI from "../../../game/lib/useMIDI"
 import { sampleScores } from "../../../game/sample"
+import { diatonic, diatonic4 } from "../../../lib/lib1"
 import { A } from "../../A"
 import { CopyIcon } from "../../icons/CopyIcon"
 import { ChordBtnsEl } from "./ChordBtnsEl"
@@ -79,6 +80,36 @@ export const Main: React.FC<{
             <div className="mt-4">
                 <TitleSetting gctx={gctx} />
             </div>
+
+            <div className="text-sm mt-4">
+                <div>プリセット:</div>
+                <ul className="text-sm ml-2 list-none">
+                    <li>
+                        <A href={
+                            location.href.replace(location.search, '') +
+                            `?title=${encodeURIComponent('ダイアトニック・コード')}` +
+                            `&text=${encodeURIComponent(
+                                diatonic.join(' ') + '\n' +
+                                diatonic4.join(' ')
+                            )}` +
+                            `&key=${encodeURIComponent('C')}`
+                        }>
+                            ダイアトニック・コード
+                        </A>
+                    </li>
+                </ul>
+                
+            </div>
+
+            <div className="text-xs mt-12">
+                <div className="mb-4">
+                    <A href="/list">利用可能なコード記号の一覧</A>
+                </div>
+                <div className="">
+                    不具合報告や要望などは <A href="https://twitter.com/teiwv">@teiwv</A> まで。<br />最終更新: 2023/02/03
+                </div>
+            </div>
+
 
             
             {/* <div className="mt-4">

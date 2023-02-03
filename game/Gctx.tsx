@@ -99,9 +99,9 @@ export class Gctx {
         chord: number
         melody: number
     } = {
-        master: 4,
-        chord: 4,
-        melody: 4,
+            master: Math.floor(conf.maxAudioVolume * 0.8), 
+            chord: Math.floor(conf.maxAudioVolume * 0.8),
+            melody: Math.floor(conf.maxAudioVolume * 0.8),
     }
 
     midiInput: webmidi.Input | 'off' | 'all' = 'all'

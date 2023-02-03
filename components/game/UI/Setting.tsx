@@ -72,7 +72,7 @@ export const Setting: React.FC<{
                 <div>
                     <input
                     className="cursor-pointer"
-                     type="range" min={0} max={4}
+                     type="range" min={0} max={conf.maxAudioVolume}
                         value={gctx.audioVolume.chord}
                         onChange={(e) => {
                             gctx.audioVolume.chord = Number(e.target.value)
@@ -84,7 +84,7 @@ export const Setting: React.FC<{
                 <div>
                     <input 
                         className="cursor-pointer"
-                    type="range" min={0} max={4}
+                    type="range" min={0} max={conf.maxAudioVolume}
                         value={gctx.audioVolume.melody}
                         onChange={(e) => {
                             gctx.audioVolume.melody = Number(e.target.value)
