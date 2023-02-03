@@ -36,6 +36,7 @@ export const ChordBtnEl: React.FC<{
         ref={ref}
         className="chordbtn-el inline-block">
         <div className="relative rounded inline-block cursor-pointer" style={{
+            
             width: 65,
             height: 50,
             border: 'solid 1px black',
@@ -114,21 +115,41 @@ export const ChordBtnsEl: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
 
+    const bs = gctx.chordBtns.btns
 
+    const btns = [
+        bs.slice(0, 10),
+        bs.slice(10, 20),
+        bs.slice(20, 30),
+        bs.slice(30, 40),
+    ]
 
     return <div className="p-0 noselect" style={{
         // marginTop: 150,
+        // overflowX: 'hidden',
+        whiteSpace: 'nowrap',
     }}>
-        {gctx.chordBtns.btns.map((chordBtn, i) => {
+        {btns.map((line, i) => <div key={i} style={{
+            height: 70
+        }}>
+                {line.map((chordBtn, i) => {
+                    return <div key={i} className="inline-block">
+                        <ChordBtnEl
+                            gctx={gctx}
+                            chordBtn={chordBtn}
+                        />
+                    </div>
+                })}
+            </div>
+        )}
+        {/* {gctx.chordBtns.btns.map((chordBtn, i) => {
             return <div key={i} className="inline-block">
                 <ChordBtnEl
                 gctx={gctx}
                 chordBtn={chordBtn}
                  />
             </div>
-        })
-
-        }
+        })} */}
         {/* {diatonic.map(chordName => {
 
             const isSounding = gctx.isSoundingTheChord(chordName)

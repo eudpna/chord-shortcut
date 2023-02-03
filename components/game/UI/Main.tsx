@@ -65,7 +65,7 @@ export const Main: React.FC<{
                 <TextField gctx={gctx} />
             </div>
 
-            <div className="mt-12">
+            <div className="mt-8">
                 <ChordBtnsEl gctx={gctx} />
             </div>
 
