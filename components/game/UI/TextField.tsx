@@ -27,7 +27,7 @@ export const TextField: React.FC<{
             }} onClick={() => {
                 gctx.setDiatonic()
             }}>
-                ダイアトニックコードを自動入力
+                ダイアトニックコードを自動設定
             </button>
         </div>
     </div>
