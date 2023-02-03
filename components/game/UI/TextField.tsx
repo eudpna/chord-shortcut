@@ -11,14 +11,15 @@ export const TextField: React.FC<{
         <TextareaAutosize 
             value={gctx.text}
             // spellcheck="false"
-            placeholder="コード記号を空白区切りで入力（例: Em G7 C）"
+            placeholder="コード記号を空白区切りで入力（例: Em G7 C IIm）"
             className="prevent-shot p-1 resize-none w-full border border-gray-400 rounded" style={{
             lineHeight: 1.5,
             // fontSize: '16px'
         }} minRows={2} onChange={(e) => {
             gctx.setText(e.target.value)
         }}></TextareaAutosize>
-        <div className="text-right" style={{
+
+        {/* <div className="text-right" style={{
             marginTop: -4,
         }}>
             <button className="rounded-full px-3 p-0.5 bg-white text-xs" style={{
@@ -29,6 +30,7 @@ export const TextField: React.FC<{
             }}>
                 ダイアトニックコードを自動設定
             </button>
-        </div>
+        </div> */}
+
     </div>
 }

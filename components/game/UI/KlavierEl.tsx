@@ -162,15 +162,23 @@ export const KlavierKeyEl: React.FC<{
         }}
     >
         {/* 名前 */}
-        {klavierKey.pitch.solfa.solfaName}
+        {/* {klavierKey.pitch.solfa.solfaName} */}
+
+        {klavierKey.pitch.noteNumber === 60 ? 
+        <div className="absolute bottom-0 px-0.5" style={{
+
+        }}>
+            C4
+        </div>
+         : null}
 
         {/* qwerty */}
-        <div className="text-xs text-gray absolute" style={{
+        {/* <div className="text-xs text-gray absolute" style={{
             left: 2,
             bottom: 2
         }}>
             {klavierKey.qwerty}
-        </div>
+        </div> */}
 
         
 

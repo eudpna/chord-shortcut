@@ -4,9 +4,20 @@ import { chordToName, guitarChords } from "./chords"
 import { get_diatonic_chords, next_key } from "./sound/scale"
 import { Solfa } from "./sound/solfa"
 import { v4 as uuidv4 } from 'uuid'
+import { qwerty } from "./lib"
 
 // const buttonLength = [12, 10]
-const buttonLength = 20
+// const buttonLength = 20
+const buttonLength = (() => {
+    const qwert = qwerty.common
+    let count = 0
+    for (let j = 0; j < qwert.length; j++) {
+        for (let i = 0; i < qwert[j].length; i++) {
+            count++
+        }
+    }
+    return count
+})()
 
 
 const roman_numeric = [

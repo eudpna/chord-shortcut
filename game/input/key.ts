@@ -38,13 +38,13 @@ export function setKeyEventListeners(gctx: Gctx) {
             }
         })
 
-        gctx.klavier.keys.forEach(klavierKey => {
-            if (klavierKey.qwerty === key
-                && !gctx.input.keys.includes(key)
-            ) {
-                klavierKey.down()
-            }
-        })
+        // gctx.klavier.keys.forEach(klavierKey => {
+        //     if (klavierKey.qwerty === key
+        //         && !gctx.input.keys.includes(key)
+        //     ) {
+        //         klavierKey.down()
+        //     }
+        // })
 
         // 存在するキーを押下したら　かつ
         // 既に押されていなかったら
@@ -78,12 +78,12 @@ export function setKeyEventListeners(gctx: Gctx) {
             }
         })
 
-        gctx.klavier.keys.forEach(klavierKey => {
-            if (klavierKey.qwerty === key
-            ) {
-                klavierKey.up()
-            }
-        })
+        // gctx.klavier.keys.forEach(klavierKey => {
+        //     if (klavierKey.qwerty === key
+        //     ) {
+        //         klavierKey.up()
+        //     }
+        // })
 
         // // 数字キーが離されたら
         // if (isRoman(key)

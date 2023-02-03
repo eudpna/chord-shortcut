@@ -22,7 +22,7 @@ export const KeySetting: React.FC<{
             }}>
                 {solfaFlatArr.map((solfa, i) => {
                     const minor = solfaFlatArr[(i+9)%12]
-                    return <option className="pr-1" key={solfa} value={SolfaToFlat(solfa)}>{`${solfa}メジャー`}{` (${minor}マイナー) `}</option>
+                    return <option className="pr-1" key={solfa} value={SolfaToFlat(solfa)}>{`${solfa}`}</option>
                 })}
                 {/* {solfaSharp.map(solfa => {
                     return <option key={solfa} value={SolfaToFlat(solfa)}>{solfa.slice(-1)==='#'?`${solfa} (${SolfaToFlat(solfa)})`:solfa}</option>

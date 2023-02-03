@@ -22,7 +22,7 @@ export const Main: React.FC<{
     gctx: Gctx
 }> = (props) => {
     const gctx = props.gctx
-    const title = gctx.title
+    const title = gctx.title.trim()
 
 
 
@@ -63,28 +63,31 @@ export const Main: React.FC<{
             <div className="mt-4">
                 <TextField gctx={gctx} />
             </div>
+
             <div className="mt-12">
                 <ChordBtnsEl gctx={gctx} />
             </div>
+
             <div className="mt-4 mb-24">
                 <KlavierEl gctx={gctx} />
+            </div>
+
+            <div className="mt-4">
+                <Setting gctx={gctx} />
             </div>
 
             <div className="mt-4">
                 <TitleSetting gctx={gctx} />
             </div>
 
-
-            <div className="mt-4">
-                <Setting gctx={gctx} />
-            </div>
             
-            <div className="mt-4">
+            {/* <div className="mt-4">
                 <Midi2ChordTextField gctx={gctx} />
-            </div>
-            <div className="mt-6">
+            </div> */}
+
+            {/* <div className="mt-6">
                 <LoadChordMemoEl gctx={gctx} />
-            </div>
+            </div> */}
         </div>
     </div>
 }

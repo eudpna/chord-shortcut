@@ -251,11 +251,13 @@ export class Gctx {
         
         const bs = this.chordBtns.btns
         const btns = [
-            bs.slice(0, bs.length / 2),
-            bs.slice(bs.length/2, bs.length)
+            bs.slice(0, 10),
+            bs.slice(10, 20),
+            bs.slice(20, 30),
+            bs.slice(30, 40),
         ]
-        lines[0]
-        lines.slice(0, 2).map((line, i) => {
+        
+        lines.slice(0, 4).map((line, i) => {
             line.slice(0, 10).map((chord, j) => {
                 if (typeof chord === 'string') {
                     btns[i][j].chordName = chord
@@ -380,9 +382,24 @@ export class Gctx {
 
     setQwertyLang(qwertyLang: this['qwertyLang']) {
         this.qwertyLang = qwertyLang
+        const qwert = qwerty.common
         
         // コードにキーを割り当て
-        for (let i = 0; i < 10; i++) {
+        let count = 0
+        for (let j = 0; j < qwert.length; j ++) {
+            for (let i = 0; i < qwert[j].length; i ++) {
+                this.chordBtns.btns[count].qwerty = qwert[j][i].toLocaleLowerCase()
+                count++
+            }
+        }
+
+
+        this.rerenderUI()
+        return
+
+        
+
+        for (let i = 0; i < 12; i++) {
             const q = this.qwerty()[0][i]
             this.chordBtns.btns[i].qwerty = q.toLowerCase()
         }
@@ -390,6 +407,7 @@ export class Gctx {
             const q = this.qwerty()[3][i]
             this.chordBtns.btns[10+i].qwerty = q.toLowerCase()
         }
+
 
 
         // ノートにキーを割り当て
