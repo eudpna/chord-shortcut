@@ -126,7 +126,7 @@ export const KlavierKeyEl: React.FC<{
     const isSounding = klavierKey.isDown || gctx.isSoundingTheNote(klavierKey.pitch.noteNumber)
     
 
-    return <div id={'#klavierKey-'+klavierKey.id} key={klavierKey.pitch.noteNumber} className={'cursor-pointer '+(klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {
+    return <div id={klavierKey.id} key={klavierKey.pitch.noteNumber} className={'klavierkey-el cursor-pointer '+(klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {
         // 白鍵のスタイル
         border: 'solid 1px black',
         // backgroundColor: klavierKey.isDown ? 'red' : (gctx.isSoundingTheNote(klavierKey.pitch.noteNumber) ? 'blue' : 'white'),
@@ -158,6 +158,15 @@ export const KlavierKeyEl: React.FC<{
         }}
         onMouseLeave={() => {
             if (!gctx.input.mouse.isDown) return
+            klavierKey.up()
+        }}
+
+        onTouchStart={(e) => {
+            e.preventDefault()
+            klavierKey.down()
+        }}
+        onTouchEnd={(e) => {
+            e.preventDefault()
             klavierKey.up()
         }}
     >

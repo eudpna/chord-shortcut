@@ -37,6 +37,8 @@ export class ChordBtn {
     ref: MutableRefObject<any> | null
     id = uuidv4()
 
+    touches: number = 0
+
     constructor(public gctx: Gctx) {
         
     }
@@ -52,6 +54,19 @@ export class ChordBtn {
         this.gctx.stopChord(this.chordName)
         this.gctx.rerenderUI()
     }
+
+    addTouch() {
+        this.touches ++
+        if (!this.isDown) this.down()
+        
+    }
+
+    removeTouch() {
+        this.touches --
+        if (this.touches === 0) {
+            if (this.isDown) this.up()
+        }
+    }
 }
 
 export class ChordBtns {
@@ -61,6 +76,12 @@ export class ChordBtns {
         this.btns = Array.from(Array(buttonLength)).map(() => {
             return new ChordBtn(gctx)
         })
+    }
+
+    getChordBtnById(id: string) {
+        const tmp = this.btns.filter(btn => btn.id === id)
+        if (!tmp.length) return null
+        return tmp[0]
     }
 
     // setDiatonic() {

@@ -14,6 +14,8 @@ export class KlavierKey {
     ref: MutableRefObject<any> | null
     id = uuidv4()
 
+    touches: number = 0
+
     constructor(public gctx: Gctx, noteNumber: number) {
         this.pitch = new Pitch(noteNumber)
     }
@@ -28,6 +30,19 @@ export class KlavierKey {
         this.isDown = false
         this.gctx.stopNote(this.pitch.noteNumber)
         this.gctx.rerenderUI()
+    }
+
+    addTouch() {
+        this.touches++
+        if (!this.isDown) this.down()
+
+    }
+
+    removeTouch() {
+        this.touches--
+        if (this.touches === 0) {
+            if (this.isDown) this.up()
+        }
     }
 }
 
@@ -48,6 +63,12 @@ export class Klavier {
         if (!this.keys[this.keys.length-1].pitch.isWholeTone) {
             this.keys[this.keys.length-1].disabled = true
         }
+    }
+
+    getKeyById(id: string) {
+        const tmp = this.keys.filter(btn => btn.id === id)
+        if (!tmp.length) return null
+        return tmp[0]
     }
 
     getKeyByNoteNunber(noteNumber: number): KlavierKey | null{

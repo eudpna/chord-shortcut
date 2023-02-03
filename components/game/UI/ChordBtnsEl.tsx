@@ -32,9 +32,9 @@ export const ChordBtnEl: React.FC<{
 
 
     return <div
-        id={'chordBtn-'+chordBtn.id}
+        id={chordBtn.id}
         ref={ref}
-        className="inline-block">
+        className="chordbtn-el inline-block">
         <div className="relative rounded inline-block cursor-pointer" style={{
             width: 65,
             height: 50,
@@ -56,6 +56,15 @@ export const ChordBtnEl: React.FC<{
             }}
             onMouseLeave={() => {
                 if (!gctx.input.mouse.isDown) return
+                chordBtn.up()
+            }}
+
+            onTouchStart={(e) => {
+                e.preventDefault()
+                chordBtn.down()
+            }}
+            onTouchEnd={(e) => {
+                e.preventDefault()
                 chordBtn.up()
             }}
         >

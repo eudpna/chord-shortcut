@@ -25,6 +25,7 @@ import { parseLine } from "../lib/midi2chord"
 import { Midi2Chord } from "./Midi2Chord"
 import { parseChordShortcutURL } from "./lib/parseChordShortcutURL"
 import { Solfa, SolfaName, solfaNameToSolfaNumber } from "../lib/music/Solfa"
+import { setTouchEventListeners } from "./input/touch"
 
 // import tonal from 'tonal'
 // import {Chord} from 'tonal'
@@ -184,6 +185,7 @@ export class Gctx {
 
         setKeyEventListeners(this)
         setMouseEventListeners(this)
+        // setTouchEventListeners(this)
 
 
         this.loadURL()
