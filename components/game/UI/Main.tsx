@@ -33,7 +33,7 @@ export const Main: React.FC<{
     //     gctx.stopNote(note)
     // })
 
-    return <div className="pt-4 px-2 pb-3 max-w-3xl mx-auto" style={{
+    return <div className="px-2 max-w-3xl mx-auto" style={{
         
     }}>
 
@@ -51,14 +51,15 @@ export const Main: React.FC<{
         
         {/* title */}
         <div className="mb-6">
-            <A href="/" className="text-xl font-bold text-gray-700 inline-block">
+            <A href="/" className="text-xl font-bold
+             text-gray-700 inline-block">
                 ChordShortcut
             </A>
             {/* <div className="text-sm inline-block pl-2" style={{
             }}>
                 
             </div> */}
-            <div className="mt-4">
+            <div className="mt-12">
                 <KeySetting gctx={gctx} />
             </div>
             <div className="mt-4">
@@ -81,7 +82,7 @@ export const Main: React.FC<{
                 <TitleSetting gctx={gctx} />
             </div>
 
-            <div className="text-sm mt-4">
+            {/* <div className="text-sm mt-4">
                 <div>プリセット:</div>
                 <ul className="text-sm ml-2 list-none">
                     <li>
@@ -99,16 +100,51 @@ export const Main: React.FC<{
                     </li>
                 </ul>
                 
+            </div> */}
+
+            <div className="mt-6 text-xs">
+                <A href="/list">利用可能なコード記号の一覧</A>
             </div>
 
-            <div className="text-xs mt-12">
+            <div className="mt-2 text-xs">
+                <A href={
+                    location.href.replace(location.search, '') +
+                    `?title=${encodeURIComponent('ダイアトニック・コード')}` +
+                    `&text=${encodeURIComponent(
+                        diatonic.join(' ') + '\n' +
+                        diatonic4.join(' ')
+                    )}` +
+                    `&key=${encodeURIComponent('C')}`
+                }>
+                    ダイアトニック・コード
+                </A>
+            </div>
+
+            <div className="text-xs mt-4">
+                <div className="flex">
+                    <div className="flex-1 text-right">
+                        <span className="pr-2">
+                            <span className="pr-1" style={{
+                                fontSize: '11px',
+                            }}>
+                                最終更新
+                            </span>
+                             2023/02/03
+                        </span>
+                        by&nbsp;
+                        <A href="https://twitter.com/teiwv">@teiwv</A>
+                    </div>
+                </div>
+            </div>
+
+            {/* <div className="text-xs mt-12">
                 <div className="mb-4">
                     <A href="/list">利用可能なコード記号の一覧</A>
                 </div>
                 <div className="">
                     不具合報告や要望などは <A href="https://twitter.com/teiwv">@teiwv</A> まで。<br />最終更新: 2023/02/03
                 </div>
-            </div>
+            </div> */}
 
 
             
