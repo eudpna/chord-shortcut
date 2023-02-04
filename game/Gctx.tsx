@@ -19,7 +19,7 @@ import { playNote } from "./lib/sound/sound"
 import { parseChordMemoURL } from "./lib/chordMemo/parseChordMemoURL"
 import { loadChordMemo } from "./lib/chordMemo/loadChordMemo"
 import { textToChords } from "./lib/textToChords"
-import { diatonic, diatonic4 } from "../lib/lib1"
+import { diatonic, diatonic4, romanNumericToChordName } from "../lib/lib1"
 import { conf } from "./conf"
 import { parseLine } from "../lib/midi2chord"
 import { Midi2Chord } from "./Midi2Chord"
@@ -560,7 +560,7 @@ export class Gctx {
             // midi output
             this.sendMidiNoteOn('chord', noteNumber)
 
-            return playNote(this.soundTypes.chord, noteNumber, 0.3 * (this.audioVolume.master/conf.maxAudioVolume)*(this.audioVolume.chord/conf.maxAudioVolume))
+            return playNote(this.soundTypes.chord, noteNumber, 0.5 * (this.audioVolume.master/conf.maxAudioVolume)*(this.audioVolume.chord/conf.maxAudioVolume))
         })
     
         const playingChord = {
@@ -647,6 +647,32 @@ export class Gctx {
         this.setMidi2ChordText(
             str.join('\n')
         )
+    }
+
+
+    getChordMemoURL() {
+
+        let text = ''
+
+        this.chordBtns.btns.map((btn,i) => {
+
+            // if (!btn) return null
+            // if (!btn.chord)
+            // if (!btn.chordName) return null
+            if (btn.chordName)  {
+                text = text + btn.chordName + ' '
+            }
+            if ((i + 1) % 10 === 0) {
+                text = text + '\n'
+            }
+        })
+        text = text.trim()
+
+
+        return `https://chordmemo.nyaw.net/` +
+            `?title=${encodeURIComponent(this.title.trim())}` +
+            `&text=${encodeURIComponent(text)}` +
+            '&notation=simple'
     }
 
 

@@ -1,5 +1,7 @@
+import { guitarChords } from "../game/lib/chords";
 import { next_key } from "../game/lib/sound/scale";
-import { Solfa, SolfaName } from "./music/Solfa";
+import { SolfaToFlat } from "../game/lib/sound/solfa";
+import { Solfa, SolfaName, solfaNameToSolfaNumber } from "./music/Solfa";
 
 export function downloadText(filename: string, text: string) {
     var element = document.createElement('a');
@@ -95,6 +97,10 @@ export const roman_numeric = [
     'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'
 ]
 
+export const majorkey_interval = [
+    0, 2, 4, 5, 7, 9, 11
+]
+
 export const diatonic = [
     'I', 'IIm', 'IIIm', 'IV', 'V', 'VIm', 'VIIdim'
 ]
@@ -102,3 +108,14 @@ export const diatonic = [
 export const diatonic4 = [
     'IM7', 'IIm7', 'IIIm7', 'IVM7', 'V7', 'VIm7', 'VIIm7b5'
 ]
+
+// function chordNameToRomanNumeric(chordName: string) {
+//     const chord = guitarChords.getChordByName(chordName)
+//     if (!chord) return null
+    
+//     const solfa = SolfaToFlat(chord.key as SolfaName)
+//     const solfaNumber = solfaNameToSolfaNumber(solfa)
+
+//     majorkey_interval.indexOf(solfaNumber)
+
+// }
