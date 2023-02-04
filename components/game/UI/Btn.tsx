@@ -11,10 +11,7 @@ export const Btn: React.FC<ButtonHTMLAttributes<any> & {
     height?: number
     disabled?: boolean
 }> = (props) => {
-    const className = props.className ? props.className : ""
-
-    // const style = props.style?props.style:{}
-    
+    const className = props.className ? props.className : ""        
 
     let color = 'white'
     if (props.colorType) {
@@ -28,18 +25,11 @@ export const Btn: React.FC<ButtonHTMLAttributes<any> & {
             color = '#dea32f'
         }
         if (props.colorType === 'blue') {
-            // color = '#93c5fd'
             color = '#a4f797'
-            // color = '#86efac'
         }
     }
 
-    
-    
-
-
-    const { colorType, style, disabled, ...rest } = props;
-    
+    const { colorType, style, disabled, ...rest } = props;    
         
     return <button disabled={disabled} {...rest}  className={"bg-white border rounded border-gray-600 px-2 "+className} style={{
         height: 30,

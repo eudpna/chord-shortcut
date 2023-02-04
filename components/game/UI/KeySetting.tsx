@@ -1,11 +1,6 @@
-import TextareaAutosize from "react-textarea-autosize"
 import { Gctx } from "../../../game/Gctx"
 import { Solfa, solfaArr, solfaFlatArr, SolfaToFlat } from "../../../game/lib/sound/solfa"
-import { solfaNameToSolfaNumber } from "../../../lib/music/Solfa"
 
-const solfaSharp = solfaArr.filter(solfa => {
-    return solfa.slice(-1) !== 'b'
-}) as Solfa[]
 
 export const KeySetting: React.FC<{
     gctx: Gctx
@@ -21,12 +16,9 @@ export const KeySetting: React.FC<{
                 gctx.setKey(e.target.value as Solfa)
             }}>
                 {solfaFlatArr.map((solfa, i) => {
-                    const minor = solfaFlatArr[(i+9)%12]
+                    // const minor = solfaFlatArr[(i+9)%12]
                     return <option className="" key={solfa} value={SolfaToFlat(solfa)}>{`${solfa}　`}</option>
                 })}
-                {/* {solfaSharp.map(solfa => {
-                    return <option key={solfa} value={SolfaToFlat(solfa)}>{solfa.slice(-1)==='#'?`${solfa} (${SolfaToFlat(solfa)})`:solfa}</option>
-                })} */}
             </select>
         </div>
     </div>

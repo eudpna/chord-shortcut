@@ -16,12 +16,8 @@ export const TitleSetting: React.FC<{
         }}>
             プロジェクトタイトル
         </div>
-
         <div className="pl-2">
-
-            <div
-                className=""
-            >
+            <div>
                 <input type="text" className="prevent-shot p-1 resize-none w-full border border-gray-400 rounded bg-white"
                     value={gctx.title}
                     placeholder="タイトル"
@@ -31,7 +27,7 @@ export const TitleSetting: React.FC<{
                     }} style={{
                         width: '100%'
                     }} />
-            </div>  
+            </div>
         </div>
     </div>
 }

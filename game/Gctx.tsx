@@ -10,25 +10,18 @@ import { Klavier } from "./Klavier"
 import { setMouseEventListeners } from "./input/mouse"
 import { ChordBtns } from "./lib/ChordBtns"
 import { ResourceLoader } from "../lib/ResourceLoader"
-
 import audioList from '../script/resource/audioList.json'
-import { Pitch } from "../lib/music/Pitch"
 import webmidi, {WebMidi, WebMidiEventMap} from 'webmidi'
 import {  useWebMidi } from "./lib/midi"
 import { playNote } from "./lib/sound/sound"
-import { parseChordMemoURL } from "./lib/chordMemo/parseChordMemoURL"
-import { loadChordMemo } from "./lib/chordMemo/loadChordMemo"
 import { textToChords } from "./lib/textToChords"
 import { diatonic, diatonic4, romanNumericToChordName } from "../lib/lib1"
 import { conf } from "./conf"
-import { parseLine } from "../lib/midi2chord"
-import { Midi2Chord } from "./Midi2Chord"
 import { parseChordShortcutURL } from "./lib/parseChordShortcutURL"
 import { Solfa, SolfaName, solfaNameToSolfaNumber } from "../lib/music/Solfa"
-import { setTouchEventListeners } from "./input/touch"
 
-// import tonal from 'tonal'
-// import {Chord} from 'tonal'
+
+
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
@@ -59,65 +52,29 @@ export class InputState {
     keys: string[] = []
 }
 
-type Keybind = {
-    qwerty: string,
-    notenum: number
-}
-
-const qwerty1 = [
-    'A',
-    'S',
-    'D',
-    'F',
-    'G',
-    'H',
-    'J',
-    'K',
-    'L'
-]
-
-const qwerty1Flatify = {
-    'A': 'Q',
-    'S': 'W',
-    'D': 'E',
-    'F': 'R',
-    'G': 'T',
-    'H': 'Y',
-    'J': 'U',
-    'K': 'I',
-    'L': 'O',
-}
 
 
 
 
 export class Gctx {
-    // midiInputs: webmidi.Input[] = []
-    // midiOutputs: webmidi.Output[] = []
 
+    // 設定
     audioVolume: {
         master: number
         chord: number
         melody: number
     } = {
-            master: Math.floor(conf.maxAudioVolume * 0.8), 
-            chord: Math.floor(conf.maxAudioVolume * 0.8),
-            melody: Math.floor(conf.maxAudioVolume * 0.8),
+        master: Math.floor(conf.maxAudioVolume * 0.8),
+        chord: Math.floor(conf.maxAudioVolume * 0.8),
+        melody: Math.floor(conf.maxAudioVolume * 0.8),
     }
 
     midiInput: webmidi.Input | 'off' | 'all' = 'all'
     midiOutput: webmidi.Output | 'off' = 'off'
 
-    chordMemoURL: string = ''
-
     text: string = ''
-    midi2chordText: string = ''
-
-    midi2chordOctave: number = 3
 
     title: string = ''
-    
-    midi2chord: Midi2Chord[] = []
 
     undoText: string | null = null
 
@@ -125,26 +82,14 @@ export class Gctx {
 
     isLoadedChordMemo: boolean = false
 
-    // midiChannels: {
-    //     input: string
-    //     output: string
-    // } = {
-    //     input: '',
-    //     output: '',
-    // }
-    
     key: SolfaName = 'C'
-    // playingChords: string[] = []
 
     // ユーザー入力に関する状態データ
     input = new InputState
-    
-    // klavier: Klavier = new Klavier(this, 48 + 7, 10)
+
     klavier: Klavier = new Klavier(this, 22, 108 - 22)
 
     chordBtns: ChordBtns = new ChordBtns(this)
-
-    qwertyLang: 'jis' | 'us'
 
     fadeChordSound = true
 
@@ -171,10 +116,6 @@ export class Gctx {
 
     rerenderUI: Function
 
-    // piano: Piano = {
-    //     keysDown: []
-    // }
-
     constructor(rerenderUI: Function) {
 
         this.rerenderUI = () => {
@@ -182,16 +123,11 @@ export class Gctx {
             rerenderUI()
         }
 
-
         setKeyEventListeners(this)
         setMouseEventListeners(this)
-        // setTouchEventListeners(this)
-
 
         this.loadURL()
-
-
-        this.setQwertyLang('us')
+        this.setQwertyToChordBtns()
 
         audioList.map(src => {
             this.resourceLoader.load(src, 'audio', (resource, percent) => {
@@ -203,10 +139,7 @@ export class Gctx {
                 this.rerenderUI()
             })
         })
-        
         useWebMidi(this)
-
-
         rerenderUI()
     }
 
@@ -219,16 +152,10 @@ export class Gctx {
         if (url.text !== null) {
             this.setText(url.text)
         }
-        // if (url.text1 !== null) {
-        //     this.setMidi2ChordText(url.text1)
-        // }
         if (url.key !== null) {
             this.key = url.key
         }
-        
         this.make()
-        this.makeMidi2Chord()
-
         this.rerenderUI()
     }
 
@@ -240,11 +167,6 @@ export class Gctx {
         this.rerenderUI()
     }
 
-    setMidi2ChordText(text: string) {
-        this.midi2chordText = text
-        this.makeMidi2Chord()
-        this.rerenderUI()
-    }
 
     make() {
         this.chordBtns.clear()
@@ -269,121 +191,29 @@ export class Gctx {
         this.rerenderUI()
     }
 
-    makeMidi2Chord() {
-        const text = this.midi2chordText
-
-        this.midi2chord = []
-
-        text.split('\n').map((line, i) => {
-            const tmp = parseLine(this, line)
-
-            if (tmp === null) {
-                this.midi2chord.push(null)
-            } else {
-                this.midi2chord.push(
-                    new Midi2Chord(this, tmp[0], tmp[1])
-                )
-             }
-        })
-    }
 
     undo() {
         this.setText(
             this.undoText
         )
-
         this.undoText = null
         this.rerenderUI()
     }
 
-    // getMidiInputById(id: string): webmidi.Input | null {
-    //     let result: webmidi.Input = null
-    //     this.midiInputs.forEach(midiInput => {
-    //         if (midiInput.id === id) {
-    //             result = midiInput
-    //         }
-    //     })
-    //     return result
-    // }
-
-    // getMidiInputChannel() {
-    //     return this.midiInputs[
-    //         midiInputIdToIndex(this, this.midiChannels.input)
-    //     ]
-    // }
-
-    loadChordMemo() {
-        const chordInfos = loadChordMemo(this.chordMemoURL)
-
-        if (chordInfos === null) return
-
-        if (this.chordSortMethod === 'frequency') {
-            chordInfos.sort((a, b) => {
-                return b.count - a.count
-            })
-        }
-
-        const chordNames = chordInfos.map(c => c.chordName)
-
-        
-
-        // chordNames.join(' ')
-
-        this.undoText = this.text
-
-        if (chordNames.length > 10) {
-            this.setText(
-                chordNames.slice(0, 10).join(' ') +'\n'+
-                chordNames.slice(10).join(' ')
-            )
-        } else {
-            this.setText(
-                chordNames.join(' ')
-            )
-        }
-
-        this.isLoadedChordMemo = true
-
-        
-        // this.chordBtns.setChordNameList(chordNames)
-
-        // this.rerenderUI()
-    }
-
-    // isChordMemoURLValid(): boolean {
-    //     return true
-    // }
-
     setDiatonic() {
-            // setDiatonic() {
-        // const chordNames = []
-        // for (let i = 0; i < 7; i ++) {
-        //     chordNames.push(diatonic[i])
-        //     // this.btns[i].chordNameInput = diatonic[i]
-        //     // this.make()
-        // }
-
         this.setText(
             diatonic.join(' ') + '\n' +
             diatonic4.join(' ')
         )
-        
      }
-
+    
     setKey(key: SolfaName) {
         this.key = key
-        // this.chordBtns.setDiatonic()
         this.setDiatonic()
         this.rerenderUI()
     }
 
-
-    qwerty() {
-        return qwerty[this.qwertyLang]
-    }
-
-    setQwertyLang(qwertyLang: this['qwertyLang']) {
-        this.qwertyLang = qwertyLang
+    setQwertyToChordBtns() {
         const qwert = qwerty.common
         
         // コードにキーを割り当て
@@ -394,50 +224,8 @@ export class Gctx {
                 count++
             }
         }
-
-
         this.rerenderUI()
         return
-
-        
-
-        for (let i = 0; i < 12; i++) {
-            const q = this.qwerty()[0][i]
-            this.chordBtns.btns[i].qwerty = q.toLowerCase()
-        }
-        for (let i = 0; i < 10; i++) {
-            const q = this.qwerty()[3][i]
-            this.chordBtns.btns[10+i].qwerty = q.toLowerCase()
-        }
-
-
-
-        // ノートにキーを割り当て
-        const startNote = 48+7        
-        const whiteKeys = this.klavier.keys.filter(key => key.pitch.isWholeTone)
-        const dan = [1,2]
-        let j = startNote
-        for (let i = 0; i < whiteKeys.length && i < this.qwerty()[dan[0]].length && i < this.qwerty()[dan[1]].length; i++) {
-            if (!(new Pitch(j).isWholeTone)) j ++
-            const key = this.klavier.getKeyByNoteNunber(j)
-            if (!key) {
-                break
-            }
-            // 白鍵だったら
-            if (key.pitch.isWholeTone) {
-                key.qwerty = this.qwerty()[dan[1]][i].toLowerCase()
-                // その左上に黒鍵があったら
-                if (key.pitch.hasFlat()) {
-                    const blackKey = this.klavier.getKeyByNoteNunber(key.pitch.noteNumber - 1)
-                    if (blackKey) {
-                        blackKey.qwerty = this.qwerty()[dan[0]][i].toLowerCase()
-                    }
-                }
-            }
-            j++
-        }
-        
-        this.rerenderUI()
     }
 
     // コードとして鳴っているコードノートの一覧を取得
@@ -475,7 +263,6 @@ export class Gctx {
 
         // midi output
         this.sendMidiNoteOn('melody', noteNumber, velocity)
-
 
         this.rerenderUI()
     }
@@ -526,14 +313,12 @@ export class Gctx {
         this.rerenderUI()
     }
 
-
     playRoman(n: number) {
         this.playChord(
             chordToName(
                 this.getChordByRoman(n)
             )    
         )
-        
     }
 
     getChordByRoman(n: number) {
@@ -545,12 +330,7 @@ export class Gctx {
     }
 
     playChord(chordName: string) {
-
-        
-
-
         if (!chordName) return
-
 
         const chord = guitarChords.getChordByName(chordName)
 
@@ -575,15 +355,12 @@ export class Gctx {
         }, 3000);
     
         this.rerenderUI()
-
-
     }
 
     // midiの入出力がループになっているか
     isMidiLoop() {
         if (this.midiOutput === 'off') return false
         if (this.midiInput === 'off') return false
-        let res = false
         if (this.midiInput === 'all') {
             return WebMidi.inputs.filter(input => {
                 return input.name === (this.midiOutput as webmidi.Output).name
@@ -617,48 +394,21 @@ export class Gctx {
     }
 
 
-    getShareURL() {
+    getURL() {
         return location.href.replace(location.search, '') +
             `?title=${encodeURIComponent(this.title.trim())}` +
             `&text=${encodeURIComponent(this.text)}` +
-            // `&text1=${encodeURIComponent(this.midi2chordText)}` +
             `&key=${encodeURIComponent(this.key)}`
     }
 
     updateURL() {
-        if (location.href === this.getShareURL()) return
-
-        history.replaceState(null, null, this.getShareURL())
+        if (location.href === this.getURL()) return
+        history.replaceState(null, null, this.getURL())
     }
-
-    setMidi2ChordDiatonic() {
-        const octave = this.midi2chordOctave
-        let offset = 0
-        const str = diatonic.map((c, i) => {
-            const step = [0,2,2,1,2,2,2,1][i]
-            offset += step
-            const num = solfaNameToSolfaNumber(this.key)
-            const octave1 = (num+offset)>12 ? octave+1 : octave
-
-            const solfa = new Solfa((num + offset)%12).solfaName
-            return `${solfa+String(octave1)} ${c}`
-        })
-
-        this.setMidi2ChordText(
-            str.join('\n')
-        )
-    }
-
 
     getChordMemoURL() {
-
         let text = ''
-
         this.chordBtns.btns.map((btn,i) => {
-
-            // if (!btn) return null
-            // if (!btn.chord)
-            // if (!btn.chordName) return null
             if (btn.chordName)  {
                 text = text + btn.chordName + ' '
             }
@@ -668,16 +418,10 @@ export class Gctx {
         })
         text = text.trim()
 
-
         return `https://chordmemo.nyaw.net/` +
             `?title=${encodeURIComponent(this.title.trim())}` +
             `&text=${encodeURIComponent(text)}` +
             '&notation=simple'
     }
-
-
-    // playSounds(keyIds: number[], soundType: SoundType) {
-    //     return playSounds(soundType, keyIds)
-    // }
 }
 

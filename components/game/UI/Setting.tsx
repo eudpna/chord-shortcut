@@ -1,4 +1,3 @@
-import TextareaAutosize from "react-textarea-autosize"
 import { WebMidi } from "webmidi"
 import { conf } from "../../../game/conf"
 import { Gctx } from "../../../game/Gctx"
@@ -43,7 +42,8 @@ export const Setting: React.FC<{
                 MIDI出力：
                 <select value={typeof gctx.midiOutput === 'string' ? gctx.midiOutput : gctx.midiOutput.id} className="rounded border-gray-400 px-2 bg-white" style={{
                     border: 'solid 1px rgb(156,163,175)'
-                }} name="" id="" onChange={(e) => {
+                }}
+                onChange={(e) => {
                     if (e.target.value === 'off') {
                         gctx.midiOutput = e.target.value
                     } else {
@@ -52,7 +52,6 @@ export const Setting: React.FC<{
                     gctx.rerenderUI()
                 }}>
                     <option value="off">なし</option>
-                    {/* <option value="all">全て</option> */}
                     {WebMidi.outputs.map(midi => {
                         return <option key={midi.id} value={midi.id}>{midi.name}&nbsp;</option>
                     })}
@@ -93,32 +92,6 @@ export const Setting: React.FC<{
                     /> メロディ音量
                 </div>
             </div>
-
-      
-             
-
-{/* 
-
-            <div className="mt-2">
-                {['master', 'chord', 'melody'].map((kind, i) => {
-                    return <div key={kind} className="mt-0.5">
-                        音量({['マスター', 'コード', 'メロディ'][i]}): &nbsp;
-                        <select value={gctx.audioVolume[kind]} className="rounded border-gray-400 px-2 bg-white " style={{
-                            border: 'solid 1px rgb(156,163,175)'
-                        }} name="" id="" onChange={(e) => {
-                            gctx.audioVolume[kind] = Number(e.target.value)
-                            gctx.rerenderUI()
-                        }}>
-                            {Array.from(Array(conf.maxAudioVolume+1).keys()).map(n => {
-
-                                return <option key={n} value={n}>{n}&nbsp;</option>
-                            })}
-                        </select>
-                    </div>
-                })}
-            </div> */}
-
-          
 
         </div>
     </div>
