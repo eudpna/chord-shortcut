@@ -40,7 +40,7 @@ export const ukuleleChordsData = Object.values(ukulele.chords).flatMap(a => a)
 
 export type ChordData = typeof guitarChordsData[number]
 
-export default class Chords {
+export default class ChordDatas {
     public readonly chords: {[key: string]: ChordData} = {}
     private keys = new Set()
     private suffixes = new Set()
@@ -189,8 +189,8 @@ function url2name(url: string) {
         .replace(/maj/g, 'M')
 }
 
-const guitarChords = new Chords(guitarChordsData)
-const ukuleleChords = new Chords(ukuleleChordsData)
+const guitarChords = new ChordDatas(guitarChordsData)
+const ukuleleChords = new ChordDatas(ukuleleChordsData)
 
 export {
     guitarChords,

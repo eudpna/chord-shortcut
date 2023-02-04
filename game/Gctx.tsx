@@ -1,5 +1,4 @@
 import { removeItemOnce } from "./util/array"
-import { guitarChords } from "./lib/chords"
 import { qwerty } from "./util/other"
 import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
@@ -17,6 +16,7 @@ import { parseURL } from "./parseURL"
 import { Scale } from "./lib/music/Scale"
 import { Vec2 } from "./util/math"
 import { parseText } from "./parseText"
+import { Chords } from "./lib/music/Chord"
 
 
 
@@ -29,7 +29,7 @@ export type playingChord = {
 }
 
 export type PlayingNote = {
-    notenum: number,
+    noteNumber: number,
     audio: Howl,
 }
 
@@ -227,9 +227,9 @@ export class Gctx {
     }
 
     // コードとして鳴っているコードノートの一覧を取得
-    soundingNoteAsChord(): number[] {
-        return this.playingChords.flatMap(chord => {
-            return guitarChords.getChordByName(chord.chordName).positions[0].midi
+    soundingChordNotes(): number[] {
+        return this.playingChords.flatMap(playingChord => {
+            return Chords.byName(playingChord.chordName).notes
         })
     }
 
@@ -239,17 +239,16 @@ export class Gctx {
     }
 
     // 特定のノートが(メロディとして)鳴っているか
-    isSoundingTheNote(notenum: number) {
-        return this.playingNotes.filter(note => note.notenum===notenum).length > 0
+    isSoundingTheNote(noteNumber: number) {
+        return this.playingNotes.filter(note => note.noteNumber===noteNumber).length > 0
     }
 
     // ノートを再生(メロディとして)
     playNote(noteNumber: number, velocity: number = 0.5) {
-        
         const howl = playNote(this.soundTypes.melody, noteNumber, velocity * (this.audioVolume.master / conf.maxAudioVolume) * (this.audioVolume.melody / conf.maxAudioVolume))
 
         const playingNote = {
-            notenum: noteNumber,
+            noteNumber: noteNumber,
             audio: howl,
         }
         this.playingNotes.push(playingNote)
@@ -266,10 +265,10 @@ export class Gctx {
     }
 
     // 再生中のノートを停止
-    stopNote(notenum: number) {
+    stopNote(noteNumber: number) {
         const duration = this.fadeDuration.melody
         this.playingNotes.forEach(playingNote => {
-            if (playingNote.notenum=== notenum) {
+            if (playingNote.noteNumber=== noteNumber) {
                 const audio = playingNote.audio
                 const tmp = audio.volume()
                 audio.fade(tmp, 0, duration)
@@ -280,7 +279,7 @@ export class Gctx {
                 removeItemOnce(this.playingNotes, playingNote)
 
                 // midi output
-                this.sendMidiNoteOff('melody', notenum)
+                this.sendMidiNoteOff('melody', noteNumber)
             }
         })
         this.rerenderUI()
@@ -301,7 +300,7 @@ export class Gctx {
                     }, duration);
 
                     // midi output
-                    guitarChords.getChordByName(playingChord.chordName).positions[0].midi.forEach(noteNumber => {
+                    Chords.byName(playingChord.chordName).notes.forEach(noteNumber => {
                         this.sendMidiNoteOff('chord', noteNumber)
                     })
                 })
@@ -314,11 +313,11 @@ export class Gctx {
     playChord(chordName: string) {
         if (!chordName) return
 
-        const chord = guitarChords.getChordByName(chordName)
+        const chord = Chords.byName(chordName)
 
         if (!chord) return
 
-        const howlers = chord.positions[0].midi.map(noteNumber => {
+        const howlers = chord.notes.map(noteNumber => {
             // midi output
             this.sendMidiNoteOn('chord', noteNumber)
 

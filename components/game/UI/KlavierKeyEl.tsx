@@ -15,7 +15,7 @@ export const KlavierKeyEl: React.FC<{
     const klavier = gctx.klavier
     const klavierKey = props.thekey
 
-    const isInChordNote = gctx.soundingNoteAsChord().map(noteNumber => new Pitch(noteNumber).solfa.number).includes(klavierKey.pitch.solfa.number)
+    const isInChordNote = gctx.soundingChordNotes().map(noteNumber => new Pitch(noteNumber).solfa.number).includes(klavierKey.pitch.solfa.number)
 
     const ref = useRef(null)
 

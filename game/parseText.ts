@@ -1,6 +1,6 @@
 import { Scale } from "./lib/music/Scale"
 import { SolfaName } from "./lib/music/Solfa"
-import { chordToName, guitarChords } from "./lib/chords"
+import { chordToName, guitarChords } from "./lib/chordsdb"
 
 export function parseText(text: string, key: SolfaName) {
     return text.split('\n').map(line => {
