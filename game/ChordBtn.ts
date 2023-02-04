@@ -1,44 +1,28 @@
-import { MutableRefObject } from "react"
 import { Gctx } from "./Gctx"
 import { v4 as uuidv4 } from 'uuid'
 
 
-export class ChordBtn {
-    chordNameInput: string = ''
+export class ChordBtn {    
     chordName: string | null = null
     qwerty: string | null = null
     isDown: boolean = false
-    ref: MutableRefObject<any> | null
     id = uuidv4()
 
-    touches: number = 0
-
-    constructor(public gctx: Gctx) {
-        
+    constructor(public gctx: Gctx) {        
     }
 
     down() {
+        
         this.isDown = true
-        this.gctx.playChord(this.chordName)
+        if (this.chordName) {
+            this.gctx.audier.playChord(this.chordName)
+        }
         this.gctx.rerenderUI()
     }
 
     up() {
         this.isDown = false
-        this.gctx.stopChord(this.chordName)
+        this.gctx.audier.stopChord(this.chordName)
         this.gctx.rerenderUI()
-    }
-
-    addTouch() {
-        this.touches ++
-        if (!this.isDown) this.down()
-        
-    }
-
-    removeTouch() {
-        this.touches --
-        if (this.touches === 0) {
-            if (this.isDown) this.up()
-        }
     }
 }

@@ -4,13 +4,11 @@ import { Gctx } from "./Gctx"
 import { Pitch } from "./lib/music/Pitch"
 
 export class KlavierKey {
-    // readonly noteNumber: number
     readonly pitch: Pitch
     isDown: boolean
     disabled: boolean = false
     qwerty: string | null = null
-
-    ref: MutableRefObject<any> | null
+    
     id = uuidv4()
 
     touches: number = 0
@@ -21,13 +19,13 @@ export class KlavierKey {
 
     down() {
         this.isDown = true
-        this.gctx.playNote(this.pitch.number)
+        this.gctx.audier.playNote(this.pitch.number)
         this.gctx.rerenderUI()
     }
 
     up() {
         this.isDown = false
-        this.gctx.stopNote(this.pitch.number)
+        this.gctx.audier.stopNote(this.pitch.number)
         this.gctx.rerenderUI()
     }
 

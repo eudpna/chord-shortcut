@@ -15,19 +15,8 @@ export const KlavierKeyEl: React.FC<{
     const klavier = gctx.klavier
     const klavierKey = props.thekey
 
-    const isInChordNote = gctx.soundingChordNotes().map(noteNumber => new Pitch(noteNumber).solfa.number).includes(klavierKey.pitch.solfa.number)
+    const isInChordNote = gctx.audier.soundingChordNotes().map(noteNumber => new Pitch(noteNumber).solfa.number).includes(klavierKey.pitch.solfa.number)
 
-    const ref = useRef(null)
-
-    useEffect(() => {
-        if (ref) {
-            klavierKey.ref = ref
-            gctx.rerenderUI()
-        }
-        return () => {
-            klavierKey.ref = null
-        };
-    }, [ref]);
 
 
     if (klavierKey.disabled) {
@@ -37,7 +26,7 @@ export const KlavierKeyEl: React.FC<{
         }} ></div>
     }
 
-    const isSounding = klavierKey.isDown || gctx.isSoundingTheNote(klavierKey.pitch.number)
+    const isSounding = klavierKey.isDown || gctx.audier.isSoundingTheNoteAsMelody(klavierKey.pitch.number)
 
 
     return <div id={klavierKey.id} key={klavierKey.pitch.number} className={'klavierkey-el cursor-pointer ' + (klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {

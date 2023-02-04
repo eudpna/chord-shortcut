@@ -32,7 +32,6 @@ export class ChordBtns {
 
     clear() {
         this.btns.forEach(btn => {
-            btn.chordNameInput = ''
             btn.chordName = null
         })
         this.gctx.rerenderUI()

@@ -11,24 +11,12 @@ export const ChordBtnEl: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
     const chordBtn = props.chordBtn
-    const ref = useRef(null)
 
-    useEffect(() => {
-        if (ref) {
-            chordBtn.ref = ref
-            gctx.rerenderUI()
-        }
-        return () => {
-            chordBtn.ref = null
-        };
-    }, [ref]);
-
-    const isSounding = chordBtn.isDown || gctx.isSoundingTheChord(chordBtn.chordName)
+    const isSounding = chordBtn.isDown || gctx.audier.isSoundingTheChord(chordBtn.chordName)
 
 
     return <div
         id={chordBtn.id}
-        ref={ref}
         className="chordbtn-el inline-block">
         <div className="relative rounded inline-block cursor-pointer" style={{
             width: 65,

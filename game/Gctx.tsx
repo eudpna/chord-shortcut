@@ -1,6 +1,4 @@
-import { removeItemOnce } from "./util/array"
 import { qwerty } from "./util/other"
-import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
 import { Klavier } from "./Klavier"
 import { setMouseEventListeners } from "./input/mouse"
@@ -8,7 +6,6 @@ import { ChordBtns } from "./ChordBtns"
 import { ResourceLoader } from "./lib/ResourceLoader"
 import audioList from '../script/resource/audioList.json'
 import webmidi, {WebMidi} from 'webmidi'
-import { playNote } from "./lib/audio"
 import { conf } from "./conf"
 import { SolfaName } from "./lib/music/Solfa"
 import { enableWebMidi } from "./lib/webmidi"
@@ -16,22 +13,14 @@ import { parseURL } from "./parseURL"
 import { Scale } from "./lib/music/Scale"
 import { Vec2 } from "./util/math"
 import { parseText } from "./parseText"
-import { Chords } from "./lib/music/Chord"
+import { Audier } from "./Audier"
 
 
 
 
 export type SoundType = 'guitar' | 'ukulele' | 'piano' | 'epiano' 
 
-export type playingChord = {
-    chordName: string
-    audios: Howl[]
-}
 
-export type PlayingNote = {
-    noteNumber: number,
-    audio: Howl,
-}
 
 
 export type Mouse = {
@@ -74,22 +63,13 @@ export class Gctx {
 
     title: string = ''
 
-    undoText: string | null = null
-
-    chordSortMethod: 'appearance' | 'frequency' = 'appearance'
-
-    isLoadedChordMemo: boolean = false
-
     key: SolfaName = 'C'
 
-    // ユーザー入力に関する状態データ
     input = new InputState
 
     klavier: Klavier = new Klavier(this, 22, 108 - 22)
 
     chordBtns: ChordBtns = new ChordBtns(this)
-
-    fadeChordSound = true
 
     soundTypes: {
         chord: SoundType
@@ -104,8 +84,7 @@ export class Gctx {
         melody: 200,
     }
 
-    playingChords: playingChord[] = []
-    playingNotes: PlayingNote[] = []
+    audier = new Audier(this)
 
     resourceLoader = new ResourceLoader()
 
@@ -190,14 +169,6 @@ export class Gctx {
     }
 
 
-    undo() {
-        this.setText(
-            this.undoText
-        )
-        this.undoText = null
-        this.rerenderUI()
-    }
-
     setDiatonic() {
         this.setText(
             Scale.diatonic.join(' ') + '\n' +
@@ -224,118 +195,6 @@ export class Gctx {
         }
         this.rerenderUI()
         return
-    }
-
-    // コードとして鳴っているコードノートの一覧を取得
-    soundingChordNotes(): number[] {
-        return this.playingChords.flatMap(playingChord => {
-            return Chords.byName(playingChord.chordName).notes
-        })
-    }
-
-    // 特定のコードが鳴っているか
-    isSoundingTheChord(chordName: string) {
-        return this.playingChords.filter(chord => chord.chordName === chordName).length > 0
-    }
-
-    // 特定のノートが(メロディとして)鳴っているか
-    isSoundingTheNote(noteNumber: number) {
-        return this.playingNotes.filter(note => note.noteNumber===noteNumber).length > 0
-    }
-
-    // ノートを再生(メロディとして)
-    playNote(noteNumber: number, velocity: number = 0.5) {
-        const howl = playNote(this.soundTypes.melody, noteNumber, velocity * (this.audioVolume.master / conf.maxAudioVolume) * (this.audioVolume.melody / conf.maxAudioVolume))
-
-        const playingNote = {
-            noteNumber: noteNumber,
-            audio: howl,
-        }
-        this.playingNotes.push(playingNote)
-        this.rerenderUI()
-        setTimeout(() => {
-            removeItemOnce(this.playingNotes, playingNote)
-            this.rerenderUI()
-        }, 3000);
-
-        // midi output
-        this.sendMidiNoteOn('melody', noteNumber, velocity)
-
-        this.rerenderUI()
-    }
-
-    // 再生中のノートを停止
-    stopNote(noteNumber: number) {
-        const duration = this.fadeDuration.melody
-        this.playingNotes.forEach(playingNote => {
-            if (playingNote.noteNumber=== noteNumber) {
-                const audio = playingNote.audio
-                const tmp = audio.volume()
-                audio.fade(tmp, 0, duration)
-                setTimeout(() => {
-                    audio.stop()
-                    audio.volume(tmp)
-                }, duration);
-                removeItemOnce(this.playingNotes, playingNote)
-
-                // midi output
-                this.sendMidiNoteOff('melody', noteNumber)
-            }
-        })
-        this.rerenderUI()
-    }
-
-
-    // 再生中のコード音声を停止
-    stopChord(chordName: string) {
-        const duration = this.fadeDuration.chord
-        this.playingChords.forEach(playingChord => {
-            if (playingChord.chordName === chordName) {
-                playingChord.audios.forEach(audio => {
-                    const tmp = audio.volume()
-                    audio.fade(tmp, 0, duration)
-                    setTimeout(() => {
-                        audio.stop()
-                        audio.volume(tmp)
-                    }, duration);
-
-                    // midi output
-                    Chords.byName(playingChord.chordName).notes.forEach(noteNumber => {
-                        this.sendMidiNoteOff('chord', noteNumber)
-                    })
-                })
-                removeItemOnce(this.playingChords, playingChord)
-            }
-        })
-        this.rerenderUI()
-    }
-
-    playChord(chordName: string) {
-        if (!chordName) return
-
-        const chord = Chords.byName(chordName)
-
-        if (!chord) return
-
-        const howlers = chord.notes.map(noteNumber => {
-            // midi output
-            this.sendMidiNoteOn('chord', noteNumber)
-
-            return playNote(this.soundTypes.chord, noteNumber, 0.5 * (this.audioVolume.master/conf.maxAudioVolume)*(this.audioVolume.chord/conf.maxAudioVolume))
-        })
-    
-        const playingChord = {
-            chordName: chordName,
-            audios: howlers
-        }
-        this.playingChords.push(playingChord)
-        this.rerenderUI()
-        setTimeout(() => {
-            removeItemOnce(this.playingChords, playingChord)
-            this.rerenderUI()
-        }, 3000);
-    
-        this.rerenderUI()
     }
 
     // midiの入出力がループになっているか

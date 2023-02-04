@@ -7,12 +7,12 @@ export function enableWebMidi(gctx: Gctx) {
     const noteon = (e: webmidi.NoteMessageEvent) => {
         if (gctx.midiInput === 'off') return
         if (gctx.midiInput === 'all' || e.port === gctx.midiInput) {
-            gctx.playNote(e.note.number, e.note.attack)
+            gctx.audier.playNote(e.note.number, e.note.attack)
         }
     }
 
     const noteoff = (e: webmidi.NoteMessageEvent) => {
-        gctx.stopNote(e.note.number)
+        gctx.audier.stopNote(e.note.number)
     }
 
     const setMidiChannels = () => {
