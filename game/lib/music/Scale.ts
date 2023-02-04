@@ -6,7 +6,6 @@ export class Scale {
     static degreeToSolfaName(tonic: SolfaName, degree: number) {
         const tonicSolfaNumber = Solfa.nameToNumber(tonic)
         const solfaNumber = (tonicSolfaNumber + Scale.majorkey_interval[degree]) % 12
-        console.log(tonicSolfaNumber, degree, solfaNumber)
         return Solfa.numberToName(solfaNumber)
     }
 
