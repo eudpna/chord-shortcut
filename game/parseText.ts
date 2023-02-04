@@ -1,15 +1,15 @@
-import { romanNumericToChordName } from "../../lib/lib1"
-import { removeParenthes } from "./chordMemo/ChordMemo"
-import { chordToName, guitarChords } from "./chords"
-import { Solfa } from "./sound/solfa"
+import { Scale } from "./lib/music/Scale"
+import { SolfaName } from "./lib/music/Solfa"
+import { chordToName, guitarChords } from "./lib/chords"
 
-export function textToChords(text: string, key: Solfa) {
+export function parseText(text: string, key: SolfaName) {
     return text.split('\n').map(line => {
         return lineToChords(line, key)
     })
 }
 
-export function lineToChords(line: string, key: Solfa) {
+
+function lineToChords(line: string, key: SolfaName) {
     const tmp = line.matchAll(/\S+/g)
 
     const ms = Array.from(tmp)
@@ -20,7 +20,7 @@ export function lineToChords(line: string, key: Solfa) {
         const simple = m[0]
         
         const chord = guitarChords.getChordByName(
-            romanNumericToChordName(simple, key)
+            Scale.romanNumericToChordName(simple, key)
         )
 
         

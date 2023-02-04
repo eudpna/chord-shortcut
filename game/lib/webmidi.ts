@@ -2,7 +2,7 @@ import webmidi, {WebMidi} from 'webmidi'
 import { Gctx } from '../Gctx';
 
 
-export function useWebMidi(gctx: Gctx) {
+export function enableWebMidi(gctx: Gctx) {
 
     const noteon = (e: webmidi.NoteMessageEvent) => {
         if (gctx.midiInput === 'off') return

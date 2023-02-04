@@ -1,7 +1,7 @@
 import Head from "next/head"
 import React from "react"
 import { Gctx } from "../../../game/Gctx"
-import { diatonic, diatonic4 } from "../../../lib/lib1"
+import { Scale } from "../../../game/lib/music/Scale"
 import { A } from "../../A"
 import { ChordBtnsEl } from "./ChordBtnsEl"
 import { KeySetting } from "./KeySetting"
@@ -71,8 +71,8 @@ export const Main: React.FC<{
                     location.href.replace(location.search, '') +
                     `?title=${encodeURIComponent('ダイアトニック・コード')}` +
                     `&text=${encodeURIComponent(
-                        diatonic.join(' ') + '\n' +
-                        diatonic4.join(' ')
+                        Scale.diatonic.join(' ') + '\n' +
+                        Scale.diatonic4.join(' ')
                     )}` +
                     `&key=${encodeURIComponent('C')}`
                 }>

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { conf } from "../../../game/conf"
 import { Gctx } from "../../../game/Gctx"
 import { Klavier } from "../../../game/Klavier"
-import { Pitch } from "../../../lib/music/Pitch"
+import { Pitch } from "../../../game/lib/music/Pitch"
 import { hakken_width, kokken_margin } from "./KlavierEl"
 
 
@@ -15,7 +15,7 @@ export const KlavierKeyEl: React.FC<{
     const klavier = gctx.klavier
     const klavierKey = props.thekey
 
-    const isInChordNote = gctx.soundingNoteAsChord().map(noteNumber => new Pitch(noteNumber).solfa.solfaNumber).includes(klavierKey.pitch.solfa.solfaNumber)
+    const isInChordNote = gctx.soundingNoteAsChord().map(noteNumber => new Pitch(noteNumber).solfa.number).includes(klavierKey.pitch.solfa.number)
 
     const ref = useRef(null)
 
@@ -31,16 +31,16 @@ export const KlavierKeyEl: React.FC<{
 
 
     if (klavierKey.disabled) {
-        return <div key={klavierKey.pitch.noteNumber} className="inline-block" style={{
+        return <div key={klavierKey.pitch.number} className="inline-block" style={{
             width: hakken_width,
             height: 130,
         }} ></div>
     }
 
-    const isSounding = klavierKey.isDown || gctx.isSoundingTheNote(klavierKey.pitch.noteNumber)
+    const isSounding = klavierKey.isDown || gctx.isSoundingTheNote(klavierKey.pitch.number)
 
 
-    return <div id={klavierKey.id} key={klavierKey.pitch.noteNumber} className={'klavierkey-el cursor-pointer ' + (klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {
+    return <div id={klavierKey.id} key={klavierKey.pitch.number} className={'klavierkey-el cursor-pointer ' + (klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {
         // 白鍵のスタイル
         border: 'solid 1px black',
         backgroundColor: isSounding ? conf.colors.red_dark : 'white',
@@ -82,8 +82,8 @@ export const KlavierKeyEl: React.FC<{
             klavierKey.up()
         }}
     >
-        
-        {klavierKey.pitch.noteNumber === 60 ?
+
+        {klavierKey.pitch.number === 60 ?
             <div className="absolute bottom-0 px-0.5">
                 C4
             </div>

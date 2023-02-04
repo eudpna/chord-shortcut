@@ -1,5 +1,5 @@
 import { Gctx } from "../../../game/Gctx"
-import { Solfa, solfaArr, solfaFlatArr, SolfaToFlat } from "../../../game/lib/sound/solfa"
+import { Solfa, SolfaName } from "../../../game/lib/music/Solfa"
 
 
 export const KeySetting: React.FC<{
@@ -13,11 +13,10 @@ export const KeySetting: React.FC<{
             <select value={gctx.key} className=" rounded border-gray-400 pl-2" style={{
                 border: 'solid 1px rgb(156,163,175)'
             }} name="" id="" onChange={(e) => {
-                gctx.setKey(e.target.value as Solfa)
+                gctx.setKey(e.target.value as SolfaName)
             }}>
-                {solfaFlatArr.map((solfa, i) => {
-                    // const minor = solfaFlatArr[(i+9)%12]
-                    return <option className="" key={solfa} value={SolfaToFlat(solfa)}>{`${solfa}　`}</option>
+                {Solfa.list.map((solfaName, i) => {
+                    return <option className="" key={solfaName} value={solfaName}>{`${solfaName}　`}</option>
                 })}
             </select>
         </div>

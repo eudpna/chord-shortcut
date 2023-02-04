@@ -1,14 +1,13 @@
 import { Howl } from 'howler'
-import { Pitch } from '../../../lib/music/Pitch';
-import { SoundType } from '../../Gctx';
-import { keyidToPitch } from "./keyIdToPitch";
-import { SolfaToFlat } from "./solfa";
+import { Pitch } from './music/Pitch';
+import { Solfa } from './music/Solfa';
+import { SoundType } from '../Gctx';
 
-export function loadSounds(soundType: SoundType, keyIDs: number[]) {
-    keyIDs.map(keyID => {
-        const pitch = keyidToPitch(keyID)
+export function loadSounds(soundType: SoundType, noteNumbers: number[]) {
+    noteNumbers.map(noteNumber => {
         const instrument = soundType
-        const filename = `${pitch.octave}${SolfaToFlat(pitch.solfa)}.mp3`
+        const pitch = new Pitch(noteNumber)
+        const filename = `${pitch.octave}${Solfa.sharpToFlat(pitch.solfa.name)}.mp3`
         const audio = new Howl({
             src: [`/audios/${instrument}/${filename}`],
             volume: 0.6,
@@ -20,7 +19,7 @@ export function loadSounds(soundType: SoundType, keyIDs: number[]) {
 
 export function playNote(soundType: SoundType, noteNumber: number, velocity: number) {
     const pitch = new Pitch(noteNumber)
-    const filename = `${pitch.octave}${pitch.solfa.solfaName}.mp3`
+    const filename = `${pitch.octave}${pitch.solfa.name}.mp3`
     
     const howl = new Howl({
         src: [`/audios/${soundType}/${filename}`],

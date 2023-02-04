@@ -1,24 +1,22 @@
-import sanitize from "sanitize-filename"
-import { removeItemOnce } from "./lib/array"
-import { ChordData, chordToName, guitarChords } from "./lib/chords"
-import { copyToClipboard, downloadText, getUrlParameter, qwerty, strSplice, Vec2 } from "./lib/lib"
-import { get_diatonic_chords, next_key } from "./lib/sound/scale"
-import {  solfaFlatArr, solfaWholeArr } from "./lib/sound/solfa"
+import { removeItemOnce } from "./util/array"
+import { guitarChords } from "./lib/chords"
+import { qwerty } from "./util/other"
 import { Howl } from 'howler'
 import { setKeyEventListeners } from "./input/key"
 import { Klavier } from "./Klavier"
 import { setMouseEventListeners } from "./input/mouse"
-import { ChordBtns } from "./lib/ChordBtns"
-import { ResourceLoader } from "../lib/ResourceLoader"
+import { ChordBtns } from "./ChordBtns"
+import { ResourceLoader } from "./lib/ResourceLoader"
 import audioList from '../script/resource/audioList.json'
-import webmidi, {WebMidi, WebMidiEventMap} from 'webmidi'
-import {  useWebMidi } from "./lib/midi"
-import { playNote } from "./lib/sound/sound"
-import { textToChords } from "./lib/textToChords"
-import { diatonic, diatonic4, romanNumericToChordName } from "../lib/lib1"
+import webmidi, {WebMidi} from 'webmidi'
+import { playNote } from "./lib/audio"
 import { conf } from "./conf"
-import { parseChordShortcutURL } from "./lib/parseChordShortcutURL"
-import { Solfa, SolfaName, solfaNameToSolfaNumber } from "../lib/music/Solfa"
+import { SolfaName } from "./lib/music/Solfa"
+import { enableWebMidi } from "./lib/webmidi"
+import { parseURL } from "./parseURL"
+import { Scale } from "./lib/music/Scale"
+import { Vec2 } from "./util/math"
+import { parseText } from "./parseText"
 
 
 
@@ -139,12 +137,12 @@ export class Gctx {
                 this.rerenderUI()
             })
         })
-        useWebMidi(this)
+        enableWebMidi(this)
         rerenderUI()
     }
 
     loadURL() {
-        const url = parseChordShortcutURL()
+        const url = parseURL()
 
         if (url.title !== null) {
             this.title = url.title
@@ -171,7 +169,7 @@ export class Gctx {
     make() {
         this.chordBtns.clear()
 
-        const lines = textToChords(this.text, this.key)
+        const lines = parseText(this.text, this.key)
         
         const bs = this.chordBtns.btns
         const btns = [
@@ -202,8 +200,8 @@ export class Gctx {
 
     setDiatonic() {
         this.setText(
-            diatonic.join(' ') + '\n' +
-            diatonic4.join(' ')
+            Scale.diatonic.join(' ') + '\n' +
+            Scale.diatonic4.join(' ')
         )
      }
     
@@ -311,22 +309,6 @@ export class Gctx {
             }
         })
         this.rerenderUI()
-    }
-
-    playRoman(n: number) {
-        this.playChord(
-            chordToName(
-                this.getChordByRoman(n)
-            )    
-        )
-    }
-
-    getChordByRoman(n: number) {
-        return this.getDiatonicChords()[n]
-    }
-
-    getDiatonicChords() {
-        return get_diatonic_chords(this.key)
     }
 
     playChord(chordName: string) {

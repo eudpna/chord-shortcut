@@ -3,12 +3,12 @@ import Head from 'next/head'
 import React from 'react'
 import { chordToName, guitarChords, ukuleleChords } from '../game/lib/chords'
 import { A } from '../components/A'
-import { solfaArr } from '../game/lib/sound/solfa'
+import { Solfa } from '../game/lib/music/Solfa'
 
 
 
 function list(instrumentChords: typeof guitarChords | typeof ukuleleChords) {
-    return solfaArr.map(key => {
+    return Solfa.list.map(key => {
         const chords = instrumentChords.getChordsByKey(key)
         return <div>
             <div className='text-lg font-bold mt-6'>

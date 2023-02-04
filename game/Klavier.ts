@@ -1,8 +1,7 @@
-import { isNotenumHasFlat, notenumListWhole } from "./lib/sound/scale"
 import { v4 as uuidv4 } from 'uuid'
 import { MutableRefObject } from "react"
 import { Gctx } from "./Gctx"
-import { Pitch } from "../lib/music/Pitch"
+import { Pitch } from "./lib/music/Pitch"
 
 export class KlavierKey {
     // readonly noteNumber: number
@@ -22,13 +21,13 @@ export class KlavierKey {
 
     down() {
         this.isDown = true
-        this.gctx.playNote(this.pitch.noteNumber)
+        this.gctx.playNote(this.pitch.number)
         this.gctx.rerenderUI()
     }
 
     up() {
         this.isDown = false
-        this.gctx.stopNote(this.pitch.noteNumber)
+        this.gctx.stopNote(this.pitch.number)
         this.gctx.rerenderUI()
     }
 
@@ -72,7 +71,7 @@ export class Klavier {
     }
 
     getKeyByNoteNunber(noteNumber: number): KlavierKey | null{
-        const tmp = this.keys.filter(key => key.pitch.noteNumber === noteNumber)
+        const tmp = this.keys.filter(key => key.pitch.number === noteNumber)
         if (tmp.length === 0) return null
         return tmp[0]
     }

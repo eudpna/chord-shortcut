@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useRef } from "react"
 import { conf } from "../../../game/conf"
 import { Gctx } from "../../../game/Gctx"
-import { ChordBtn } from "../../../game/lib/ChordBtns"
+import { ChordBtn } from "../../../game/ChordBtns"
 
 
 export const ChordBtnEl: React.FC<{

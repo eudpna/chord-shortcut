@@ -1,6 +1,5 @@
-import { SolfaName } from "../../lib/music/Solfa"
-import { getUrlParameter } from "./lib"
-import { solfaArr, SolfaToFlat } from "./sound/solfa"
+import { Solfa, SolfaName } from "./lib/music/Solfa"
+import { getUrlParameter } from "./util/other"
 
 export type URLParameters = {
     title: string | null
@@ -8,7 +7,7 @@ export type URLParameters = {
     key: SolfaName | null
 }
 
-export function parseChordShortcutURL() {
+export function parseURL() {
     const result: URLParameters = {
         title: null,
         text: null,
@@ -25,20 +24,11 @@ export function parseChordShortcutURL() {
         result.text = text
     }
 
-    // const text1 = getUrlParameter('text1', location.href)
-    // if (text1 && typeof text1 === 'string') {
-    //     result.text1 = text1
-    // }
-
     const key = getUrlParameter('key', location.href)
-    if (key && typeof key === 'string' && 
-    solfaArr.includes(key)
+    if (key && typeof key === 'string' && Solfa.isSolfaName(key)
     ) {
-        result.key = SolfaToFlat(key as SolfaName)
+        result.key = Solfa.sharpToFlat(key as SolfaName)
     }
 
-
-
     return result
-
 }

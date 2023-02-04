@@ -1,9 +1,3 @@
-import { ChordType } from "./chords";
-
-export type Vec2 = {
-    x: number
-    y: number
-}
 
 export function downloadText(filename: string, text: string) {
     var element = document.createElement('a');
@@ -30,22 +24,28 @@ export function getUrlParameter(name: string, url: string) {
 }
 
 
-
-
-export function chord2displayName(chord: ChordType): string {
-    if (chord.suffix === 'M') return chord.key
-    return chord.key + chord.suffix
+export const qwerty = {
+    jis: [
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '^'],
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '@', '['],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', ':', ']'],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '_']
+    ],
+    us: [
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'"],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/']
+    ],
+    common: [
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/']
+    ]
 }
 
-export function strInsert(str: string, index: number, text: string) {
-    const res = str.slice(0, index) + text + str.slice(index);
-    return res;
-};
 
-export function strSplice(str: string, start: number, len: number, text: string) {
-    const res = str.slice(0, start) + text + str.slice(start + len);
-    return res;
-};
 
 
 
@@ -82,37 +82,3 @@ export const copyToClipboard = (text: string): Promise<void> => {
         );
 };
 
-
-export function isNumeric(str: string) {
-    return /^-?\d+$/.test(str)
-}
-
-export function keyToRoman(str: string) {
-    if (!isRoman(str)) return null
-    return Number(str) - 1
-}
-// 数字0~6かどうか
-export function isRoman(str: string) {
-    return isNumeric(str) && Number(str) < 8 && Number(str) > 0
-}
-
-export const qwerty = {
-    jis: [
-        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '^'],
-        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '@', '['],
-        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', ':', ']'],
-        ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '_']
-    ],
-    us: [
-        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
-        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']'],
-        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'"],
-        ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/']
-    ],
-    common: [
-        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'],
-        ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/']
-    ]
-}
