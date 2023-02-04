@@ -8,7 +8,7 @@ export const TitleSetting: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
 
-    return <div className="text-sm p-2 rounded pb-4" style={{
+    return <div className="p-2 rounded pb-4" style={{
         backgroundColor: '#eee'
     }}>
         <div className="font-bold pb-1 text-sm" style={{
@@ -24,7 +24,7 @@ export const TitleSetting: React.FC<{
             >
                 <input type="text" className="prevent-shot p-1 resize-none w-full border border-gray-400 rounded bg-white"
                     value={gctx.title}
-                    placeholder="タイトル(ブックマーク用)"
+                    placeholder="タイトル"
                     onChange={(e) => {
                         gctx.title = e.target.value
                         gctx.rerenderUI()
