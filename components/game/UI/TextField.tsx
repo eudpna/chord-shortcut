@@ -9,7 +9,7 @@ export const TextField: React.FC<{
     return <div>
         <TextareaAutosize
             value={gctx.text}
-            placeholder="コード記号を空白区切りで入力（例: Em G7 C IIm）"
+            placeholder="コード名を空白区切りで入力（例: Em G7 C IIm）"
             className="prevent-shot p-1 resize-none w-full border border-gray-400 rounded"
             style={{
                 lineHeight: 1.5,

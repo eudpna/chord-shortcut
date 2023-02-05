@@ -63,7 +63,7 @@ export const Main: React.FC<{
             </div>
 
             <div className="mt-6 text-xs">
-                <A href="/list">利用可能なコード記号の一覧</A>
+                <A href="/list">利用可能なコード名の一覧</A>
             </div>
 
             <div className="mt-2 text-xs">
