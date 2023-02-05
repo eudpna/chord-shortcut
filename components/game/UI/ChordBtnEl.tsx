@@ -8,6 +8,7 @@ import { Gctx } from "../../../game/Gctx"
 export const ChordBtnEl: React.FC<{
     gctx: Gctx
     chordBtn: ChordBtn
+    index: number
 }> = (props) => {
     const gctx = props.gctx
     const chordBtn = props.chordBtn
@@ -60,12 +61,13 @@ export const ChordBtnEl: React.FC<{
 
 
             {/* qwerty */}
+            {(gctx.keyboardToPiano && props.index >= 20) ? null :
             <div className="text-xs text-gray absolute" style={{
                 left: 2,
                 bottom: 2
             }}>
                 {chordBtn.qwerty}
-            </div>
+            </div>}
 
         </div>
     </div>

@@ -18,10 +18,27 @@ const buttonLength = (() => {
 export class ChordBtns {
     btns: ChordBtn[] = []
 
+    rowLength: number = 10
+
+    rows: ChordBtn[][]
+
     constructor(public gctx: Gctx) {
         this.btns = Array.from(Array(buttonLength)).map(() => {
             return new ChordBtn(gctx)
         })
+
+        this.rows = this.getRows()
+    }
+
+    getRows() {
+        const rows = []
+        for(let i = 0; true; i ++) {
+            const start = this.rowLength*i
+            const row = this.btns.slice(start, start+this.rowLength)
+            rows.push(row)
+            if (start+this.rowLength*i >= this.btns.length) break
+        }
+        return rows
     }
 
     getChordBtnById(id: string) {

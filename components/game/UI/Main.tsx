@@ -54,6 +54,21 @@ export const Main: React.FC<{
                 <KlavierEl gctx={gctx} />
             </div>
 
+            <div className="mt-4 noselect text-sm text-right">
+                <input type="checkbox" name="topiano"
+                    id="topiano"
+                    className="cursor-pointer"
+                checked={gctx.keyboardToPiano}
+                onChange={(e) => {
+                    gctx.keyboardToPiano = !gctx.keyboardToPiano
+                    gctx.rerenderUI()
+                }}
+                />
+                <label
+                    className="cursor-pointer"
+                 htmlFor="topiano">キーボードの下段をピアノに</label>
+            </div>
+
             <div className="mt-4">
                 <Setting gctx={gctx} />
             </div>

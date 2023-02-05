@@ -95,6 +95,9 @@ export class Gctx {
 
     rerenderUI: Function
 
+    keyboardToPiano: boolean = false
+
+
     constructor(rerenderUI: Function) {
 
         this.rerenderUI = () => {
@@ -139,9 +142,7 @@ export class Gctx {
         this.make()
         this.rerenderUI()
     }
-
- 
-
+    
     setText(text: string) {
         this.text = text
         this.make()
@@ -269,18 +270,14 @@ export class Gctx {
     }
 
     startCheckingIfTabVisible() {
-        
-        // if (typeof document.hidden === 'undefined') {
-            document.addEventListener('visibilitychange', () => {
-                console.log('check', document.visibilityState)
-                if (document.visibilityState === 'hidden') {
-                    this.isTabVisible = false
-                }
-                else {
-                    this.isTabVisible = true
-                }
-            }, false);
-        // }
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                this.isTabVisible = false
+            }
+            else {
+                this.isTabVisible = true
+            }
+        }, false);
     }
 }
 

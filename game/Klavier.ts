@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { MutableRefObject } from "react"
 import { Gctx } from "./Gctx"
 import { Pitch } from "./lib/music/Pitch"
+import { qwerty } from './util/other'
 
 export class KlavierKey {
     readonly pitch: Pitch
@@ -60,6 +61,8 @@ export class Klavier {
         if (!this.keys[this.keys.length-1].pitch.isWholeTone) {
             this.keys[this.keys.length-1].disabled = true
         }
+
+        this.setQwerty()
     }
 
     getKeyById(id: string) {
@@ -72,5 +75,34 @@ export class Klavier {
         const tmp = this.keys.filter(key => key.pitch.number === noteNumber)
         if (tmp.length === 0) return null
         return tmp[0]
+    }
+
+
+    setQwerty() {
+        const qwer = qwerty.common
+        // ノートにキーを割り当て
+        const startNote = 48 + 7
+        const whiteKeys = this.keys.filter(key => key.pitch.isWholeTone)
+        const dan = [2, 3]
+        let j = startNote
+        for (let i = 0; i < whiteKeys.length && i < qwer[dan[0]].length && i < qwer[dan[1]].length; i++) {
+            if (!(new Pitch(j).isWholeTone)) j++
+            const key = this.getKeyByNoteNunber(j)
+            if (!key) {
+                break
+            }
+            // 白鍵だったら
+            if (key.pitch.isWholeTone) {
+                key.qwerty = qwer[dan[1]][i].toLowerCase()
+                // その左上に黒鍵があったら
+                if (key.pitch.hasFlat()) {
+                    const blackKey = this.getKeyByNoteNunber(key.pitch.number - 1)
+                    if (blackKey) {
+                        blackKey.qwerty = qwer[dan[0]][i].toLowerCase()
+                    }
+                }
+            }
+            j++
+        }
     }
 }

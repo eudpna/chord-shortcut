@@ -72,11 +72,21 @@ export const KlavierKeyEl: React.FC<{
         }}
     >
 
+
         {klavierKey.pitch.number === 60 ?
             <div className="absolute bottom-0 px-0.5">
                 C4
             </div>
         : null}
+
+        {/* qwerty */}
+        {gctx.keyboardToPiano && klavierKey.pitch.number !== 60 ?
+        <div className="text-xs text-gray absolute" style={{
+            left: 2,
+            bottom: 2
+        }}>
+            {klavierKey.qwerty}
+        </div> : null}
 
         {/* コードノートのときの丸いインジケータ */}
         {isInChordNote ?

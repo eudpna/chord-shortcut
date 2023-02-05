@@ -22,11 +22,12 @@ export const ChordBtnsEl: React.FC<{
         {btns.map((line, i) => <div key={i} style={{
             height: 70
         }}>
-                {line.map((chordBtn, i) => {
-                    return <div key={i} className="inline-block">
+                {line.map((chordBtn, j) => {
+                    return <div key={j} className="inline-block">
                         <ChordBtnEl
                             gctx={gctx}
                             chordBtn={chordBtn}
+                            index={i*10+j}
                         />
                     </div>
                 })}

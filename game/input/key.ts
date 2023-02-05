@@ -1,4 +1,5 @@
 import { Gctx } from "../Gctx"
+import { qwerty } from "../util/other"
 
 
 export function setKeyEventListeners(gctx: Gctx) {
@@ -8,15 +9,33 @@ export function setKeyEventListeners(gctx: Gctx) {
         }
         const key = replaceKeyName(e.key)
 
-        // chordBtnに対応するキーが押下され　　かつ
+        // klavierKeyに対応するキーが押下され　　かつ
         // すでに押されていなければ
-        gctx.chordBtns.btns.forEach(chordBtn => {
-            if (chordBtn.qwerty === key
+        let retur = false
+        gctx.klavier.keys.forEach(klavierKey => {
+            if (!gctx.keyboardToPiano) return
+            if (klavierKey.qwerty === key
                 && !gctx.input.keys.includes(key)
             ) {
-                chordBtn.down()
+                klavierKey.down()
+                retur = true
             }
         })
+
+
+        const isTheKeyAssignedToPiano = (gctx.keyboardToPiano && qwerty.common.slice(-2).flatMap(t => t.flatMap(s => s.toLowerCase())).includes(e.key))
+
+        if (!isTheKeyAssignedToPiano) {
+            // chordBtnに対応するキーが押下され　　かつ
+            // すでに押されていなければ
+            gctx.chordBtns.btns.forEach(chordBtn => {
+                if (chordBtn.qwerty === key
+                    && !gctx.input.keys.includes(key)
+                ) {
+                    chordBtn.down()
+                }
+            })
+        }
 
         addKey(gctx, key)
     })
@@ -28,13 +47,26 @@ export function setKeyEventListeners(gctx: Gctx) {
 
         const key = replaceKeyName(e.key)
 
-        // chordBtnに対応するキーが離されたら
-        gctx.chordBtns.btns.forEach(chordBtn => {
-            if (chordBtn.qwerty === key
+        // klavierKeyに対応するキーが離されたら
+        gctx.klavier.keys.forEach(klavierKey => {
+            if (!gctx.keyboardToPiano) return
+            if (klavierKey.qwerty === key
             ) {
-                chordBtn.up()
+                klavierKey.up()
             }
         })
+
+        const isTheKeyAssignedToPiano = (gctx.keyboardToPiano && qwerty.common.slice(-2).flatMap(t => t.flatMap(s => s.toLowerCase())).includes(e.key))
+
+        if (!isTheKeyAssignedToPiano) {
+            // chordBtnに対応するキーが離されたら
+            gctx.chordBtns.btns.forEach(chordBtn => {
+                if (chordBtn.qwerty === key
+                ) {
+                    chordBtn.up()
+                }
+            })
+        }
 
         removeKey(gctx, key)
     })
