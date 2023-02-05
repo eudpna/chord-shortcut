@@ -33,8 +33,6 @@ export class Audier {
 
     playNote(note: number, velocity: number = 0.5) {
 
-        if (!this.gctx.isTabVisible) return
-
         const vel = velocity * (this.gctx.audioVolume.melody / conf.maxAudioVolume)
 
         const audio = playNote(this.gctx.soundTypes.melody, note, vel)
@@ -49,9 +47,6 @@ export class Audier {
 
     playChord(chordName: string, velocity: number = 0.5) {
 
-        if (!this.gctx.isTabVisible) return
-
-        
         const chord = Chords.byName(chordName)
         if (!chord) return
 

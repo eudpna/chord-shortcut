@@ -5,6 +5,7 @@ import { Gctx } from '../Gctx';
 export function enableWebMidi(gctx: Gctx) {
 
     const noteon = (e: webmidi.NoteMessageEvent) => {
+        if (!gctx.isTabVisible) return
         if (gctx.midiInput === 'off') return
         if (gctx.midiInput === 'all' || e.port === gctx.midiInput) {
             gctx.audier.playNote(e.note.number, e.note.attack)
