@@ -75,8 +75,8 @@ export class Gctx {
         chord: SoundType
         melody: SoundType
     } = {
-        chord: 'epiano',
-        melody: 'epiano'
+        chord: 'piano',
+        melody: 'piano'
     }
 
     fadeDuration = {
@@ -91,6 +91,8 @@ export class Gctx {
     loadedPercentage: number = 0
     showLoadingProgress = true
 
+    isTabVisible: boolean = true
+
     rerenderUI: Function
 
     constructor(rerenderUI: Function) {
@@ -102,6 +104,8 @@ export class Gctx {
 
         setKeyEventListeners(this)
         setMouseEventListeners(this)
+
+        this.startCheckingIfTabVisible()
 
         this.loadURL()
         this.setQwertyToChordBtns()
@@ -262,6 +266,21 @@ export class Gctx {
             `?title=${encodeURIComponent(this.title.trim())}` +
             `&text=${encodeURIComponent(text)}` +
             '&notation=simple'
+    }
+
+    startCheckingIfTabVisible() {
+        
+        // if (typeof document.hidden === 'undefined') {
+            document.addEventListener('visibilitychange', () => {
+                console.log('check', document.visibilityState)
+                if (document.visibilityState === 'hidden') {
+                    this.isTabVisible = false
+                }
+                else {
+                    this.isTabVisible = true
+                }
+            }, false);
+        // }
     }
 }
 

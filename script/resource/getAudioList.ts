@@ -15,7 +15,7 @@ dirs.forEach(dir => {
 
     // specific to this project
     // 特定の音色のみロードする
-    if (!(dir === 'epiano')) {
+    if (!(dir === 'epiano' || dir === 'piano')) {
         return
     }
 

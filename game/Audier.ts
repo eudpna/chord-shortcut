@@ -33,9 +33,11 @@ export class Audier {
 
     playNote(note: number, velocity: number = 0.5) {
 
+        if (!this.gctx.isTabVisible) return
+
         const vel = velocity * (this.gctx.audioVolume.melody / conf.maxAudioVolume)
 
-        const audio = playNote('epiano', note, vel)
+        const audio = playNote(this.gctx.soundTypes.melody, note, vel)
         this.playing.melody.push({
             noteNumber: note,
             audio
@@ -46,6 +48,10 @@ export class Audier {
     }
 
     playChord(chordName: string, velocity: number = 0.5) {
+
+        if (!this.gctx.isTabVisible) return
+
+        
         const chord = Chords.byName(chordName)
         if (!chord) return
 
@@ -53,7 +59,7 @@ export class Audier {
 
         const audios = chord.notes.map(note => {
             this.gctx.sendMidiNoteOn('chord', note)
-            return playNote('epiano', note, vel)
+            return playNote(this.gctx.soundTypes.chord, note, vel)
         })
         this.playing.chords.push({
             chordName: chordName,
