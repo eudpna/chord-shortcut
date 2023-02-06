@@ -23,7 +23,7 @@ export function setKeyEventListeners(gctx: Gctx) {
         })
 
 
-        const isTheKeyAssignedToPiano = (gctx.keyboardToPiano && qwerty.common.slice(-2).flatMap(t => t.flatMap(s => s.toLowerCase())).includes(e.key))
+        const isTheKeyAssignedToPiano = (gctx.keyboardToPiano && qwerty.common.slice(-2).flatMap(t => t.flatMap(s => s.toLowerCase())).includes(e.key.toLowerCase()))
 
         if (!isTheKeyAssignedToPiano) {
             // chordBtnに対応するキーが押下され　　かつ
@@ -56,7 +56,7 @@ export function setKeyEventListeners(gctx: Gctx) {
             }
         })
 
-        const isTheKeyAssignedToPiano = (gctx.keyboardToPiano && qwerty.common.slice(-2).flatMap(t => t.flatMap(s => s.toLowerCase())).includes(e.key))
+        const isTheKeyAssignedToPiano = (gctx.keyboardToPiano && qwerty.common.slice(-2).flatMap(t => t.flatMap(s => s.toLowerCase())).includes(e.key.toLowerCase()))
 
         if (!isTheKeyAssignedToPiano) {
             // chordBtnに対応するキーが離されたら
