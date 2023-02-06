@@ -25,7 +25,7 @@ export const Main: React.FC<{
                 <title>{title} | ChordShortcut</title>
             </Head> : null}
 
-        {gctx.showLoadingProgress ? 
+        {gctx.loadedPercentage !== 100 ? 
             <div className="right-0 top-0 absolute p-1 px-2">音声をロード中 {gctx.loadedPercentage}%</div>
         : null}
         

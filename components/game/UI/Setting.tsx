@@ -1,6 +1,6 @@
 import { WebMidi } from "webmidi"
 import { conf } from "../../../game/conf"
-import { Gctx } from "../../../game/Gctx"
+import { Gctx, SoundType } from "../../../game/Gctx"
 
 export const Setting: React.FC<{
     gctx: Gctx
@@ -65,6 +65,20 @@ export const Setting: React.FC<{
                     エラー: MIDI入力機器とMIDI出力機器が重複しています。
                 </div> : null
                 }
+            </div>
+
+            <div className="mt-1">
+                音色：
+                <select value={gctx.soundTypes.chord} className="rounded border-gray-400 px-2 bg-white" style={{
+                    border: 'solid 1px rgb(156,163,175)'
+                }}
+                    onChange={(e) => {
+                        gctx.soundTypes.chord = e.target.value as SoundType
+                        gctx.soundTypes.melody = e.target.value as SoundType
+                        gctx.rerenderUI()
+                    }}>                                       <option value="piano">グランドピアノ</option>
+                    <option value="epiano">エレクトリックピアノ</option>
+                </select>
             </div>
 
             <div className="mt-4">

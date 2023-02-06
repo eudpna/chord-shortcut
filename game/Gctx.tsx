@@ -75,8 +75,8 @@ export class Gctx {
         chord: SoundType
         melody: SoundType
     } = {
-        chord: 'piano',
-        melody: 'piano'
+        chord: 'epiano',
+        melody: 'epiano'
     }
 
     fadeDuration = {
@@ -89,7 +89,7 @@ export class Gctx {
     resourceLoader = new ResourceLoader()
 
     loadedPercentage: number = 0
-    showLoadingProgress = true
+
 
     isTabVisible: boolean = true
 
@@ -116,10 +116,6 @@ export class Gctx {
         audioList.map(src => {
             this.resourceLoader.load(src, 'audio', (resource, percent) => {
                 this.loadedPercentage = percent
-                if (percent === 100) {
-                    this.showLoadingProgress = false
-                    this.rerenderUI()
-                }
                 this.rerenderUI()
             })
         })
