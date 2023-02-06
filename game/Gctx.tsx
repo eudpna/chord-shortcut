@@ -142,6 +142,7 @@ export class Gctx {
     setText(text: string) {
         this.text = text
         this.make()
+        console.log(this.chordBtns.btns)
         this.rerenderUI()
     }
 

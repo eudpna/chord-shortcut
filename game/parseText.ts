@@ -1,6 +1,7 @@
 import { Scale } from "./lib/music/Scale"
 import { SolfaName } from "./lib/music/Solfa"
 import { chordToName, guitarChords } from "./lib/chordsdb"
+import { Chord, Chords } from "./lib/music/Chord"
 
 export function parseText(text: string, key: SolfaName) {
     return text.split('\n').map(line => {
@@ -19,16 +20,18 @@ function lineToChords(line: string, key: SolfaName) {
     ms.map(m => {
         const simple = m[0]
         
-        const chord = guitarChords.getChordByName(
+        // const chord = guitarChords.getChordByName(
+        //     Scale.romanNumericToChordName(simple, key)
+        // )
+        const chord = Chords.byName(
             Scale.romanNumericToChordName(simple, key)
         )
 
         
         if (!chord) {
             result.push(false)
-            
         } else {
-            result.push(chordToName(chord))
+            result.push(chord.name)
         }
     })
     

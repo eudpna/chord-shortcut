@@ -77,9 +77,9 @@ export const Main: React.FC<{
                 <TitleSetting gctx={gctx} />
             </div>
 
-            <div className="mt-6 text-xs">
+            {/* <div className="mt-6 text-xs">
                 <A href="/list">利用可能なコード名の一覧</A>
-            </div>
+            </div> */}
 
             <div className="mt-2 text-xs">
                 <A href={

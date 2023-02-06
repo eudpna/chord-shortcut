@@ -201,7 +201,7 @@ export {
 
 
 
-function format2name(q: string) {
+export function format2name(q: string) {
     return q.replace(/M(?!a)/, 'maj')
     .toLowerCase()
         .replace('major', 'maj')
