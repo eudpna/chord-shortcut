@@ -11,12 +11,12 @@ export const TitleSetting: React.FC<{
     return <div className="p-2 rounded pb-4" style={{
         backgroundColor: '#eee'
     }}>
-        <div className="font-bold pb-1 text-sm" style={{
+        <div className="font-bold text-xs pb-1 pl-1" style={{
             color: '#444',
         }}>
             プロジェクトタイトル
         </div>
-        <div className="pl-2">
+        <div className="px-2">
             <div>
                 <input type="text" className="prevent-shot p-1 resize-none w-full border border-gray-400 rounded bg-white"
                     value={gctx.title}

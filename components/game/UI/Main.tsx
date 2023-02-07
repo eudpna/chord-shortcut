@@ -95,16 +95,16 @@ export const Main: React.FC<{
                 </A>
             </div>
 
-            <div className="mt-6 pb-4">
+            {/* <div className="mt-6 pb-4">
                 <div className="text-xs text-right" style={{
                 }}>
                     <A href={gctx.getChordMemoURL()}>
                         こーどめもで開く
                     </A>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="text-xs mt-4 flex">
+            <div className="text-xs mt-12 flex">
                 <div className="flex-1 text-right">
                     <span className="pr-2">
                         <span className="pr-1" style={{
