@@ -81,7 +81,7 @@ export const Main: React.FC<{
 
             <div className="mt-6 text-xs">
                 <A href={gctx.getRomanNumericURL()}>
-                    ディグリーネームに変換
+                    ディグリーネームに変換(key={gctx.key})
                 </A>
             </div>
 
