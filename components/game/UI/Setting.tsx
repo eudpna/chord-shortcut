@@ -7,7 +7,8 @@ export const Setting: React.FC<{
 }> = (props) => {
     const gctx = props.gctx
 
-    return <div className="rounded  p-2 pl-3 text-sm py-5" style={{
+    return <div>
+    <div className="rounded  p-2 pl-3 text-sm py-4" style={{
         backgroundColor: '#eee'
     }}>
 
@@ -18,7 +19,7 @@ export const Setting: React.FC<{
 
             {/* コード設定 */}
             <div className="">
-                <div className="font-bold text-xs pt-1 pb-1" style={{
+                <div className="font-bold text-xs pb-1" style={{
                     color: '#444',
                     marginLeft: -5
                     // fontSize: '1rem'
@@ -91,13 +92,13 @@ export const Setting: React.FC<{
                     </div>
                 </div>
             </div>
+</div>
 
-
-
-
-            <div className="mt-6">
-
-
+</div>
+            <div className="rounded  p-2 pl-3 text-sm py-3 mt-6" style={{
+                backgroundColor: '#eee'
+            }}>
+            <div className="">
                 <div className="font-bold text-xs pt-1 pb-1" style={{
                     color: '#444',
                     marginLeft: -5

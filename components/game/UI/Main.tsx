@@ -73,7 +73,7 @@ export const Main: React.FC<{
                 <Setting gctx={gctx} />
             </div>
 
-            <div className="mt-4">
+            <div className="mt-6">
                 <TitleSetting gctx={gctx} />
             </div>
 
