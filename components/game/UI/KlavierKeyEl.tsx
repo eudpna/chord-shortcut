@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react"
 import { conf } from "../../../game/conf"
 import { Gctx } from "../../../game/Gctx"
 import { Klavier } from "../../../game/Klavier"
+import { Chords } from "../../../game/lib/music/Chord"
 import { Pitch } from "../../../game/lib/music/Pitch"
 import { hakken_width, kokken_margin } from "./KlavierEl"
 
@@ -93,12 +94,38 @@ export const KlavierKeyEl: React.FC<{
             <div className="absolute rounded-full" style={{
                 width: indicator_width,
                 height: indicator_width,
-                backgroundColor: conf.colors.blue_dark,
+                backgroundColor: klavierKey.pitch.isWholeTone ? conf.colors.gray_light : conf.colors.gray_dark,
                 left: hakken_width / 2 - (indicator_width / 2) - 1 + (klavierKey.pitch.isWholeTone ? 0 : -7.5),
                 bottom: 20,
             }}>
             </div> : null}
+
+            {/* ディグリー */}
+            {isInChordNote ? (() => {
+                const tmp = gctx.audier.playing.chords
+                if (tmp.length !== 1) return null
+                const chord = Chords.byName(tmp[0].chordName)
+                const degree = chord.getDegree(klavierKey.pitch)
+                if (!degree) return null
+            return <div className="absolute rounded-full text-center" style={{
+                fontSize: '1rem',
+                width: indicator_width,
+                height: indicator_width,
+                lineHeight: indicator_width+'px',
+                color: 'white',
+                // backgroundColor: conf.colors.blue_dark,
+                left: hakken_width / 2 - (indicator_width / 2) - 1 + (klavierKey.pitch.isWholeTone ? 0 : -7.5),
+                bottom: 20
+                }}>
+                    {degree}
+                </div>
+            })() : null}
+            <div>
+
+            </div>
+        {}
     </div>
 }
 
-const indicator_width = 24
+// const indicator_width = 24
+const indicator_width = 30

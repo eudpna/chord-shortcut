@@ -30,4 +30,18 @@ export class Scale {
         'IM7', 'IIm7', 'IIIm7', 'IVM7', 'V7', 'VIm7', 'VIIm7b5'
     ]
 
+    static degreeNums = {
+        '1': 0,
+        'm3': 3,
+        '3': 4,
+        '4': 5,
+        'dim5': 6,
+        '5': 7,
+        'aug5': 8,
+        '6': 9,
+        'm7': 9,
+        '7': 10,
+        'M7': 11,
+    }
 }
+

@@ -25,7 +25,7 @@ export const ChordBtnEl: React.FC<{
             border: 'solid 1px black',
             marginBottom: 16,
             marginRight: 5,
-            backgroundColor: isSounding ? conf.colors.blue_dark : 'white'
+            backgroundColor: isSounding ? conf.colors.gray_light : 'white'
         }}
             onMouseDown={() => {
                 chordBtn.down()
@@ -54,7 +54,9 @@ export const ChordBtnEl: React.FC<{
 
             {/* コード名 */}
             <div className="absolute inset-0 text-center font-bold" style={{
-                top: 10
+                // top: 10,
+                lineHeight: '46px',
+                fontSize: (chordBtn.chordName && chordBtn.chordName.length > 5) ? `${1-(chordBtn.chordName.length-5)*0.1}rem` :  '1rem'
             }}>
                 {chordBtn.chordName ? chordBtn.chordName : ''}
             </div>

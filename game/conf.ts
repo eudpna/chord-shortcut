@@ -6,7 +6,9 @@ export const conf = {
         // red_dark: '#ed817e',
         // blue_dark: '#19207d',
         // blue_dark: '#404bde'
-        blue_dark: '#737dff'
+        // blue_dark: '#737dff'
+        gray_dark: '#888',
+        gray_light: '#aaa'
     },
     maxAudioVolume: 10,
 }

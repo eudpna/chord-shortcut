@@ -52,7 +52,7 @@ export class Gctx {
         melody: number
     } = {
         master: Math.floor(conf.maxAudioVolume * 0.8),
-        chord: Math.floor(conf.maxAudioVolume * 0.8),
+        chord: Math.floor(conf.maxAudioVolume * 0.5),
         melody: Math.floor(conf.maxAudioVolume * 0.8),
     }
 
@@ -180,6 +180,7 @@ export class Gctx {
     
     setKey(key: SolfaName) {
         this.key = key
+        this.make()
         this.rerenderUI()
     }
 
@@ -240,6 +241,10 @@ export class Gctx {
             `?title=${encodeURIComponent(this.title.trim())}` +
             `&text=${encodeURIComponent(this.text)}` +
             `&key=${encodeURIComponent(this.key)}`
+            // `&chord_sound=${encodeURIComponent(this.soundTypes.chord)}` +
+            // `&melody_sound=${encodeURIComponent(this.soundTypes.melody)}` +
+            // `&chord_volume=${encodeURIComponent(this.audioVolume.chord)}` +
+            // `&melody_volume=${encodeURIComponent(this.audioVolume.melody)}`
     }
 
     updateURL() {
