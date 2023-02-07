@@ -77,11 +77,15 @@ export const Main: React.FC<{
                 <TitleSetting gctx={gctx} />
             </div>
 
-            {/* <div className="mt-6 text-xs">
-                <A href="/list">利用可能なコード名の一覧</A>
-            </div> */}
+            
 
-            <div className="mt-2 text-xs">
+            <div className="mt-6 text-xs">
+                <A href={gctx.getRomanNumericURL()}>
+                    ディグリーネームに変換
+                </A>
+            </div>
+
+            <div className=" text-xs">
                 <A href={
                     location.href.replace(location.search, '') +
                     `?title=${encodeURIComponent('ダイアトニック・コード')}` +
@@ -91,9 +95,14 @@ export const Main: React.FC<{
                     )}` +
                     `&key=${encodeURIComponent('C')}`
                 }>
-                    ダイアトニック・コード
+                    ダイアトニックのテンプレート
                 </A>
             </div>
+
+            <div className="mt-6 text-xs">
+                <A href="/list">利用可能なコード名の一覧</A>
+            </div>
+          
 
             {/* <div className="mt-6 pb-4">
                 <div className="text-xs text-right" style={{

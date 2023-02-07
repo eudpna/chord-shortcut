@@ -7,13 +7,14 @@ import { ResourceLoader } from "./lib/ResourceLoader"
 import audioList from '../script/resource/audioList.json'
 import webmidi, {WebMidi} from 'webmidi'
 import { conf } from "./conf"
-import { SolfaName } from "./lib/music/Solfa"
+import { Solfa, SolfaName } from "./lib/music/Solfa"
 import { enableWebMidi } from "./lib/webmidi"
 import { parseURL } from "./parseURL"
 import { Scale } from "./lib/music/Scale"
 import { Vec2 } from "./util/math"
 import { parseText } from "./parseText"
 import { Audier } from "./Audier"
+import { Chords } from "./lib/music/Chord"
 
 
 
@@ -264,10 +265,9 @@ export class Gctx {
         })
         text = text.trim()
 
-        return `https://chordmemo.nyaw.net/` +
-            `?title=${encodeURIComponent(this.title.trim())}` +
-            `&text=${encodeURIComponent(text)}` +
-            '&notation=simple'
+        return `?title=${encodeURIComponent(this.title.trim())}` +
+            `&text=${encodeURIComponent(this.getRomanNumericText())}` +
+            `&key=${encodeURIComponent(this.key)}`
     }
 
     startCheckingIfTabVisible() {
@@ -279,6 +279,43 @@ export class Gctx {
                 this.isTabVisible = true
             }
         }, false);
+    }
+
+    getRomanNumericURL() {
+        return location.href.replace(location.search, '') +
+            `?title=${encodeURIComponent(this.title.trim())}` +
+            `&text=${encodeURIComponent(this.getRomanNumericText())}` +
+            '&notation=simple'
+    }
+
+
+    getRomanNumericText() {
+        const chordNames: (string | null)[] = []
+
+        this.chordBtns.btns.flatMap(s => s)
+            .map(chordBtn => {
+                const s = chordBtn.chordName
+                if (s) {
+                    chordNames.push(
+                        Chords.byName(s).toRomanNumeric(Solfa.fromName(this.key))
+                    )
+                } else {
+                    chordNames.push('')
+                }
+            })
+        let text = ''
+        let count = 1
+        chordNames.map(chordName => {
+            text = text + chordName + ' '
+            if (count % 10 === 0) {
+                text = text + '\n'
+            }
+            count++
+        })
+        text = text.trim()
+
+
+        return text
     }
 }
 

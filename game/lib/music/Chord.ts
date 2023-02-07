@@ -2,7 +2,7 @@ import { format2name, guitarChords } from "../chordsdb"
 import chordTranslator from "chord-translator"
 import { Solfa, SolfaName } from "./Solfa"
 import { Pitch } from "./Pitch"
-import { getDegreeFromNumber } from "./Degree"
+import { getDegreeFromNumber, romanNumberList } from "./Degree"
 
 
 
@@ -62,8 +62,23 @@ export class Chord {
         const degree = getDegreeFromNumber(nd)
 
         if (!degree) return null
-        
+
         return degree.name
+    }
+
+    toRomanNumeric(key: Solfa) {
+
+        const n0 = key.number
+        const n1 = Solfa.fromName(this.key).number
+
+        let nd = n1 - n0
+        if (nd < 0) nd = nd + 12
+        nd = nd % 12 
+
+        const suffix = this.suffix === 'M' ? '' : this.suffix
+        
+        return romanNumberList[nd] + suffix
+        
     }
 }
 

@@ -51,6 +51,11 @@ const Index: React.FC<{}> = () => {
                     利用可能なコード名の一覧
                 </div>
 
+                {/* <div className='text-xs' style={{
+                    
+                }}>
+                </div> */}
+
                 <div>
                     <div className='text-2xl font-bold' style={{
                         marginLeft: -5,
