@@ -25,7 +25,7 @@ export const KlavierEl: React.FC<{
         }}>
             {klavier.keys.map(key => {
                 if (!key.pitch.isWholeTone) return null
-                return <KlavierKeyEl gctx={gctx} thekey={key} key={key.pitch.number} />
+                return <KlavierKeyEl gctx={gctx} thekey={key} key={key.id} />
             })}
         </div>
 
@@ -43,12 +43,12 @@ export const KlavierEl: React.FC<{
                     if (klavierKey.pitch.hasFlat()) {
                         return null
                     } 
-                    return <div key={klavierKey.pitch.number} className="inline-block" style={{
+                    return <div key={klavierKey.id} className="inline-block" style={{
                         width: hakken_width,
                         height: 130,
                     }} ></div>
                 }
-                return <KlavierKeyEl gctx={gctx} thekey={klavierKey} key={klavierKey.pitch.number} />
+                return <KlavierKeyEl gctx={gctx} thekey={klavierKey} key={klavierKey.id} />
             })}
         </div>
     </div>

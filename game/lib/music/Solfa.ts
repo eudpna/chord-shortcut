@@ -27,7 +27,7 @@ export class Solfa {
     }
 
     static isSolfaName(str: string) {
-        return (Solfa.list as string[]).includes(str)
+        return (Solfa.listAll as string[]).includes(str)
     }
 
     static nameToNumber(solfaName: SolfaName) {

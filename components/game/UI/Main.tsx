@@ -46,11 +46,11 @@ export const Main: React.FC<{
                 <TextField gctx={gctx} />
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 noselect">
                 <ChordBtnsEl gctx={gctx} />
             </div>
 
-            <div className="mt-4 mb-24">
+            <div className="mt-4 mb-24 noselect">
                 <KlavierEl gctx={gctx} />
             </div>
 
@@ -121,7 +121,7 @@ export const Main: React.FC<{
                         }}>
                             最終更新
                         </span>
-                            2023/02/03
+                            2023/02/07
                     </span>
                     by&nbsp;
                     <A href="https://twitter.com/teiwv">@teiwv</A>

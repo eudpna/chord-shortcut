@@ -1,4 +1,5 @@
 import { roman_numeric } from "../../util/str";
+import { romanNumberList } from "./Degree";
 import { Solfa, SolfaName } from "./Solfa";
 
 export class Scale {
@@ -9,11 +10,19 @@ export class Scale {
         return Solfa.numberToName(solfaNumber)
     }
 
-    static romanNumericToChordName(chordName: string, tonic: SolfaName) {
+    static romanNumericToChordName(chordName: string, key: Solfa) {
+        
         let result = chordName;
-        [6, 5, 3, 4, 2, 1, 0].map(i => {
-            result = result.replace(roman_numeric[i], Scale.degreeToSolfaName(tonic, i))
+        romanNumberList1.map(r => {
+            // const romanNumeric = r
+            const degree = (romanNumberList.indexOf(r) - key.number + 12)%12
+            
+            const solfa = new Solfa(degree)
+            console.log(r, degree, solfa.name)
+            // const solfaNumber = 
+            result = result.replace(r, solfa.name)
         })
+        
         return result
     }
 
@@ -45,3 +54,16 @@ export class Scale {
     }
 }
 
+export const romanNumberList1 = [
+    'VIIb',
+    'VIb',
+    'IIIb',
+    'IIb',
+    'VII',
+    'VI',
+    'IV',
+    'V',
+    'III',
+    'II',
+    'I',    
+]

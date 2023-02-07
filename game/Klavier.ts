@@ -9,6 +9,7 @@ export class KlavierKey {
     isDown: boolean
     disabled: boolean = false
     qwerty: string | null = null
+    el: Element | null = null
     
     id = uuidv4()
 
@@ -19,12 +20,14 @@ export class KlavierKey {
     }
 
     down() {
+        if (this.isDown) return
         this.isDown = true
         this.gctx.audier.playNote(this.pitch.number)
         this.gctx.rerenderUI()
     }
 
     up() {
+        if (!this.isDown) return
         this.isDown = false
         this.gctx.audier.stopNote(this.pitch.number)
         this.gctx.rerenderUI()

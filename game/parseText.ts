@@ -1,5 +1,5 @@
 import { Scale } from "./lib/music/Scale"
-import { SolfaName } from "./lib/music/Solfa"
+import { Solfa, SolfaName } from "./lib/music/Solfa"
 import { chordToName, guitarChords } from "./lib/chordsdb"
 import { Chord, Chords } from "./lib/music/Chord"
 
@@ -23,9 +23,9 @@ function lineToChords(line: string, key: SolfaName) {
         // const chord = guitarChords.getChordByName(
         //     Scale.romanNumericToChordName(simple, key)
         // )
-        const chord = Chords.byName(
-            Scale.romanNumericToChordName(simple, key)
-        )
+        const name = Scale.romanNumericToChordName(simple, Solfa.fromName(key))
+
+        const chord = Chords.byName(name)
 
         
         if (!chord) {

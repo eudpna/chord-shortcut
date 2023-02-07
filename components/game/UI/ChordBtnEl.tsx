@@ -15,10 +15,17 @@ export const ChordBtnEl: React.FC<{
 
     const isSounding = chordBtn.isDown || gctx.audier.isSoundingTheChord(chordBtn.chordName)
 
+    const ref = useRef()
+    useEffect(() => {
+        // console.log('ref is', ref.current)
+        if (!ref.current) return
+        chordBtn.el = ref.current
+    }, [ref])
 
     return <div
+        ref={ref}
         id={chordBtn.id}
-        className="chordbtn-el inline-block">
+        className="chordBtn chordbtn-el inline-block">
         <div className="relative rounded inline-block cursor-pointer" style={{
             width: 65,
             height: 50,
@@ -42,14 +49,13 @@ export const ChordBtnEl: React.FC<{
                 chordBtn.up()
             }}
 
-            onTouchStart={(e) => {
-                e.preventDefault()
-                chordBtn.down()
-            }}
-            onTouchEnd={(e) => {
-                e.preventDefault()
-                chordBtn.up()
-            }}
+            // onTouchStart={(e) => {
+            //     chordBtn.down()
+            // }}
+            // onTouchEnd={(e) => {
+            //     console.log('chordbtn touchend')
+            //     chordBtn.up()
+            // }}
         >
 
             {/* コード名 */}

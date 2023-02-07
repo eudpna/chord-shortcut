@@ -3,6 +3,10 @@ export type Degree = {
     number: number
 }
 
+export function romanNumberToDegree(r: string) {
+    return romanNumberList.indexOf(r)
+}
+
 export const romanNumberList = [
     'I',
     'IIb',
@@ -10,11 +14,12 @@ export const romanNumberList = [
     'IIIb',
     'III',
     'IV',
+    'Vb',
     'V',
     'VIb',
     'VI',
     'VIIb',
-    'VII'
+    'VII',
 ]
 
 const degreeList: Degree[] = [

@@ -15,6 +15,8 @@ import { Vec2 } from "./util/math"
 import { parseText } from "./parseText"
 import { Audier } from "./Audier"
 import { Chords } from "./lib/music/Chord"
+import { setTouchEventListeners } from "./input/touch"
+import { Rect } from "./lib/math"
 
 
 
@@ -28,6 +30,10 @@ export type Mouse = {
     pointer: Vec2 | null
     isDown: boolean
 }
+
+
+
+
 
 // ユーザー入力に関する状態データ
 export class InputState {
@@ -100,7 +106,7 @@ export class Gctx {
 
 
     constructor(rerenderUI: Function) {
-
+   
         this.rerenderUI = () => {
             this.updateURL()
             rerenderUI()
@@ -109,7 +115,8 @@ export class Gctx {
 
         setKeyEventListeners(this)
         setMouseEventListeners(this)
-
+        setTouchEventListeners(this)
+        
         this.startCheckingIfTabVisible()
 
         this.loadURL()
@@ -151,7 +158,7 @@ export class Gctx {
     setText(text: string) {
         this.text = text
         this.make()
-        console.log(this.chordBtns.btns)
+        // console.log(this.chordBtns.btns)
         this.rerenderUI()
     }
 
@@ -296,8 +303,11 @@ export class Gctx {
             .map(chordBtn => {
                 const s = chordBtn.chordName
                 if (s) {
+                    const tmp = Chords.byName(s).toRomanNumeric(Solfa.fromName(this.key))
+                    console.log('naa', tmp)
+                    
                     chordNames.push(
-                        Chords.byName(s).toRomanNumeric(Solfa.fromName(this.key))
+                        tmp
                     )
                 } else {
                     chordNames.push('')

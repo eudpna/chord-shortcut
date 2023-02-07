@@ -18,7 +18,7 @@ export class Chord {
         if (!Chords.exists(name)) {
             // コード名が chords-db に存在しなかったら chord-translator を使用
             const tmp = Solfa.listAll.filter(solfa => name.startsWith(solfa))
-            console.log(tmp)
+            // console.log(tmp)
             if (!tmp.length) return null
             const solfa = tmp[0]
             const root = solfa
@@ -68,6 +68,9 @@ export class Chord {
 
     toRomanNumeric(key: Solfa) {
 
+        console.log(this.key)
+
+
         const n0 = key.number
         const n1 = Solfa.fromName(this.key).number
 
@@ -75,8 +78,10 @@ export class Chord {
         if (nd < 0) nd = nd + 12
         nd = nd % 12 
 
-        const suffix = this.suffix === 'M' ? '' : this.suffix
+        console.log('nd is', nd)
         
+        const suffix = this.suffix === 'M' ? '' : this.suffix
+
         return romanNumberList[nd] + suffix
         
     }

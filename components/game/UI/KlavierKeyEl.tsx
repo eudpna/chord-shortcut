@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react"
 import { conf } from "../../../game/conf"
 import { Gctx } from "../../../game/Gctx"
+import { setTouchEventListeners } from "../../../game/input/touch"
 import { Klavier } from "../../../game/Klavier"
 import { Chords } from "../../../game/lib/music/Chord"
 import { Pitch } from "../../../game/lib/music/Pitch"
@@ -18,6 +19,12 @@ export const KlavierKeyEl: React.FC<{
 
     const isInChordNote = gctx.audier.soundingChordNotes().map(noteNumber => new Pitch(noteNumber).solfa.number).includes(klavierKey.pitch.solfa.number)
 
+    const ref = useRef()
+    useEffect(() => {
+        if (!ref.current) return
+        // console.log('set!')
+        klavierKey.el = ref.current
+    })
 
 
     if (klavierKey.disabled) {
@@ -30,24 +37,28 @@ export const KlavierKeyEl: React.FC<{
     const isSounding = klavierKey.isDown || gctx.audier.isSoundingTheNoteAsMelody(klavierKey.pitch.number)
 
 
-    return <div id={klavierKey.id} key={klavierKey.pitch.number} className={'klavierkey-el cursor-pointer ' + (klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {
-        // 白鍵のスタイル
-        border: 'solid 1px black',
-        backgroundColor: isSounding ? conf.colors.red_dark : 'white',
-        color: 'black',
-    } : {
-        // 黒鍵のスタイル
-        border: 'solid 1px black',
-        zIndex: 3,
-        height: '100%',
-        width: hakken_width - (kokken_margin * 2),
-        marginLeft: kokken_margin,
-        marginRight: kokken_margin,
-        backgroundColor: isSounding ? conf.colors.red_dark : 'black',
-        color: 'white',
-        pointerEvents: 'auto',
+    return <div
+        ref={ref}
+        id={klavierKey.id} key={klavierKey.pitch.number} className={'klavierKey klavierkey-el cursor-pointer ' + (klavierKey.pitch.isWholeTone ? 'flex-1 relative' : "inline-block relative")} style={klavierKey.pitch.isWholeTone ? {
+            // 白鍵のスタイル
+            border: 'solid 1px black',
+            backgroundColor: isSounding ? conf.colors.red_dark : 'white',
+            // backgroundColor: klavierKey.isDown ? 'green' : (isSounding ? conf.colors.red_dark : 'white'),
+            color: 'black',
 
-    }}
+        } : {
+            // 黒鍵のスタイル
+            border: 'solid 1px black',
+            zIndex: 3,
+            height: '100%',
+            width: hakken_width - (kokken_margin * 2),
+            marginLeft: kokken_margin,
+            marginRight: kokken_margin,
+            backgroundColor: isSounding ? conf.colors.red_dark : 'black',
+            color: 'white',
+            pointerEvents: 'auto',
+
+        }}
         onMouseDown={() => {
             klavierKey.down()
         }}
@@ -63,14 +74,13 @@ export const KlavierKeyEl: React.FC<{
             klavierKey.up()
         }}
 
-        onTouchStart={(e) => {
-            e.preventDefault()
-            klavierKey.down()
-        }}
-        onTouchEnd={(e) => {
-            e.preventDefault()
-            klavierKey.up()
-        }}
+    // onTouchStart={(e) => {            
+    //     klavierKey.down()
+    // }}
+    // onTouchEnd={(e) => {
+    //     console.log('touch end')
+    //     klavierKey.up()
+    // }}
     >
 
 
@@ -78,16 +88,16 @@ export const KlavierKeyEl: React.FC<{
             <div className="absolute bottom-0 px-0.5">
                 C4
             </div>
-        : null}
+            : null}
 
         {/* qwerty */}
         {gctx.keyboardToPiano && klavierKey.pitch.number !== 60 ?
-        <div className="text-xs text-gray absolute" style={{
-            left: 2,
-            bottom: 2
-        }}>
-            {klavierKey.qwerty}
-        </div> : null}
+            <div className="text-xs text-gray absolute" style={{
+                left: 2,
+                bottom: 2
+            }}>
+                {klavierKey.qwerty}
+            </div> : null}
 
         {/* コードノートのときの丸いインジケータ */}
         {isInChordNote ?
@@ -100,30 +110,27 @@ export const KlavierKeyEl: React.FC<{
             }}>
             </div> : null}
 
-            {/* ディグリー */}
-            {isInChordNote ? (() => {
-                const tmp = gctx.audier.playing.chords
-                if (tmp.length !== 1) return null
-                const chord = Chords.byName(tmp[0].chordName)
-                const degree = chord.getDegree(klavierKey.pitch)
-                if (!degree) return null
+        {/* ディグリー */}
+        {isInChordNote ? (() => {
+            const tmp = gctx.audier.playing.chords
+            if (tmp.length !== 1) return null
+            const chord = Chords.byName(tmp[0].chordName)
+            const degree = chord.getDegree(klavierKey.pitch)
+            if (!degree) return null
             return <div className="absolute rounded-full text-center" style={{
                 fontSize: '1rem',
                 width: indicator_width,
                 height: indicator_width,
-                lineHeight: indicator_width+'px',
+                lineHeight: indicator_width + 'px',
                 color: 'white',
                 // backgroundColor: conf.colors.blue_dark,
                 left: hakken_width / 2 - (indicator_width / 2) - 1 + (klavierKey.pitch.isWholeTone ? 0 : -7.5),
                 bottom: 20
-                }}>
-                    {degree}
-                </div>
-            })() : null}
-            <div>
-
+            }}>
+                {degree}
             </div>
-        {}
+        })() : null}
+        
     </div>
 }
 
