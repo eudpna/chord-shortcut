@@ -105,6 +105,7 @@ export class Gctx {
             rerenderUI()
         }
 
+
         setKeyEventListeners(this)
         setMouseEventListeners(this)
 
@@ -113,14 +114,21 @@ export class Gctx {
         this.loadURL()
         this.setQwertyToChordBtns()
 
-        audioList.map(src => {
+        this.loadInstrumentAudio()
+        
+        enableWebMidi(this)
+        rerenderUI()
+    }
+
+    loadInstrumentAudio() {
+        audioList.filter(src => {
+            return src.includes(this.soundTypes.chord) || src.includes(this.soundTypes.melody)
+        }).map(src => {
             this.resourceLoader.load(src, 'audio', (resource, percent) => {
                 this.loadedPercentage = percent
                 this.rerenderUI()
             })
         })
-        enableWebMidi(this)
-        rerenderUI()
     }
 
     loadURL() {
@@ -169,18 +177,9 @@ export class Gctx {
         })
         this.rerenderUI()
     }
-
-
-    setDiatonic() {
-        this.setText(
-            Scale.diatonic.join(' ') + '\n' +
-            Scale.diatonic4.join(' ')
-        )
-     }
     
     setKey(key: SolfaName) {
         this.key = key
-        this.setDiatonic()
         this.rerenderUI()
     }
 

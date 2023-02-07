@@ -15,9 +15,9 @@ dirs.forEach(dir => {
 
     // specific to this project
     // 特定の音色のみロードする
-    if (!(dir === 'epiano' || dir === 'piano')) {
-        return
-    }
+    // if (!(dir === 'epiano' || dir === 'piano')) {
+    //     return
+    // }
 
 
     const tmp = fs.readdirSync(path.join(imgDir, dir))

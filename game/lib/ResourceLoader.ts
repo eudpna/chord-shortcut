@@ -36,7 +36,15 @@ export class ResourceLoader {
         return Math.floor((this.fileNumLoaded() / this.fileNumToLoad) * 100)
     }
 
+    isAlreadyLoaded(src: string) {
+        return !!this.loadedResources.filter(rs => {
+            return rs.src === src
+        }).length
+    }
+
     load(src: string, type: 'image' | 'audio', onLoad: (resource: LoadedResource, percent: number) => void = (_: any) => {}) {
+
+        if (this.isAlreadyLoaded(src)) return
 
         this.fileNumToLoad ++
         // this.onStateChange()

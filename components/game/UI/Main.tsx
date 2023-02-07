@@ -26,7 +26,7 @@ export const Main: React.FC<{
             </Head> : null}
 
         {gctx.loadedPercentage !== 100 ? 
-            <div className="right-0 top-0 absolute p-1 px-2">音声をロード中 {gctx.loadedPercentage}%</div>
+            <div className="right-0 top-0 fixed p-1 px-2">音声をロード中 {gctx.loadedPercentage}%</div>
         : null}
         
         
