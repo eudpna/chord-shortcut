@@ -59,7 +59,7 @@ export class Gctx {
         melody: number
     } = {
         master: Math.floor(conf.maxAudioVolume * 0.8),
-        chord: Math.floor(conf.maxAudioVolume * 0.5),
+        chord: Math.floor(conf.maxAudioVolume * 0.7),
         melody: Math.floor(conf.maxAudioVolume * 0.8),
     }
 
@@ -82,7 +82,7 @@ export class Gctx {
         chord: SoundType
         melody: SoundType
     } = {
-        chord: 'epiano',
+        chord: 'piano',
         melody: 'epiano'
     }
 
