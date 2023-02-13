@@ -102,6 +102,10 @@ export const Main: React.FC<{
             <div className="mt-6 text-xs">
                 <A href="/list">利用可能なコード名の一覧</A>
             </div>
+
+            <div className="mt-1 text-xs pb-12">
+                <A href="https://github.com/eudpna/chordshortcut">GitHub</A>
+            </div>
           
 
             {/* <div className="mt-6 pb-4">
@@ -113,20 +117,6 @@ export const Main: React.FC<{
                 </div>
             </div> */}
 
-            <div className="text-xs mt-12 flex">
-                <div className="flex-1 text-right">
-                    <span className="pr-2">
-                        <span className="pr-1" style={{
-                            fontSize: '11px',
-                        }}>
-                            最終更新
-                        </span>
-                            2023/02/07
-                    </span>
-                    by&nbsp;
-                    <A href="https://twitter.com/teiwv">@teiwv</A>
-                </div>
-            </div>
         </div>
     </div>
 }
