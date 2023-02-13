@@ -22,7 +22,6 @@ export const KlavierKeyEl: React.FC<{
     const ref = useRef()
     useEffect(() => {
         if (!ref.current) return
-        // console.log('set!')
         klavierKey.el = ref.current
     })
 
@@ -73,14 +72,6 @@ export const KlavierKeyEl: React.FC<{
             if (!gctx.input.mouse.isDown) return
             klavierKey.up()
         }}
-
-    // onTouchStart={(e) => {            
-    //     klavierKey.down()
-    // }}
-    // onTouchEnd={(e) => {
-    //     console.log('touch end')
-    //     klavierKey.up()
-    // }}
     >
 
 

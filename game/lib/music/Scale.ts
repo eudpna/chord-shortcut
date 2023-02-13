@@ -14,12 +14,8 @@ export class Scale {
         
         let result = chordName;
         romanNumberList1.map(r => {
-            // const romanNumeric = r
             const degree = (romanNumberList.indexOf(r) + key.number)%12
-            
             const solfa = new Solfa(degree)
-            console.log(r, degree, solfa.name)
-            // const solfaNumber = 
             result = result.replace(r, solfa.name)
         })
         

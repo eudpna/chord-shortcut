@@ -158,7 +158,6 @@ export class Gctx {
     setText(text: string) {
         this.text = text
         this.make()
-        // console.log(this.chordBtns.btns)
         this.rerenderUI()
     }
 
@@ -304,7 +303,6 @@ export class Gctx {
                 const s = chordBtn.chordName
                 if (s) {
                     const tmp = Chords.byName(s).toRomanNumeric(Solfa.fromName(this.key))
-                    console.log('naa', tmp)
                     
                     chordNames.push(
                         tmp

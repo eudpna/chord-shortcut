@@ -17,7 +17,6 @@ export const ChordBtnEl: React.FC<{
 
     const ref = useRef()
     useEffect(() => {
-        // console.log('ref is', ref.current)
         if (!ref.current) return
         chordBtn.el = ref.current
     }, [ref])
@@ -48,14 +47,6 @@ export const ChordBtnEl: React.FC<{
                 if (!gctx.input.mouse.isDown) return
                 chordBtn.up()
             }}
-
-            // onTouchStart={(e) => {
-            //     chordBtn.down()
-            // }}
-            // onTouchEnd={(e) => {
-            //     console.log('chordbtn touchend')
-            //     chordBtn.up()
-            // }}
         >
 
             {/* コード名 */}
