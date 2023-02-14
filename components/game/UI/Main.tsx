@@ -57,22 +57,6 @@ export const Main: React.FC<{
                 <KlavierEl gctx={gctx} />
             </div>
 
-            {/* <div>
-                {gctx.klavier.keys.map(k => {
-                    const isInChordNote = gctx.audier.soundingChordNotes().map(noteNumber => new Pitch(noteNumber).solfa.number).includes(k.pitch.solfa.number)
-                    return isInChordNote ?
-                            <div className="absolute rounded-full" style={{
-                                width: indicator_width,
-                                height: indicator_width,
-                                backgroundColor: k.pitch.isWholeTone ? conf.colors.gray_light : conf.colors.gray_dark,
-                                left: hakken_width / 2 - (indicator_width / 2) - 1 + (k.pitch.isWholeTone ? 0 : -7.5),
-                                bottom: 20,
-                            }}>
-                            </div> : null
-                    
-                })}
-            </div> */}
-
             <div className="mt-4 noselect text-sm text-right">
                 <input type="checkbox" name="topiano"
                     id="topiano"

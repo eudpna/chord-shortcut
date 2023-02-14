@@ -24,7 +24,8 @@ export const ChordBtnsEl: React.FC<{
         whiteSpace: 'nowrap',
     }}>
         {btns.map((line, i) => <div key={i} style={{
-            height: 70
+            height: 70,
+            // marginBottom: 16,
         }}>
                 {line.map((chordBtn, j) => {
                     return <div key={chordBtn.id} className="inline-block">

@@ -40,7 +40,7 @@ export const ChordBtnEl: React.FC<{
             width: 65,
             height: 50,
             border: 'solid 1px black',
-            marginBottom: 16,
+            // marginBottom: 16,
             marginRight: 5,
             backgroundColor: isSounding ? conf.colors.gray_light : 'white'
         }}
