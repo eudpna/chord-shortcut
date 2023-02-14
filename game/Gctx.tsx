@@ -259,23 +259,6 @@ export class Gctx {
         history.replaceState(null, null, this.getURL())
     }
 
-    getChordMemoURL() {
-        let text = ''
-        this.chordBtns.btns.map((btn,i) => {
-            if (btn.chordName)  {
-                text = text + btn.chordName + ' '
-            }
-            if ((i + 1) % 10 === 0) {
-                text = text + '\n'
-            }
-        })
-        text = text.trim()
-
-        return `?title=${encodeURIComponent(this.title.trim())}` +
-            `&text=${encodeURIComponent(this.getRomanNumericText())}` +
-            `&key=${encodeURIComponent(this.key)}`
-    }
-
     startCheckingIfTabVisible() {
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden') {

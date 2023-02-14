@@ -1,6 +1,6 @@
 # Chord Shortcut
 
-[chordshortcut.nyaw.net](https://chordshortcut.nyaw.net/)
+[chord-shortcut.nyaw.net](https://chord-shortcut.nyaw.net/)
 
 
 ### How to run

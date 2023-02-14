@@ -107,19 +107,8 @@ export const Main: React.FC<{
             </div>
 
             <div className="mt-1 text-xs pb-12">
-                <A href="https://github.com/eudpna/chordshortcut">GitHub</A>
+                <A href="https://github.com/eudpna/chord-shortcut">GitHub</A>
             </div>
-          
-
-            {/* <div className="mt-6 pb-4">
-                <div className="text-xs text-right" style={{
-                }}>
-                    <A href={gctx.getChordMemoURL()}>
-                        こーどめもで開く
-                    </A>
-                </div>
-            </div> */}
-
         </div>
     </div>
 }
