@@ -25,12 +25,10 @@ export const Main: React.FC<{
 
         {title ?
             <Head>
-                <title>{title} | ChordShortcut</title>
+                <title>{title} | Chord Shortcut</title>
             </Head> : null}
 
-        {gctx.loadedPercentage !== 100 ? 
-            <div className="right-0 top-0 fixed p-1 px-2">音声をロード中 {gctx.loadedPercentage}%</div>
-        : null}
+      
         
         
         {/* title */}
@@ -38,7 +36,7 @@ export const Main: React.FC<{
 
             <A href="/" className="text-xl font-bold
              text-gray-700 inline-block">
-                ChordShortcut
+                Chord Shortcut
             </A>
 
             <div className="mt-12">
@@ -110,5 +108,11 @@ export const Main: React.FC<{
                 <A href="https://github.com/eudpna/chord-shortcut">GitHub</A>
             </div>
         </div>
+
+        {gctx.loadedPercentage !== 100 ?
+            <div className="right-0 top-0 fixed p-1 px-2">音声をロード中 {gctx.loadedPercentage}%</div>
+            : null}
+
+            
     </div>
 }
