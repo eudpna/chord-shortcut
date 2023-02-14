@@ -79,10 +79,10 @@ export class Audier {
                 const audio = playingNote.audio
                 const tmp = audio.volume()
                 audio.fade(tmp, 0, duration)
-                setTimeout(() => {
-                    audio.stop()
-                    audio.volume(tmp)
-                }, duration);
+                audio.once('fade', () => {
+                    audio.stop();
+                    audio.volume(tmp);
+                });
                 removeItemOnce(this.playing.melody, playingNote)
 
                 // midi output
@@ -101,10 +101,10 @@ export class Audier {
                 playingChord.audios.forEach(audio => {
                     const tmp = audio.volume()
                     audio.fade(tmp, 0, duration)
-                    setTimeout(() => {
-                        audio.stop()
-                        audio.volume(tmp)
-                    }, duration);
+                    audio.once('fade', () => {
+                        audio.stop();
+                        audio.volume(tmp);
+                    });
 
                     // midi output
                     Chords.byName(playingChord.chordName).notes.forEach(noteNumber => {

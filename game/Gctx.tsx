@@ -115,7 +115,7 @@ export class Gctx {
 
         setKeyEventListeners(this)
         setMouseEventListeners(this)
-        setTouchEventListeners(this)
+        // setTouchEventListeners(this)
         
         this.startCheckingIfTabVisible()
 

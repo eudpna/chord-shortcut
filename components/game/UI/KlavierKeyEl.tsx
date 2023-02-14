@@ -23,7 +23,18 @@ export const KlavierKeyEl: React.FC<{
     useEffect(() => {
         if (!ref.current) return
         klavierKey.el = ref.current
-    })
+        const el = ref.current as HTMLDivElement
+        el.addEventListener('touchstart', (e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            klavierKey.down()
+        }, { passive: false })
+        el.addEventListener('touchend', (e) => {
+            e.preventDefault()
+            e.stopPropagation()
+           klavierKey.up()
+        }, { passive: false })
+    }, [ref])
 
 
     if (klavierKey.disabled) {
@@ -98,6 +109,7 @@ export const KlavierKeyEl: React.FC<{
                 backgroundColor: klavierKey.pitch.isWholeTone ? conf.colors.gray_light : conf.colors.gray_dark,
                 left: hakken_width / 2 - (indicator_width / 2) - 1 + (klavierKey.pitch.isWholeTone ? 0 : -7.5),
                 bottom: 20,
+                pointerEvents: 'none',
             }}>
             </div> : null}
 
@@ -116,7 +128,8 @@ export const KlavierKeyEl: React.FC<{
                 color: 'white',
                 // backgroundColor: conf.colors.blue_dark,
                 left: hakken_width / 2 - (indicator_width / 2) - 1 + (klavierKey.pitch.isWholeTone ? 0 : -7.5),
-                bottom: 20
+                bottom: 20,
+                pointerEvents: 'none',
             }}>
                 {degree}
             </div>

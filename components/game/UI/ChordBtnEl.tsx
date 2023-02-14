@@ -19,6 +19,17 @@ export const ChordBtnEl: React.FC<{
     useEffect(() => {
         if (!ref.current) return
         chordBtn.el = ref.current
+        const el = ref.current as HTMLDivElement
+        el.addEventListener('touchstart', (e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            chordBtn.down()
+        }, { passive: false })
+        el.addEventListener('touchend', (e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            chordBtn.up()
+        }, { passive: false })
     }, [ref])
 
     return <div

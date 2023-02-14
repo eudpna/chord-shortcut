@@ -1,11 +1,14 @@
 import Head from "next/head"
 import React from "react"
+import { conf } from "../../../game/conf"
 import { Gctx } from "../../../game/Gctx"
+import { Pitch } from "../../../game/lib/music/Pitch"
 import { Scale } from "../../../game/lib/music/Scale"
 import { A } from "../../A"
 import { ChordBtnsEl } from "./ChordBtnsEl"
 import { KeySetting } from "./KeySetting"
-import { KlavierEl } from "./KlavierEl"
+import { hakken_width, KlavierEl } from "./KlavierEl"
+// import { indicator_width } from "./KlavierKeyEl"
 import { Setting } from "./Setting"
 import { TextField } from "./TextField"
 import { TitleSetting } from "./TitleSetting"
@@ -53,6 +56,22 @@ export const Main: React.FC<{
             <div className="mt-4 mb-24 noselect">
                 <KlavierEl gctx={gctx} />
             </div>
+
+            {/* <div>
+                {gctx.klavier.keys.map(k => {
+                    const isInChordNote = gctx.audier.soundingChordNotes().map(noteNumber => new Pitch(noteNumber).solfa.number).includes(k.pitch.solfa.number)
+                    return isInChordNote ?
+                            <div className="absolute rounded-full" style={{
+                                width: indicator_width,
+                                height: indicator_width,
+                                backgroundColor: k.pitch.isWholeTone ? conf.colors.gray_light : conf.colors.gray_dark,
+                                left: hakken_width / 2 - (indicator_width / 2) - 1 + (k.pitch.isWholeTone ? 0 : -7.5),
+                                bottom: 20,
+                            }}>
+                            </div> : null
+                    
+                })}
+            </div> */}
 
             <div className="mt-4 noselect text-sm text-right">
                 <input type="checkbox" name="topiano"

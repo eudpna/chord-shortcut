@@ -9,10 +9,13 @@ export class ChordBtn {
     isDown: boolean = false
     id = uuidv4()
 
+    
+
     constructor(public gctx: Gctx) {        
     }
 
     down() {
+        
         if (this.isDown) return
         this.isDown = true
         if (this.chordName) {
