@@ -21,7 +21,7 @@ export const Main: React.FC<{
     const gctx = props.gctx
     const title = gctx.title.trim()
 
-    return <div className="px-2 max-w-3xl mx-auto">
+    return <div className="px-2 max-w-3xl mx-auto noselect">
 
         {title ?
             <Head>

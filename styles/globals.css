@@ -65,7 +65,7 @@ select {
   height: 100%;
 }
 
-.noselect {
+.noselect:not(input,textarea) {
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;
