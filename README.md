@@ -2,8 +2,6 @@
 
 [chordshortcut.nyaw.net](https://chordshortcut.nyaw.net/)
 
-ソースコードが未整理で汚いです。ごめんなさい。
-
 
 ### How to run
 
